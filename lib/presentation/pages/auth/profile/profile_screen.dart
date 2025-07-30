@@ -55,9 +55,113 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       Align(
                         alignment: Alignment.centerRight,
-                        child: AppbarIcon(
-                          onPressed: () {},
-                          iconPath: EvaIcons.moreVertical,
+                        child: Theme(
+                          data: Theme.of(context).copyWith(
+                            popupMenuTheme: PopupMenuThemeData(
+                              color: Theme.of(context).scaffoldBackgroundColor,
+                              // ✅ Background color
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                  AppSizes.cardCornerRadius,
+                                ),
+                              ),
+                            ),
+                          ),
+                          child: PopupMenuButton(
+                            onSelected: (value) {},
+                            elevation: AppSizes.elevationLarge,
+                            borderRadius: BorderRadius.circular(
+                              AppSizes.cardCornerRadius,
+                            ),
+                            surfaceTintColor: Theme.of(
+                              context,
+                            ).scaffoldBackgroundColor,
+                            position: PopupMenuPosition.under,
+                            menuPadding: EdgeInsets.symmetric(vertical: AppSizes.kDefaultPadding),
+                            itemBuilder: (BuildContext context) =>
+                                <PopupMenuEntry<String>>[
+                                  PopupMenuItem<String>(
+                                    value: 'Edit',
+                                    height: 30,
+                                    child: Text(
+                                      'Edit Profile',
+                                      style: Theme.of(
+                                        context,
+                                      ).textTheme.bodyLarge,
+                                    ),
+                                  ),
+                                  PopupMenuItem<String>(
+                                    value: 'Saved',
+                                    height: 30,
+                                    child: Text(
+                                      'Saved',
+                                      style: Theme.of(
+                                        context,
+                                      ).textTheme.bodyLarge,
+                                    ),
+                                  ),
+                                  PopupMenuItem<String>(
+                                    value: 'Archived',
+                                    height: 30,
+                                    child: Text(
+                                      'Archived',
+                                      style: Theme.of(
+                                        context,
+                                      ).textTheme.bodyLarge,
+                                    ),
+                                  ),
+                                  PopupMenuItem<String>(
+                                    value: 'Archived',
+                                    height: 30,
+                                    child: Text(
+                                      'Profile Analytics',
+                                      style: Theme.of(
+                                        context,
+                                      ).textTheme.bodyLarge,
+                                    ),
+                                  ),
+                                  PopupMenuItem<String>(
+                                    value: 'Archived',
+                                    height: 30,
+                                    child: Text(
+                                      'Feed Analytics',
+                                      style: Theme.of(
+                                        context,
+                                      ).textTheme.bodyLarge,
+                                    ),
+                                  ),
+                                  PopupMenuItem<String>(
+                                    value: 'Archived',
+                                    height: 30,
+                                    child: Text(
+                                      'Store Analytics',
+                                      style: Theme.of(
+                                        context,
+                                      ).textTheme.bodyLarge,
+                                    ),
+                                  ),
+                                ],
+                            child: IconButton(
+                              onPressed: null,
+                              icon: Container(
+                                padding: EdgeInsets.all(
+                                  AppSizes.kDefaultPadding / 3,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Theme.of(
+                                    context,
+                                  ).primaryColor.withAlpha(40),
+                                  borderRadius: BorderRadius.circular(
+                                    AppSizes.cardCornerRadius,
+                                  ),
+                                ),
+                                child: Icon(
+                                  EvaIcons.moreVertical,
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ],
@@ -265,14 +369,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: AppSizes.kDefaultPadding, vertical: AppSizes.kDefaultPadding/2),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppSizes.kDefaultPadding,
+                        vertical: AppSizes.kDefaultPadding / 2,
+                      ),
                       child: Text(
                         'Social Presence',
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                     ),
                   ],
-                )
+                ),
               ],
             ),
           ),
