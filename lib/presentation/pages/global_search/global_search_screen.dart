@@ -15,6 +15,11 @@ class _GlobalSearchScreenState extends State<GlobalSearchScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(leading: AppbarIcon(onPressed: () => appRouter.pop())),
+      body: ListView(
+        children: [
+
+        ],
+      ),
     );
   }
 }

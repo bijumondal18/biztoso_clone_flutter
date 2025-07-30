@@ -4,7 +4,7 @@ class AppSizes {
   static const double textFieldHeight = 48.0;
   static const double buttonHeight = 48.0;
   static const double largeButtonHeight = 58.0;
-  static const double smallButtonHeight = 44.0;
+  static const double smallButtonHeight = 36.0;
 
   static const double cardCornerRadius = 10.0;
 

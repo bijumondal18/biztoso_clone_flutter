@@ -54,6 +54,15 @@ class AppColors {
     ],
   );
 
+  static const secondaryGradient = LinearGradient(
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+    colors: [
+      AppColors.canvasLight,
+      AppColors.canvasDark,
+    ],
+  );
+
   static const errorGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,

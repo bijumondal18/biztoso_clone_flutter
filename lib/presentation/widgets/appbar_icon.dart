@@ -16,7 +16,7 @@ class AppbarIcon extends StatelessWidget {
       icon: Container(
         padding: EdgeInsets.all(AppSizes.kDefaultPadding / 3),
         decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor.withAlpha(15),
+          color: Theme.of(context).primaryColor.withAlpha(40),
           borderRadius: BorderRadius.circular(AppSizes.cardCornerRadius),
         ),
         child: Icon(
