@@ -13,8 +13,8 @@ class AppColors {
   static const shadowDark = Color(0xFF1F1F1F);
   static const shadowLight = Color(0xE2E8E8E8);
 
-  static const canvasLight = Color(0xE2D0D0D0);
-  static const canvasDark = Color(0xE2333333);
+  static const canvasLight = Color(0xFFD0D0D0);
+  static const canvasDark = Color(0xFF333333);
 
   static const scaffoldBackgroundLight = Color(0xFFFFFFFF);
   static const scaffoldBackgroundDark = Color(0xFF121212);

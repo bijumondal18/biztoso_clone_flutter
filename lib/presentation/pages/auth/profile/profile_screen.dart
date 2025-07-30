@@ -58,8 +58,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         child: Theme(
                           data: Theme.of(context).copyWith(
                             popupMenuTheme: PopupMenuThemeData(
-                              color: Theme.of(context).scaffoldBackgroundColor,
-                              // ✅ Background color
+                              color: Theme.of(context).dividerColor,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(
                                   AppSizes.cardCornerRadius,
