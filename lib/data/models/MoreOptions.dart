@@ -10,17 +10,17 @@ class MoreOptions {
 }
 
 final List<MoreOptions> moreOptionsList = [
-  MoreOptions('Wishlist', EvaIcons.heart),
-  MoreOptions('Settings', EvaIcons.settings),
-  MoreOptions('My Store', Iconsax.shop5),
-  MoreOptions('My Leads', EvaIcons.personDone),
-  MoreOptions('Feedback', EvaIcons.messageSquare),
+  MoreOptions('Wishlist', EvaIcons.heartOutline),
+  MoreOptions('Settings', EvaIcons.settingsOutline),
+  MoreOptions('My Store', Iconsax.shop),
+  MoreOptions('My Leads', EvaIcons.personDoneOutline),
+  MoreOptions('Feedback', EvaIcons.messageSquareOutline),
 ];
 
 final List<MoreOptions> supportOptionsList = [
-  MoreOptions('Blog', Iconsax.card5),
-  MoreOptions('FAQs', EvaIcons.questionMarkCircle),
-  MoreOptions('Knowledge Base', EvaIcons.bulb),
-  MoreOptions('User Support', Iconsax.support5),
-  MoreOptions('Logout', EvaIcons.logOut),
+  MoreOptions('Blog', Iconsax.card),
+  MoreOptions('FAQs', EvaIcons.questionMarkCircleOutline),
+  MoreOptions('Knowledge Base', EvaIcons.bulbOutline),
+  MoreOptions('User Support', Iconsax.support),
+  MoreOptions('Logout', EvaIcons.logOutOutline),
 ];

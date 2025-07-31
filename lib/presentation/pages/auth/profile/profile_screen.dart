@@ -76,67 +76,147 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               context,
                             ).scaffoldBackgroundColor,
                             position: PopupMenuPosition.under,
-                            menuPadding: EdgeInsets.symmetric(vertical: AppSizes.kDefaultPadding),
+                            menuPadding: EdgeInsets.symmetric(
+                              vertical: AppSizes.kDefaultPadding,
+                            ),
                             itemBuilder: (BuildContext context) =>
                                 <PopupMenuEntry<String>>[
                                   PopupMenuItem<String>(
                                     value: 'Edit',
                                     height: 30,
-                                    child: Text(
-                                      'Edit Profile',
-                                      style: Theme.of(
-                                        context,
-                                      ).textTheme.bodyLarge,
+                                    child: Row(
+                                      spacing: AppSizes.kDefaultPadding/2,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Icon(
+                                          EvaIcons.edit,
+                                          size: 18,
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.surfaceContainer,
+                                        ),
+                                        Text(
+                                          'Edit Profile',
+                                          style: Theme.of(
+                                            context,
+                                          ).textTheme.bodyLarge,
+                                        ),
+                                      ],
                                     ),
                                   ),
                                   PopupMenuItem<String>(
                                     value: 'Saved',
                                     height: 30,
-                                    child: Text(
-                                      'Saved',
-                                      style: Theme.of(
-                                        context,
-                                      ).textTheme.bodyLarge,
+                                    child: Row(
+                                      spacing: AppSizes.kDefaultPadding/2,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Icon(
+                                          EvaIcons.save,
+                                          size: 18,
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.surfaceContainer,
+                                        ),
+                                        Text(
+                                          'Saved',
+                                          style: Theme.of(
+                                            context,
+                                          ).textTheme.bodyLarge,
+                                        ),
+                                      ],
                                     ),
                                   ),
                                   PopupMenuItem<String>(
                                     value: 'Archived',
                                     height: 30,
-                                    child: Text(
-                                      'Archived',
-                                      style: Theme.of(
-                                        context,
-                                      ).textTheme.bodyLarge,
+                                    child: Row(
+                                      spacing: AppSizes.kDefaultPadding/2,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Icon(
+                                          EvaIcons.archive,
+                                          size: 18,
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.surfaceContainer,
+                                        ),
+                                        Text(
+                                          'Archived',
+                                          style: Theme.of(
+                                            context,
+                                          ).textTheme.bodyLarge,
+                                        ),
+                                      ],
                                     ),
                                   ),
                                   PopupMenuItem<String>(
                                     value: 'Archived',
                                     height: 30,
-                                    child: Text(
-                                      'Profile Analytics',
-                                      style: Theme.of(
-                                        context,
-                                      ).textTheme.bodyLarge,
+                                    child: Row(
+                                      spacing: AppSizes.kDefaultPadding/2,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Icon(
+                                          Icons.analytics,
+                                          size: 18,
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.surfaceContainer,
+                                        ),
+                                        Text(
+                                          'Profile Analytics',
+                                          style: Theme.of(
+                                            context,
+                                          ).textTheme.bodyLarge,
+                                        ),
+                                      ],
                                     ),
                                   ),
                                   PopupMenuItem<String>(
                                     value: 'Archived',
                                     height: 30,
-                                    child: Text(
-                                      'Feed Analytics',
-                                      style: Theme.of(
-                                        context,
-                                      ).textTheme.bodyLarge,
+                                    child: Row(
+                                      spacing: AppSizes.kDefaultPadding/2,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Icon(
+                                          Icons.analytics,
+                                          size: 18,
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.surfaceContainer,
+                                        ),
+                                        Text(
+                                          'Feed Analytics',
+                                          style: Theme.of(
+                                            context,
+                                          ).textTheme.bodyLarge,
+                                        ),
+                                      ],
                                     ),
                                   ),
                                   PopupMenuItem<String>(
                                     value: 'Archived',
                                     height: 30,
-                                    child: Text(
-                                      'Store Analytics',
-                                      style: Theme.of(
-                                        context,
-                                      ).textTheme.bodyLarge,
+                                    child: Row(
+                                      spacing: AppSizes.kDefaultPadding/2,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Icon(
+                                          Icons.analytics,
+                                          size: 18,
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.surfaceContainer,
+                                        ),
+                                        Text(
+                                          'Store Analytics',
+                                          style: Theme.of(
+                                            context,
+                                          ).textTheme.bodyLarge,
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ],

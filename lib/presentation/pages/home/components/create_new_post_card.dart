@@ -10,7 +10,7 @@ class CreateNewPostCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
     return Container(
-      margin: EdgeInsets.all(AppSizes.kDefaultPadding),
+      margin: EdgeInsets.all(AppSizes.kDefaultPadding/2),
       padding: EdgeInsets.all(AppSizes.kDefaultPadding),
       decoration: BoxDecoration(
           color: Theme.of(context).scaffoldBackgroundColor,

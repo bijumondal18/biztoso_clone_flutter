@@ -19,6 +19,7 @@ class MoreTile extends StatelessWidget {
       dense: true,
       leading: Icon(
         moreOptions.iconPath,
+        size: 22,
         color: Theme.of(context).colorScheme.surfaceContainer,
       ),
       title: Text(
