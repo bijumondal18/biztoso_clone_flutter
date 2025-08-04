@@ -251,6 +251,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 padding: EdgeInsets.all(
                                   AppSizes.kDefaultPadding / 3,
                                 ),
+                                margin: EdgeInsets.only(right: AppSizes.kDefaultPadding/2),
                                 decoration: BoxDecoration(
                                   border: Border.all(
                                     width: 1.0,
