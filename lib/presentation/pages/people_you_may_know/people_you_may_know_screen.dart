@@ -17,6 +17,7 @@ class _PeopleYouMayKnowScreenState extends State<PeopleYouMayKnowScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      /// Appbar
       appBar: AppBar(
         centerTitle: true,
         leading: AppbarIcon(onPressed: () => appRouter.pop()),
@@ -33,16 +34,10 @@ class _PeopleYouMayKnowScreenState extends State<PeopleYouMayKnowScreen> {
           vertical: AppSizes.kDefaultPadding / 2,
         ),
         children: [
+          /// Searchbar
           CustomSearchbar(searchHintText: 'Search Peoples ...'),
-          // Padding(
-          //   padding: const EdgeInsets.only(top: AppSizes.kDefaultPadding / 2),
-          //   child: Text(
-          //     'People You May Know',
-          //     style: Theme.of(
-          //       context,
-          //     ).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.w600),
-          //   ),
-          // ),
+
+          /// Build Connections List
           Padding(
             padding: const EdgeInsets.only(top: AppSizes.kDefaultPadding),
             child: BuildConnectionsList(),

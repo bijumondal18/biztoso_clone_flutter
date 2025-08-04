@@ -20,6 +20,7 @@ class _ConnectionScreenState extends State<ConnectionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      /// Appbar
       appBar: AppBar(
         centerTitle: true,
         title: Text(
@@ -31,12 +32,19 @@ class _ConnectionScreenState extends State<ConnectionScreen> {
       ),
       body: ListView(
         children: [
+          /// Invitations Button
           InvitationsButton(onPressed: () {}),
+
           HorizontalDivider(),
+
+          /// People You May Know Button
           PeopleYouMayKnowButton(
             onPressed: () => appRouter.push(Screens.peopleYoyMayKnow),
           ),
+
           HorizontalDivider(),
+
+          /// SearchBar
           Padding(
             padding: EdgeInsets.symmetric(
               horizontal: AppSizes.kDefaultPadding,
@@ -44,8 +52,12 @@ class _ConnectionScreenState extends State<ConnectionScreen> {
             ),
             child: CustomSearchbar(searchHintText: 'Search Connections ...'),
           ),
+
+          /// Build Connections List
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: AppSizes.kDefaultPadding),
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSizes.kDefaultPadding,
+            ),
             child: BuildConnectionsList(),
           ),
         ],
