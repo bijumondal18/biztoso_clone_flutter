@@ -27,7 +27,9 @@ class _BuildConnectionsListState extends State<BuildConnectionsList> {
         Padding(
           padding: const EdgeInsets.only(bottom: AppSizes.kDefaultPadding / 2),
           child: Text(
-            '36 Connections',
+            widget.screenFlag == 'peopleYouMayKnow'
+                ? 'People You May Know'
+                : '36 Connections',
             style: Theme.of(
               context,
             ).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w600),
@@ -46,9 +48,7 @@ class _BuildConnectionsListState extends State<BuildConnectionsList> {
               ),
               decoration: BoxDecoration(
                 color: Theme.of(context).dividerColor.withAlpha(100),
-                borderRadius: BorderRadius.circular(
-                  AppSizes.cardCornerRadius,
-                ),
+                borderRadius: BorderRadius.circular(AppSizes.cardCornerRadius),
                 border: Border.all(
                   width: 1.0,
                   color: Theme.of(context).dividerColor,

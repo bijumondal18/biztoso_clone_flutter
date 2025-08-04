@@ -1,4 +1,5 @@
 import 'package:biztoso/core/navigation/screens.dart';
+import 'package:biztoso/presentation/pages/connection_invitations/connection_invitations_screen.dart';
 import 'package:biztoso/presentation/pages/global_search/global_search_screen.dart';
 import 'package:biztoso/presentation/pages/language_selection/language_selection_screen.dart';
 import 'package:biztoso/presentation/pages/people_you_may_know/people_you_may_know_screen.dart';
@@ -42,6 +43,11 @@ final GoRouter appRouter = GoRouter(
       path: Screens.peopleYoyMayKnow,
       name: 'peopleYoyMayKnow',
       builder: (context, state) => PeopleYouMayKnowScreen(),
+    ),
+    GoRoute(
+      path: Screens.connectionInvitations,
+      name: 'connectionInvitations',
+      builder: (context, state) => ConnectionInvitationsScreen(),
     ),
     // GoRoute(
     //   path: Screens.analytics,

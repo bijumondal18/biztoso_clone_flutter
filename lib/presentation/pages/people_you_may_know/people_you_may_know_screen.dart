@@ -21,12 +21,12 @@ class _PeopleYouMayKnowScreenState extends State<PeopleYouMayKnowScreen> {
       appBar: AppBar(
         centerTitle: true,
         leading: AppbarIcon(onPressed: () => appRouter.pop()),
-        title: Text(
-          'People You May Know',
-          style: Theme.of(
-            context,
-          ).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.w900),
-        ),
+        // title: Text(
+        //   'People You May Know',
+        //   style: Theme.of(
+        //     context,
+        //   ).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.w900),
+        // ),
       ),
       body: ListView(
         padding: EdgeInsets.symmetric(
@@ -40,7 +40,9 @@ class _PeopleYouMayKnowScreenState extends State<PeopleYouMayKnowScreen> {
           /// Build Connections List
           Padding(
             padding: const EdgeInsets.only(top: AppSizes.kDefaultPadding),
-            child: SafeArea(child: BuildConnectionsList(screenFlag: 'peopleYouMayKnow',)),
+            child: SafeArea(
+              child: BuildConnectionsList(screenFlag: 'peopleYouMayKnow'),
+            ),
           ),
         ],
       ),

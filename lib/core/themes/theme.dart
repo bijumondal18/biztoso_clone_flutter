@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../presentation/widgets/filled_underlined_tab_indicator.dart';
 import 'app_colors.dart';
 import 'app_sizes.dart';
 
@@ -76,27 +77,27 @@ class AppTheme {
       ),
       scaffoldBackgroundColor: AppColors.scaffoldBackgroundLight,
       visualDensity: VisualDensity.adaptivePlatformDensity,
-      tabBarTheme: const TabBarThemeData(
+      tabBarTheme:  TabBarThemeData(
         indicatorSize: TabBarIndicatorSize.tab,
-        indicator: UnderlineTabIndicator(
-          borderRadius: BorderRadius.vertical(
-            top: Radius.circular(AppSizes.cardCornerRadius),
-          ),
-          borderSide: BorderSide(width: 1.5, color: AppColors.black),
+        indicator: FilledUnderlineIndicator(
+          fillColor: AppColors.primaryLight.withAlpha(10), // background
+          underlineColor: AppColors.primaryLight, // underline
+          underlineHeight: 1.5,
+          borderRadius: BorderRadius.circular(0),
         ),
         dividerHeight: 0.0,
         indicatorAnimation: TabIndicatorAnimation.elastic,
         dividerColor: Colors.transparent,
-        indicatorColor: AppColors.scaffoldBackgroundDark,
+        indicatorColor: AppColors.primaryLight,
         labelStyle: TextStyle(
           fontSize: AppSizes.bodyMedium,
           fontWeight: FontWeight.w600,
-          color: AppColors.black
+          color: AppColors.primaryLight,
         ),
         unselectedLabelStyle: TextStyle(
           fontSize: AppSizes.bodyMedium,
           fontWeight: FontWeight.w500,
-          color: AppColors.hintLight
+          color: AppColors.hintLight,
         ),
       ),
       textTheme: TextTheme(
@@ -231,18 +232,18 @@ class AppTheme {
       ),
       scaffoldBackgroundColor: AppColors.scaffoldBackgroundDark,
       visualDensity: VisualDensity.adaptivePlatformDensity,
-      tabBarTheme: const TabBarThemeData(
+      tabBarTheme:  TabBarThemeData(
         indicatorSize: TabBarIndicatorSize.tab,
         indicator: UnderlineTabIndicator(
           borderRadius: BorderRadius.vertical(
             top: Radius.circular(AppSizes.cardCornerRadius),
           ),
-          borderSide: BorderSide(width: 1.5, color: AppColors.white),
+          borderSide: BorderSide(width: 1.5, color: AppColors.primaryLight),
         ),
         dividerHeight: 0.0,
         indicatorAnimation: TabIndicatorAnimation.elastic,
         dividerColor: Colors.transparent,
-        indicatorColor: AppColors.white,
+        indicatorColor: AppColors.primaryDark.withAlpha(100),
         labelStyle: TextStyle(
           fontSize: AppSizes.bodyMedium,
           fontWeight: FontWeight.w600,
@@ -251,7 +252,7 @@ class AppTheme {
           fontSize: AppSizes.bodyMedium,
           fontWeight: FontWeight.w500,
         ),
-        labelColor: AppColors.white,
+        labelColor: AppColors.primaryDark,
         unselectedLabelColor: AppColors.grey,
       ),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(

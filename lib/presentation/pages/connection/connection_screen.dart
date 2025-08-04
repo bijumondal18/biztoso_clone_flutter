@@ -33,7 +33,9 @@ class _ConnectionScreenState extends State<ConnectionScreen> {
       body: ListView(
         children: [
           /// Invitations Button
-          InvitationsButton(onPressed: () {}),
+          InvitationsButton(
+            onPressed: () => appRouter.push(Screens.connectionInvitations),
+          ),
 
           HorizontalDivider(),
 
