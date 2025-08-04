@@ -1,4 +1,5 @@
 import 'package:biztoso/core/navigation/app_router.dart';
+import 'package:biztoso/core/navigation/screens.dart';
 import 'package:biztoso/core/themes/app_colors.dart';
 import 'package:biztoso/core/themes/app_sizes.dart';
 import 'package:biztoso/presentation/widgets/appbar_icon.dart';
@@ -251,7 +252,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 padding: EdgeInsets.all(
                                   AppSizes.kDefaultPadding / 3,
                                 ),
-                                margin: EdgeInsets.only(right: AppSizes.kDefaultPadding/2),
+                                margin: EdgeInsets.only(
+                                  right: AppSizes.kDefaultPadding / 2,
+                                ),
                                 decoration: BoxDecoration(
                                   border: Border.all(
                                     width: 1.0,
@@ -338,31 +341,44 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                           Expanded(
                             flex: 2,
-                            child: Container(
-                              padding: EdgeInsets.all(AppSizes.kDefaultPadding),
-                              decoration: BoxDecoration(
-                                color: Theme.of(
-                                  context,
-                                ).primaryColor.withAlpha(20),
-                                borderRadius: BorderRadius.circular(
-                                  AppSizes.cardCornerRadius,
-                                ),
+                            child: InkWell(
+                              onTap: () => appRouter.push(
+                                Screens.peopleYoyMayKnow,
+                                extra: widget.isPublicProfile == true
+                                    ? true
+                                    : false,
                               ),
-                              child: RichText(
-                                textAlign: TextAlign.center,
-                                text: TextSpan(
-                                  text: '6',
-                                  style: Theme.of(
+                              borderRadius: BorderRadius.circular(
+                                AppSizes.cardCornerRadius,
+                              ),
+                              child: Container(
+                                padding: EdgeInsets.all(
+                                  AppSizes.kDefaultPadding,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Theme.of(
                                     context,
-                                  ).textTheme.titleMedium,
-                                  children: [
-                                    TextSpan(
-                                      text: '\nConnections',
-                                      style: Theme.of(
-                                        context,
-                                      ).textTheme.titleMedium,
-                                    ),
-                                  ],
+                                  ).primaryColor.withAlpha(20),
+                                  borderRadius: BorderRadius.circular(
+                                    AppSizes.cardCornerRadius,
+                                  ),
+                                ),
+                                child: RichText(
+                                  textAlign: TextAlign.center,
+                                  text: TextSpan(
+                                    text: '6',
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.titleMedium,
+                                    children: [
+                                      TextSpan(
+                                        text: '\nConnections',
+                                        style: Theme.of(
+                                          context,
+                                        ).textTheme.titleMedium,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),

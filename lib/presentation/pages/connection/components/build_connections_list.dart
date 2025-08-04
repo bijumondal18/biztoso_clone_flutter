@@ -11,8 +11,13 @@ import '../../../../core/themes/app_sizes.dart';
 
 class BuildConnectionsList extends StatefulWidget {
   final String screenFlag;
+  final bool isPublicProfile;
 
-  const BuildConnectionsList({super.key, this.screenFlag = 'connectionScreen'});
+  const BuildConnectionsList({
+    super.key,
+    this.screenFlag = 'connectionScreen',
+    this.isPublicProfile = false,
+  });
 
   @override
   State<BuildConnectionsList> createState() => _BuildConnectionsListState();
@@ -26,8 +31,9 @@ class _BuildConnectionsListState extends State<BuildConnectionsList> {
       children: [
         Visibility(
           visible:
-              widget.screenFlag == 'peopleYouMayKnow' ||
-              widget.screenFlag == 'connectionScreen',
+              (widget.screenFlag == 'peopleYouMayKnow' ||
+                  widget.screenFlag == 'connectionScreen') &&
+              widget.isPublicProfile == false,
           child: Padding(
             padding: const EdgeInsets.only(
               bottom: AppSizes.kDefaultPadding / 2,

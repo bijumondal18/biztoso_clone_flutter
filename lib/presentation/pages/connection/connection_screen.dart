@@ -41,7 +41,8 @@ class _ConnectionScreenState extends State<ConnectionScreen> {
 
           /// People You May Know Button
           PeopleYouMayKnowButton(
-            onPressed: () => appRouter.push(Screens.peopleYoyMayKnow),
+            onPressed: () =>
+                appRouter.push(Screens.peopleYoyMayKnow, extra: false),
           ),
 
           HorizontalDivider(),

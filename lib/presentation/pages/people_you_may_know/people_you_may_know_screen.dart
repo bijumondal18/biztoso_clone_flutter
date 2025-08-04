@@ -7,7 +7,9 @@ import '../../../core/navigation/app_router.dart';
 import '../../widgets/appbar_icon.dart';
 
 class PeopleYouMayKnowScreen extends StatefulWidget {
-  const PeopleYouMayKnowScreen({super.key});
+  final bool isPublicProfile;
+
+  const PeopleYouMayKnowScreen({super.key, this.isPublicProfile = false});
 
   @override
   State<PeopleYouMayKnowScreen> createState() => _PeopleYouMayKnowScreenState();
@@ -21,12 +23,15 @@ class _PeopleYouMayKnowScreenState extends State<PeopleYouMayKnowScreen> {
       appBar: AppBar(
         centerTitle: true,
         leading: AppbarIcon(onPressed: () => appRouter.pop()),
-        // title: Text(
-        //   'People You May Know',
-        //   style: Theme.of(
-        //     context,
-        //   ).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.w900),
-        // ),
+        title: Visibility(
+          visible: widget.isPublicProfile == true,
+          child: Text(
+            'Ranjan\'s Connections',
+            style: Theme.of(
+              context,
+            ).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.w900),
+          ),
+        ),
       ),
       body: ListView(
         padding: EdgeInsets.symmetric(
@@ -41,7 +46,10 @@ class _PeopleYouMayKnowScreenState extends State<PeopleYouMayKnowScreen> {
           Padding(
             padding: const EdgeInsets.only(top: AppSizes.kDefaultPadding),
             child: SafeArea(
-              child: BuildConnectionsList(screenFlag: 'peopleYouMayKnow'),
+              child: BuildConnectionsList(
+                screenFlag: 'peopleYouMayKnow',
+                isPublicProfile: widget.isPublicProfile,
+              ),
             ),
           ),
         ],

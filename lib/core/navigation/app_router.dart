@@ -42,7 +42,10 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: Screens.peopleYoyMayKnow,
       name: 'peopleYoyMayKnow',
-      builder: (context, state) => PeopleYouMayKnowScreen(),
+      builder: (context, state) {
+        final isPublicProfile = state.extra as bool;
+        return PeopleYouMayKnowScreen(isPublicProfile: isPublicProfile);
+      },
     ),
     GoRoute(
       path: Screens.connectionInvitations,

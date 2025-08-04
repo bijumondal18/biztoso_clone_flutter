@@ -65,7 +65,7 @@ class _ConnectionInvitationsScreenState
                 Padding(
                   padding: const EdgeInsets.only(top: AppSizes.kDefaultPadding),
                   child: SafeArea(
-                    child: BuildConnectionsList(screenFlag: 'sentInvitation'),
+                    child: BuildConnectionsList(screenFlag: 'sentInvitation', isPublicProfile: false,),
                   ),
                 ),
               ],
