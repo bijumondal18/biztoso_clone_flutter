@@ -39,7 +39,7 @@ class CustomSearchbar extends StatelessWidget {
               ),
             ),
           ),
-          InkWell(
+          GestureDetector(
             onTap: () {},
             child: SvgPicture.asset(AppImages.imgVoice, width: 20, height: 20),
           ),
