@@ -40,7 +40,7 @@ class _PeopleYouMayKnowScreenState extends State<PeopleYouMayKnowScreen> {
           /// Build Connections List
           Padding(
             padding: const EdgeInsets.only(top: AppSizes.kDefaultPadding),
-            child: BuildConnectionsList(screenFlag: 'peopleYouMayKnow',),
+            child: SafeArea(child: BuildConnectionsList(screenFlag: 'peopleYouMayKnow',)),
           ),
         ],
       ),
