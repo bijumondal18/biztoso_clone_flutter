@@ -1,4 +1,4 @@
-import 'package:biztoso/data/models/MoreOptions.dart';
+import 'package:biztoso/data/models/more_options.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 

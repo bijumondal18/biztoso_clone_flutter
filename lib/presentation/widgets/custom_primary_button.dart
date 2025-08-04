@@ -44,7 +44,9 @@ class CustomPrimaryButton extends StatelessWidget {
             Visibility(
               visible: hasIcon == true,
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                padding: const EdgeInsets.only(
+                  left: AppSizes.kDefaultPadding / 2,
+                ),
                 child: Icon(
                   iconPath,
                   color: isGradient == true
@@ -54,13 +56,18 @@ class CustomPrimaryButton extends StatelessWidget {
                 ),
               ),
             ),
-            Text(
-              label,
-              style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                fontWeight: FontWeight.w600,
-                color: isGradient == true
-                    ? AppColors.white
-                    : Theme.of(context).scaffoldBackgroundColor,
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSizes.kDefaultPadding / 2,
+              ),
+              child: Text(
+                label,
+                style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: isGradient == true
+                      ? AppColors.white
+                      : Theme.of(context).scaffoldBackgroundColor,
+                ),
               ),
             ),
           ],

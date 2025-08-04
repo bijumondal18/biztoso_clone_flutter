@@ -3,7 +3,7 @@ import 'package:biztoso/presentation/pages/more/widgets/more_tile.dart';
 import 'package:biztoso/presentation/widgets/horizontal_divider.dart';
 import 'package:flutter/material.dart';
 
-import '../../../data/models/MoreOptions.dart';
+import '../../../data/models/more_options.dart';
 
 class MoreScreen extends StatefulWidget {
   const MoreScreen({super.key});
