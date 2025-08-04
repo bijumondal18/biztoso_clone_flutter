@@ -81,15 +81,12 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                     CustomPrimaryButton(
                       label: 'Continue',
                       onPressed: () {
-                        // final selected = widget.languageList.firstWhere(
-                        //   (lang) => lang.isSelected,
-                        // );
-                        // if (selected != null) {
-                        //   log('Selected language: ${selected.subTitle}');
-                        appRouter.push(Screens.login);
-                        // } else {
-                        //   log('No language selected');
-                        // }
+                        if (selectedIndex != null) {
+                          final selectedLang =
+                              widget.languageList[selectedIndex];
+                            log('Selected language: ${selectedLang.languageNameEnglish}');
+                          appRouter.push(Screens.login);
+                        }
                       },
                     ),
                     const SizedBox(height: AppSizes.kDefaultPadding),

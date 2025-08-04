@@ -2,8 +2,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class AppColors {
-  static const primaryDark = Color(0xFF7083FA);
-  static const primaryLight = Color(0xFF0021FF);
+  static const primaryDark = Color(0xFF1135FF);
+  static const primaryLight = Color(0xFF0520D3);
 
   static const ctaPrimary = Color(0xFFED764F);
 

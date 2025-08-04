@@ -278,14 +278,17 @@ class AppTheme {
         displayLarge: GoogleFonts.lato(
           color: AppColors.white,
           fontWeight: FontWeight.w700,
+            fontSize: AppSizes.displayLarge
         ),
         displayMedium: GoogleFonts.lato(
           color: AppColors.white,
           fontWeight: FontWeight.w700,
+          fontSize: AppSizes.displayMedium
         ),
         displaySmall: GoogleFonts.lato(
           color: AppColors.white,
           fontWeight: FontWeight.w700,
+          fontSize: AppSizes.displaySmall
         ),
         headlineLarge: GoogleFonts.lato(
           color: AppColors.white,
