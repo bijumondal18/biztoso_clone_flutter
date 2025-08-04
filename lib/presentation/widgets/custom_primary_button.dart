@@ -46,6 +46,7 @@ class CustomPrimaryButton extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(
                   left: AppSizes.kDefaultPadding / 2,
+                  top: 2.0
                 ),
                 child: Icon(
                   iconPath,
