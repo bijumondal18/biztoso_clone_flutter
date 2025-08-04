@@ -1,3 +1,4 @@
+import 'package:biztoso/core/themes/app_colors.dart';
 import 'package:biztoso/presentation/widgets/custom_outline_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -99,8 +100,8 @@ class ConnectionCard extends StatelessWidget {
             CustomOutlineButton(
               label: 'Decline',
               onPressed: () {},
-              labelColor: Theme.of(context).colorScheme.error,
-              borderColor: Theme.of(context).colorScheme.error,
+              labelColor: AppColors.red,
+              borderColor: AppColors.red,
               height: AppSizes.smallButtonHeight,
             ),
           ],
@@ -109,8 +110,8 @@ class ConnectionCard extends StatelessWidget {
         return CustomOutlineButton(
           label: 'Cancel Request',
           onPressed: () {},
-          labelColor: Theme.of(context).colorScheme.surfaceContainer,
-          borderColor: Theme.of(context).colorScheme.surfaceContainer,
+          labelColor: Theme.of(context).primaryColor,
+          borderColor: Theme.of(context).primaryColor,
           height: AppSizes.smallButtonHeight,
         );
     }

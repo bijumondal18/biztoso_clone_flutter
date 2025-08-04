@@ -18,6 +18,7 @@ class AppTheme {
       disabledColor: AppColors.hintLight,
       canvasColor: AppColors.canvasLight,
       shadowColor: AppColors.shadowLight,
+
       bottomSheetTheme: const BottomSheetThemeData(
         backgroundColor: Colors.transparent,
       ),
