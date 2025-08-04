@@ -288,7 +288,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             flex: 3,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              spacing: AppSizes.kDefaultPadding / 4,
+                              spacing: AppSizes.kDefaultPadding / 2,
                               children: [
                                 Text(
                                   'Nitish Ranjan',
@@ -338,9 +338,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Expanded(
                             flex: 2,
                             child: Container(
-                              padding: EdgeInsets.all(
-                                AppSizes.kDefaultPadding / 2,
-                              ),
+                              padding: EdgeInsets.all(AppSizes.kDefaultPadding),
                               decoration: BoxDecoration(
                                 color: Theme.of(
                                   context,
