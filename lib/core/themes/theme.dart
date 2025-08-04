@@ -234,11 +234,11 @@ class AppTheme {
       visualDensity: VisualDensity.adaptivePlatformDensity,
       tabBarTheme:  TabBarThemeData(
         indicatorSize: TabBarIndicatorSize.tab,
-        indicator: UnderlineTabIndicator(
-          borderRadius: BorderRadius.vertical(
-            top: Radius.circular(AppSizes.cardCornerRadius),
-          ),
-          borderSide: BorderSide(width: 1.5, color: AppColors.primaryLight),
+        indicator: FilledUnderlineIndicator(
+          fillColor: AppColors.primaryDark.withAlpha(20), // background
+          underlineColor: AppColors.primaryDark, // underline
+          underlineHeight: 1.5,
+          borderRadius: BorderRadius.circular(0),
         ),
         dividerHeight: 0.0,
         indicatorAnimation: TabIndicatorAnimation.elastic,

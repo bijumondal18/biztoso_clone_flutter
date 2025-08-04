@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/navigation/app_router.dart';
+import '../../../core/themes/app_sizes.dart';
 import '../../widgets/appbar_icon.dart';
+import '../connection/components/build_connections_list.dart';
 
 class ConnectionInvitationsScreen extends StatefulWidget {
   const ConnectionInvitationsScreen({super.key});
@@ -38,7 +40,38 @@ class _ConnectionInvitationsScreenState
             ),
           ),
         ),
-        body: TabBarView(children: [Container(), Container()]),
+        body: TabBarView(
+          children: [
+            ListView(
+              padding: EdgeInsets.symmetric(
+                horizontal: AppSizes.kDefaultPadding,
+              ),
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: AppSizes.kDefaultPadding),
+                  child: SafeArea(
+                    child: BuildConnectionsList(
+                      screenFlag: 'receivedInvitation',
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            ListView(
+              padding: EdgeInsets.symmetric(
+                horizontal: AppSizes.kDefaultPadding,
+              ),
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: AppSizes.kDefaultPadding),
+                  child: SafeArea(
+                    child: BuildConnectionsList(screenFlag: 'sentInvitation'),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
