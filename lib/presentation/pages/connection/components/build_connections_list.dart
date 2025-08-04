@@ -59,10 +59,11 @@ class _BuildConnectionsListState extends State<BuildConnectionsList> {
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
+                        spacing: 2.0,
                         children: [
                           Text(
                             'Wade Warren',
-                            style: Theme.of(context).textTheme.titleMedium!
+                            style: Theme.of(context).textTheme.titleSmall!
                                 .copyWith(fontWeight: FontWeight.w600),
                           ),
                           Text(

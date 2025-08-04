@@ -52,7 +52,7 @@ class _MainBottomNavScreenState extends State<MainBottomNavScreen> {
                 ).scaffoldBackgroundColor.withOpacity(0.8),
                 child: BottomNavigationBar(
                   onTap: _onItemTapped,
-                  backgroundColor: Colors.transparent,
+                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                   currentIndex: _selectedIndex,
                   elevation: 0.0,
                   items: [

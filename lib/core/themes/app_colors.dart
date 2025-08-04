@@ -2,7 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class AppColors {
-  static const primaryDark = Color(0xFF4B61F8);
+  static const primaryDark = Color(0xFF7083FA);
   static const primaryLight = Color(0xFF0021FF);
 
   static const ctaPrimary = Color(0xFFED764F);
@@ -34,7 +34,7 @@ class AppColors {
   static const dividerDark = Color(0xFF363636);
 
   static const hintLight = Color(0xFF878787);
-  static const hintDark = Color(0xFF6C6C6C);
+  static const hintDark = Color(0xFFA2A2A2);
 
   static const errorDark = Color(0xFF8D2222);
   static const errorLight = Color(0xFFDC4949);

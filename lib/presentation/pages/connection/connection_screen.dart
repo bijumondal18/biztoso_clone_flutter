@@ -18,7 +18,6 @@ class _ConnectionScreenState extends State<ConnectionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).dividerColor.withAlpha(50),
       appBar: AppBar(
         title: Text(
           'Connections',
@@ -33,7 +32,7 @@ class _ConnectionScreenState extends State<ConnectionScreen> {
           HorizontalDivider(),
           PeopleYouMayKnowButton(onPressed: (){},),
           HorizontalDivider(),
-          CustomSearchbar(searchHintText: 'Search connections here...',),
+          CustomSearchbar(searchHintText: 'Search Connections ...',),
           BuildConnectionsList()
         ],
       ),
