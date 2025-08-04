@@ -45,6 +45,7 @@ class _BuildConnectionsListState extends State<BuildConnectionsList> {
                   borderRadius: BorderRadius.circular(
                     AppSizes.cardCornerRadius,
                   ),
+                  border: Border.all(width: 1.0, color: Theme.of(context).dividerColor)
                 ),
                 child: Row(
                   spacing: AppSizes.kDefaultPadding,
