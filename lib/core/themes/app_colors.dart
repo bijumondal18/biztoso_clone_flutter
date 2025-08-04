@@ -41,9 +41,9 @@ class AppColors {
 
   static const red = Color(0xFFEA1B1B);
 
-  static const lightColor1 = Color(0xFFE3D2D2);
-  static const lightColor2 = Color(0xFFD1D6E5);
-  static const lightColor3 = Color(0xFFE0EFDD);
+  static const lightColor1 = Color(0xFFE4EDFF);
+  static const lightColor2 = Color(0xFFFBEDFF);
+  static const lightColor3 = Color(0xFFDFF0FF);
 
   static const gradientOne = Color(0xFF0021FF);
   static const gradientThree = Color(0xFF8F6CF1);

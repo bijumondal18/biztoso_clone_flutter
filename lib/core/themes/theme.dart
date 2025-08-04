@@ -134,17 +134,17 @@ class AppTheme {
         ),
         titleLarge: GoogleFonts.lato(
           color: AppColors.black,
-          fontWeight: FontWeight.w800,
+          fontWeight: FontWeight.w600,
           fontSize: AppSizes.titleLarge,
         ),
         titleMedium: GoogleFonts.lato(
           color: AppColors.black,
-          fontWeight: FontWeight.w700,
+          fontWeight: FontWeight.w500,
           fontSize: AppSizes.titleMedium,
         ),
         titleSmall: GoogleFonts.lato(
           color: AppColors.black,
-          fontWeight: FontWeight.w500,
+          fontWeight: FontWeight.w400,
           fontSize: AppSizes.titleSmall,
         ),
         bodyLarge: GoogleFonts.lato(
