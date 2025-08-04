@@ -20,7 +20,7 @@ class _BuildConnectionsListState extends State<BuildConnectionsList> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: AppSizes.kDefaultPadding),
+          padding: const EdgeInsets.only(bottom: AppSizes.kDefaultPadding/2),
           child: Text(
             '6 Connections',
             style: Theme.of(
@@ -33,7 +33,6 @@ class _BuildConnectionsListState extends State<BuildConnectionsList> {
           child: ListView.separated(
             itemCount: 6,
             physics: const NeverScrollableScrollPhysics(),
-            padding: const EdgeInsets.all(AppSizes.kDefaultPadding),
             itemBuilder: (context, index) {
               return Container(
                 padding: const EdgeInsets.symmetric(

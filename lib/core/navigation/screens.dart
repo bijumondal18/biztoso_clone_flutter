@@ -3,6 +3,8 @@ class Screens{
   static const String home = '/home';
   static const String main = '/main';
   static const String globalSearch = '/globalSearch';
+  static const String connection = '/connection';
+  static const String peopleYoyMayKnow = '/peopleYoyMayKnow';
   static const String analytics = '/analytics';
   static const String login = '/login';
   static const String languageSelection = '/languageSelection';

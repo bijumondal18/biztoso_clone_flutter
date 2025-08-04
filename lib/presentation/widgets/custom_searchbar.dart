@@ -11,10 +11,6 @@ class CustomSearchbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(
-        horizontal: AppSizes.kDefaultPadding,
-        vertical: AppSizes.kDefaultPadding,
-      ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(AppSizes.cardCornerRadius),
         border: Border.all(width: 1.0, color: Theme.of(context).dividerColor),

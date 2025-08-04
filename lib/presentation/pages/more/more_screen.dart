@@ -16,13 +16,13 @@ class _MoreScreenState extends State<MoreScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).dividerColor.withAlpha(50),
       appBar: AppBar(
+        centerTitle: true,
         title: Text(
           'More',
           style: Theme.of(
             context,
-          ).textTheme.headlineLarge!.copyWith(fontWeight: FontWeight.w900),
+          ).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.w900),
         ),
       ),
       body: SingleChildScrollView(

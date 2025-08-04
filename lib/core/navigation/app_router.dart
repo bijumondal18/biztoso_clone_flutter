@@ -1,6 +1,7 @@
 import 'package:biztoso/core/navigation/screens.dart';
 import 'package:biztoso/presentation/pages/global_search/global_search_screen.dart';
 import 'package:biztoso/presentation/pages/language_selection/language_selection_screen.dart';
+import 'package:biztoso/presentation/pages/people_you_may_know/people_you_may_know_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -36,6 +37,11 @@ final GoRouter appRouter = GoRouter(
       path: Screens.globalSearch,
       name: 'globalSearch',
       builder: (context, state) => GlobalSearchScreen(),
+    ),
+    GoRoute(
+      path: Screens.peopleYoyMayKnow,
+      name: 'peopleYoyMayKnow',
+      builder: (context, state) => PeopleYouMayKnowScreen(),
     ),
     // GoRoute(
     //   path: Screens.analytics,
