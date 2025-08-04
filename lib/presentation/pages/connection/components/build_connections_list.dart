@@ -1,3 +1,5 @@
+import 'package:biztoso/core/navigation/app_router.dart';
+import 'package:biztoso/core/navigation/screens.dart';
 import 'package:biztoso/presentation/widgets/custom_primary_button.dart';
 import 'package:biztoso/presentation/widgets/profile_avatar.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +22,7 @@ class _BuildConnectionsListState extends State<BuildConnectionsList> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.only(bottom: AppSizes.kDefaultPadding/2),
+          padding: const EdgeInsets.only(bottom: AppSizes.kDefaultPadding / 2),
           child: Text(
             '6 Connections',
             style: Theme.of(
@@ -44,7 +46,10 @@ class _BuildConnectionsListState extends State<BuildConnectionsList> {
                   borderRadius: BorderRadius.circular(
                     AppSizes.cardCornerRadius,
                   ),
-                  border: Border.all(width: 1.0, color: Theme.of(context).dividerColor)
+                  border: Border.all(
+                    width: 1.0,
+                    color: Theme.of(context).dividerColor,
+                  ),
                 ),
                 child: Row(
                   spacing: AppSizes.kDefaultPadding,
@@ -52,7 +57,9 @@ class _BuildConnectionsListState extends State<BuildConnectionsList> {
                     ProfileAvatar(
                       imageUrl:
                           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuNhTZJTtkR6b-ADMhmzPvVwaLuLdz273wvQ&s',
-                      onPressed: () {},
+                      onPressed: () =>
+                          appRouter.push(Screens.profile, extra: true),
+                      // isPublicProfile = true
                       radius: 48,
                     ),
                     Expanded(
@@ -85,7 +92,7 @@ class _BuildConnectionsListState extends State<BuildConnectionsList> {
               );
             },
             separatorBuilder: (BuildContext context, int index) =>
-                SizedBox(height: AppSizes.kDefaultPadding/2),
+                SizedBox(height: AppSizes.kDefaultPadding / 2),
           ),
         ),
       ],

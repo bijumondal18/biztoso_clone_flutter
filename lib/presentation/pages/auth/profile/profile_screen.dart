@@ -2,6 +2,7 @@ import 'package:biztoso/core/navigation/app_router.dart';
 import 'package:biztoso/core/themes/app_colors.dart';
 import 'package:biztoso/core/themes/app_sizes.dart';
 import 'package:biztoso/presentation/widgets/appbar_icon.dart';
+import 'package:biztoso/presentation/widgets/custom_outline_button.dart';
 import 'package:biztoso/presentation/widgets/custom_primary_button.dart';
 import 'package:biztoso/presentation/widgets/horizontal_divider.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
@@ -11,7 +12,7 @@ import 'package:iconsax/iconsax.dart';
 class ProfileScreen extends StatefulWidget {
   final bool isPublicProfile;
 
-  const ProfileScreen({super.key, required this.isPublicProfile});
+  const ProfileScreen({super.key, this.isPublicProfile = false});
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -25,7 +26,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
         slivers: [
           SliverAppBar(
             leading: AppbarIcon(onPressed: () => appRouter.pop()),
-            actions: [AppbarIcon(onPressed: () {}, iconPath: EvaIcons.edit)],
+            actions: [
+              Visibility(
+                visible: widget.isPublicProfile == false,
+                child: AppbarIcon(onPressed: () {}, iconPath: EvaIcons.edit),
+              ),
+            ],
             expandedHeight: 200.0,
             pinned: true,
             flexibleSpace: FlexibleSpaceBar(
@@ -46,11 +52,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: AppbarIcon(
-                          onPressed: () {},
-                          iconPath: Iconsax.share5,
+                      Visibility(
+                        visible: widget.isPublicProfile == false,
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: AppbarIcon(
+                            onPressed: () {},
+                            iconPath: Iconsax.share5,
+                          ),
+                        ),
+                      ),
+                      Visibility(
+                        visible: widget.isPublicProfile == true,
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: CustomOutlineButton(
+                            label: 'Send Message',
+                            onPressed: () {},
+                            hasIcon: true,
+                            height: AppSizes.smallButtonHeight,
+                            iconPath: Iconsax.message5,
+                            labelColor: Theme.of(context).primaryColor,
+                            iconColor: Theme.of(context).primaryColor,
+                            borderColor: Theme.of(context).primaryColor,
+                          ),
                         ),
                       ),
                       Align(
@@ -85,7 +110,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     value: 'Edit',
                                     height: 30,
                                     child: Row(
-                                      spacing: AppSizes.kDefaultPadding/2,
+                                      spacing: AppSizes.kDefaultPadding / 2,
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         Icon(
@@ -108,7 +133,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     value: 'Saved',
                                     height: 30,
                                     child: Row(
-                                      spacing: AppSizes.kDefaultPadding/2,
+                                      spacing: AppSizes.kDefaultPadding / 2,
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         Icon(
@@ -131,7 +156,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     value: 'Archived',
                                     height: 30,
                                     child: Row(
-                                      spacing: AppSizes.kDefaultPadding/2,
+                                      spacing: AppSizes.kDefaultPadding / 2,
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         Icon(
@@ -154,7 +179,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     value: 'Archived',
                                     height: 30,
                                     child: Row(
-                                      spacing: AppSizes.kDefaultPadding/2,
+                                      spacing: AppSizes.kDefaultPadding / 2,
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         Icon(
@@ -177,7 +202,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     value: 'Archived',
                                     height: 30,
                                     child: Row(
-                                      spacing: AppSizes.kDefaultPadding/2,
+                                      spacing: AppSizes.kDefaultPadding / 2,
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         Icon(
@@ -200,7 +225,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     value: 'Archived',
                                     height: 30,
                                     child: Row(
-                                      spacing: AppSizes.kDefaultPadding/2,
+                                      spacing: AppSizes.kDefaultPadding / 2,
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         Icon(
@@ -227,9 +252,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   AppSizes.kDefaultPadding / 3,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: Theme.of(
-                                    context,
-                                  ).primaryColor.withAlpha(40),
+                                  border: Border.all(
+                                    width: 1.0,
+                                    color: Theme.of(context).primaryColor,
+                                  ),
                                   borderRadius: BorderRadius.circular(
                                     AppSizes.cardCornerRadius,
                                   ),
@@ -237,6 +263,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 child: Icon(
                                   EvaIcons.moreVertical,
                                   color: Theme.of(context).primaryColor,
+                                  size: 22,
                                 ),
                               ),
                             ),
@@ -377,12 +404,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                           Expanded(
                             flex: 2,
-                            child: CustomPrimaryButton(
-                              label: 'Verify Now',
-                              height: AppSizes.smallButtonHeight,
-                              hasIcon: true,
-                              iconPath: Iconsax.verify5,
-                              onPressed: () {},
+                            child: Visibility(
+                              visible: widget.isPublicProfile == false,
+                              child: CustomPrimaryButton(
+                                label: 'Verify Now',
+                                height: AppSizes.smallButtonHeight,
+                                hasIcon: true,
+                                iconPath: Iconsax.verify5,
+                                onPressed: () {},
+                              ),
                             ),
                           ),
                         ],

@@ -8,6 +8,10 @@ class CustomOutlineButton extends StatelessWidget {
   final bool? hasIcon;
   final IconData? iconPath;
   final bool hasRoundedCorner;
+  final double? height;
+  final Color? iconColor;
+  final Color? labelColor;
+  final Color? borderColor;
 
   const CustomOutlineButton({
     super.key,
@@ -16,6 +20,10 @@ class CustomOutlineButton extends StatelessWidget {
     this.hasIcon = false,
     this.iconPath,
     this.hasRoundedCorner = false,
+    this.height,
+    this.iconColor,
+    this.labelColor,
+    this.borderColor,
   });
 
   @override
@@ -28,12 +36,13 @@ class CustomOutlineButton extends StatelessWidget {
             : AppSizes.cardCornerRadius,
       ),
       child: Container(
-        height: AppSizes.buttonHeight,
+        height: height ?? AppSizes.buttonHeight,
         alignment: Alignment.center,
         decoration: BoxDecoration(
           border: Border.all(
-            width: 0.5,
-            color: Theme.of(context).colorScheme.surfaceContainer.withAlpha(80),
+            width: 1.0,
+            color:
+                borderColor ?? Theme.of(context).colorScheme.surfaceContainer.withAlpha(100),
           ),
           borderRadius: BorderRadius.circular(
             hasRoundedCorner
@@ -47,19 +56,32 @@ class CustomOutlineButton extends StatelessWidget {
             Visibility(
               visible: hasIcon == true,
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                padding: const EdgeInsets.only(
+                  left: AppSizes.kDefaultPadding / 2,
+                  top: 2.0,
+                ),
                 child: Icon(
                   iconPath,
-                  color: Theme.of(context).colorScheme.surfaceContainer,
+                  color:
+                      iconColor ??
+                      Theme.of(context).colorScheme.surfaceContainer,
                   size: 18,
                 ),
               ),
             ),
-            Text(
-              label,
-              style: Theme.of(
-                context,
-              ).textTheme.labelLarge!.copyWith(fontWeight: FontWeight.w600),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSizes.kDefaultPadding / 2,
+              ),
+              child: Text(
+                label,
+                style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color:
+                      labelColor ??
+                      Theme.of(context).colorScheme.surfaceContainer,
+                ),
+              ),
             ),
           ],
         ),

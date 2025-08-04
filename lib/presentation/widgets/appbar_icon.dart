@@ -1,3 +1,4 @@
+import 'package:biztoso/core/themes/app_colors.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 
@@ -16,12 +17,12 @@ class AppbarIcon extends StatelessWidget {
       icon: Container(
         padding: EdgeInsets.all(AppSizes.kDefaultPadding / 3),
         decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor.withAlpha(40),
+          gradient: AppColors.primaryGradient,
           borderRadius: BorderRadius.circular(AppSizes.cardCornerRadius),
         ),
         child: Icon(
           iconPath ?? EvaIcons.arrowBack,
-          color: Theme.of(context).primaryColor,
+          color: Theme.of(context).scaffoldBackgroundColor,
         ),
       ),
     );
