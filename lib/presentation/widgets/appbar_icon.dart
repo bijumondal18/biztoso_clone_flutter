@@ -22,7 +22,7 @@ class AppbarIcon extends StatelessWidget {
         ),
         child: Icon(
           iconPath ?? EvaIcons.arrowBack,
-          color: Theme.of(context).scaffoldBackgroundColor,
+          color: AppColors.white??Theme.of(context).scaffoldBackgroundColor,
         ),
       ),
     );

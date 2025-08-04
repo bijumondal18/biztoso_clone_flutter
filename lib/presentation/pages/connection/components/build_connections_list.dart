@@ -2,13 +2,16 @@ import 'package:biztoso/core/navigation/app_router.dart';
 import 'package:biztoso/core/navigation/screens.dart';
 import 'package:biztoso/presentation/widgets/custom_primary_button.dart';
 import 'package:biztoso/presentation/widgets/profile_avatar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
 import '../../../../core/themes/app_sizes.dart';
 
 class BuildConnectionsList extends StatefulWidget {
-  const BuildConnectionsList({super.key});
+  final String? screenFlag;
+
+  const BuildConnectionsList({super.key, this.screenFlag = 'connectionScreen'});
 
   @override
   State<BuildConnectionsList> createState() => _BuildConnectionsListState();
@@ -81,10 +84,14 @@ class _BuildConnectionsListState extends State<BuildConnectionsList> {
                       ),
                     ),
                     CustomPrimaryButton(
-                      label: 'Message',
+                      label: _buildTrailingButtonLabel(
+                        screenFlag: widget.screenFlag ?? 'connectionScreen',
+                      ),
                       onPressed: () {},
                       hasIcon: true,
-                      iconPath: Iconsax.message5,
+                      iconPath: _buildTrailingButtonIcon(
+                        screenFlag: widget.screenFlag ?? 'connectionScreen',
+                      ),
                       height: AppSizes.smallButtonHeight,
                     ),
                   ],
@@ -97,5 +104,25 @@ class _BuildConnectionsListState extends State<BuildConnectionsList> {
         ),
       ],
     );
+  }
+
+  String _buildTrailingButtonLabel({required String screenFlag}) {
+    switch (screenFlag) {
+      case 'connectionScreen':
+        return 'Message';
+      case 'peopleYouMayKnow':
+        return 'Connect';
+    }
+    return 'Message';
+  }
+
+  IconData _buildTrailingButtonIcon({required String screenFlag}) {
+    switch (screenFlag) {
+      case 'connectionScreen':
+        return Iconsax.message5;
+      case 'peopleYouMayKnow':
+        return CupertinoIcons.person_add_solid;
+    }
+    return Iconsax.message5;
   }
 }

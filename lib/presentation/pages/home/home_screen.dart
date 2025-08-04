@@ -25,7 +25,6 @@ class _HomeScreenState extends State<HomeScreen> {
     final height = MediaQuery.sizeOf(context).height;
     final width = MediaQuery.sizeOf(context).width;
     return Scaffold(
-      backgroundColor: Theme.of(context).dividerColor.withAlpha(50),
       appBar: HomeAppbar(),
       body: ListView(
         children: [
