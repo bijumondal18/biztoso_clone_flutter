@@ -1,4 +1,5 @@
 import 'package:biztoso/core/navigation/screens.dart';
+import 'package:biztoso/data/models/language.dart';
 import 'package:biztoso/presentation/pages/connection_invitations/connection_invitations_screen.dart';
 import 'package:biztoso/presentation/pages/global_search/global_search_screen.dart';
 import 'package:biztoso/presentation/pages/language_selection/language_selection_screen.dart';
@@ -22,7 +23,10 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: Screens.languageSelection,
       name: 'languageSelection',
-      builder: (context, state) => LanguageSelectionScreen(),
+      builder: (context, state) {
+        final languageList = state.extra as List<Language>;
+        return LanguageSelectionScreen(languageList: languageList);
+      },
     ),
     GoRoute(
       path: Screens.login,

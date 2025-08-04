@@ -1,3 +1,4 @@
+import 'package:biztoso/app/global_bloc.dart';
 import 'package:biztoso/core/extensions/status_bar_configs.dart';
 import 'package:flutter/material.dart';
 
@@ -9,12 +10,14 @@ class BiztosoApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.lightTheme,
-      darkTheme: AppTheme.darkTheme,
-      themeMode: ThemeMode.system,
-      routerConfig: appRouter,
+    return GlobalBloc(
+      child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.lightTheme,
+        darkTheme: AppTheme.darkTheme,
+        themeMode: ThemeMode.system,
+        routerConfig: appRouter,
+      ),
     );
   }
 }

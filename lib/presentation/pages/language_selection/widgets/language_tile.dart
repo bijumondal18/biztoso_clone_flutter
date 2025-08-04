@@ -1,5 +1,6 @@
 import 'package:biztoso/core/themes/app_colors.dart';
 import 'package:biztoso/data/models/language.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/resources/app_images.dart';
@@ -8,8 +9,16 @@ import '../../../../core/themes/app_sizes.dart';
 class LanguageTile extends StatelessWidget {
   final Language language;
   final VoidCallback onTap;
+  final Color? bgColor;
+  final bool isSelected;
 
-  const LanguageTile({super.key, required this.language, required this.onTap});
+  const LanguageTile({
+    super.key,
+    required this.language,
+    required this.onTap,
+    this.bgColor,
+    required this.isSelected,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,14 +31,14 @@ class LanguageTile extends StatelessWidget {
         margin: EdgeInsets.only(top: AppSizes.kDefaultPadding),
         padding: EdgeInsets.all(AppSizes.kDefaultPadding),
         decoration: BoxDecoration(
-          color: language.bgColor,
+          color: bgColor,
           borderRadius: BorderRadius.circular(AppSizes.cardCornerRadius),
         ),
         child: Row(
           spacing: AppSizes.kDefaultPadding * 1.5,
           children: [
-            Image.asset(
-              language.imagePath,
+            CachedNetworkImage(
+              imageUrl: language.image ?? '',
               width: width * 0.15,
               height: width * 0.15,
             ),
@@ -39,16 +48,16 @@ class LanguageTile extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Visibility(
-                    visible: language.title != '',
+                    visible: language.languageName != 'English',
                     child: Text(
-                      language.title,
+                      language.languageName ?? '',
                       style: Theme.of(
                         context,
                       ).textTheme.titleMedium!.copyWith(color: AppColors.black),
                     ),
                   ),
                   Text(
-                    language.subTitle,
+                    language.languageNameEnglish ?? '',
                     style: Theme.of(
                       context,
                     ).textTheme.titleMedium!.copyWith(color: AppColors.black),
@@ -57,8 +66,8 @@ class LanguageTile extends StatelessWidget {
               ),
             ),
             Icon(
-              language.isSelected ? Icons.check_circle : Icons.circle_outlined,
-              color: language.isSelected
+              isSelected ? Icons.check_circle : Icons.circle_outlined,
+              color: isSelected
                   ? Theme.of(context).primaryColor
                   : Theme.of(context).hintColor,
             ),

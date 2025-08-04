@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:biztoso/core/navigation/app_router.dart';
 import 'package:biztoso/core/navigation/screens.dart';
+import 'package:biztoso/core/themes/app_colors.dart';
 import 'package:biztoso/core/themes/app_sizes.dart';
 import 'package:biztoso/data/models/language.dart';
 import 'package:biztoso/presentation/pages/language_selection/widgets/language_tile.dart';
@@ -13,7 +14,9 @@ import 'package:flutter_svg/svg.dart';
 import '../../../core/resources/app_images.dart';
 
 class LanguageSelectionScreen extends StatefulWidget {
-  const LanguageSelectionScreen({super.key});
+  final List<Language> languageList;
+
+  const LanguageSelectionScreen({super.key, required this.languageList});
 
   @override
   State<LanguageSelectionScreen> createState() =>
@@ -21,6 +24,14 @@ class LanguageSelectionScreen extends StatefulWidget {
 }
 
 class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
+  final colors = [
+    AppColors.lightColor1,
+    AppColors.lightColor2,
+    AppColors.lightColor3,
+  ];
+
+  int selectedIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
@@ -53,36 +64,34 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                     Expanded(
-                      child: Column(
-                        children: languageList
-                            .map(
-                              (lang) => LanguageTile(
-                                language: lang,
-                                onTap: () {
-                                  setState(() {
-                                    for (var l in languageList) {
-                                      l.isSelected = false;
-                                    }
-                                    lang.isSelected = true;
-                                  });
-                                },
-                              ),
-                            )
-                            .toList(),
+                      child: ListView.builder(
+                        itemCount: widget.languageList.length,
+                        itemBuilder: (context, index) {
+                          return LanguageTile(
+                            language: widget.languageList[index],
+                            bgColor: colors[index % colors.length],
+                            isSelected: selectedIndex == index,
+                            onTap: () {
+                              setState(() {
+                                selectedIndex = index;
+                              });
+                            },
+                          );
+                        },
                       ),
                     ),
                     CustomPrimaryButton(
                       label: 'Continue',
                       onPressed: () {
-                        final selected = languageList.firstWhere(
-                          (lang) => lang.isSelected,
-                        );
-                        if (selected != null) {
-                          log('Selected language: ${selected.subTitle}');
-                          appRouter.push(Screens.login);
-                        } else {
-                          log('No language selected');
-                        }
+                        // final selected = widget.languageList.firstWhere(
+                        //   (lang) => lang.isSelected,
+                        // );
+                        // if (selected != null) {
+                        //   log('Selected language: ${selected.subTitle}');
+                        appRouter.push(Screens.login);
+                        // } else {
+                        //   log('No language selected');
+                        // }
                       },
                     ),
                     const SizedBox(height: AppSizes.kDefaultPadding),
