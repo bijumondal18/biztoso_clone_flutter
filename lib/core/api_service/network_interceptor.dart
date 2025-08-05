@@ -3,26 +3,40 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
-typedef NoInternetCallback = void Function(BuildContext context);
+import '../../utils/snackbar_helper.dart';
+
+typedef NoInternetCallback = void Function();
 
 class NetworkInterceptor extends Interceptor {
-  final NoInternetCallback onNoInternet;
-
-  NetworkInterceptor({required this.onNoInternet});
+  bool _isListening = false;
 
   @override
   void onRequest(
-      RequestOptions options,
-      RequestInterceptorHandler handler,
-      ) async {
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) async {
     final connectivityResult = await Connectivity().checkConnectivity();
 
     if (connectivityResult == ConnectivityResult.none) {
-      // 👇 Extract context from options.extra
-      final context = options.extra['context'] as BuildContext?;
+      SnackBarHelper.show("🚫 No internet. Retrying when back online...");
 
-      if (context != null) {
-        onNoInternet(context);
+      if (!_isListening) {
+        _isListening = true;
+
+        Connectivity().onConnectivityChanged.listen((status) async {
+          if (status != ConnectivityResult.none) {
+            SnackBarHelper.show("✅ Internet restored. Retrying request...");
+
+            try {
+              final response = await Dio().fetch(options);
+              _isListening = false;
+              return handler.resolve(response);
+            } catch (e) {
+              _isListening = false;
+              return handler.reject(e as DioException);
+            }
+          }
+        });
       }
 
       return handler.reject(
@@ -34,6 +48,6 @@ class NetworkInterceptor extends Interceptor {
       );
     }
 
-    handler.next(options);
+    return handler.next(options);
   }
 }

@@ -1,38 +1,34 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:biztoso/core/api_service/end_points.dart';
 import 'package:biztoso/core/api_service/token_storage.dart';
 import 'package:dio/dio.dart';
 
+import '../di/service_locator.dart';
 import 'error_handler.dart';
 import 'network_interceptor.dart';
+typedef NoInternetCallback = void Function();
 
 class DioClient {
-  final Dio _dio;
-  final TokenStorage _tokenStorage;
-  final int maxRetryAttempts;
+  late final Dio _dio;
+  final TokenStorage _tokenStorage = sl<TokenStorage>();
+  final int _maxRetryAttempts = 2;
 
-  DioClient({
-    required String baseUrl,
-    required TokenStorage tokenStorage,
-    Dio? dio,
-    required NoInternetCallback onNoInternet,
-    this.maxRetryAttempts = 2,
-  }) : _dio =
-           dio ??
-           Dio(
-             BaseOptions(
-               baseUrl: baseUrl,
-               connectTimeout: const Duration(seconds: 10),
-               receiveTimeout: const Duration(seconds: 10),
-               headers: {
-                 'Content-Type': 'application/json',
-                 'Accept': 'application/json',
-               },
-             ),
-           ),
-       _tokenStorage = tokenStorage {
-    _dio.interceptors.add(NetworkInterceptor(onNoInternet: onNoInternet));
+  DioClient() {
+    _dio = Dio(
+      BaseOptions(
+        baseUrl: ApiEndPoints.baseUrl,
+        connectTimeout: const Duration(seconds: 10),
+        receiveTimeout: const Duration(seconds: 10),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+      ),
+    );
+
+    _dio.interceptors.add(NetworkInterceptor());
     _dio.interceptors.add(_authInterceptor());
   }
 
@@ -62,7 +58,7 @@ class DioClient {
         if (_shouldRetry(error)) {
           final retryCount = (options.extra['retries'] as int? ?? 0) + 1;
 
-          if (retryCount <= maxRetryAttempts) {
+          if (retryCount <= _maxRetryAttempts) {
             log("🔁 Retrying [${options.uri}]... Attempt #$retryCount");
             options.extra['retries'] = retryCount;
             try {
@@ -90,12 +86,12 @@ class DioClient {
   }
 
   Future<Response?> _request(
-    String method,
-    String endpoint, {
-    Map<String, dynamic>? data,
-    Map<String, dynamic>? queryParams,
-    bool isFormData = false,
-  }) async {
+      String method,
+      String endpoint, {
+        Map<String, dynamic>? data,
+        Map<String, dynamic>? queryParams,
+        bool isFormData = false,
+      }) async {
     try {
       final payload = isFormData ? FormData.fromMap(data ?? {}) : data;
 
@@ -117,22 +113,22 @@ class DioClient {
       _request('GET', endpoint, queryParams: queryParams);
 
   Future<Response?> post(
-    String endpoint, {
-    Map<String, dynamic>? data,
-    bool isFormData = false,
-  }) => _request('POST', endpoint, data: data, isFormData: isFormData);
+      String endpoint, {
+        Map<String, dynamic>? data,
+        bool isFormData = false,
+      }) => _request('POST', endpoint, data: data, isFormData: isFormData);
 
   Future<Response?> put(
-    String endpoint, {
-    Map<String, dynamic>? data,
-    bool isFormData = false,
-  }) => _request('PUT', endpoint, data: data, isFormData: isFormData);
+      String endpoint, {
+        Map<String, dynamic>? data,
+        bool isFormData = false,
+      }) => _request('PUT', endpoint, data: data, isFormData: isFormData);
 
   Future<Response?> delete(
-    String endpoint, {
-    Map<String, dynamic>? data,
-    bool isFormData = false,
-  }) => _request('DELETE', endpoint, data: data, isFormData: isFormData);
+      String endpoint, {
+        Map<String, dynamic>? data,
+        bool isFormData = false,
+      }) => _request('DELETE', endpoint, data: data, isFormData: isFormData);
 
   Dio get rawDio => _dio;
 }

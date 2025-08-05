@@ -17,11 +17,7 @@ class GlobalBloc extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) => UserBloc(
-            DioClient(
-              baseUrl: ApiEndPoints.baseUrl,
-              tokenStorage: SecureTokenStorage(),
-              onNoInternet: (BuildContext context) {},
-            ),
+            DioClient(),
           ),
         ),
       ],
