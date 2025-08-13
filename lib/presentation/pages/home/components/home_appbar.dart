@@ -23,9 +23,12 @@ class HomeAppbar extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         AppbarIcon(
           onPressed: () => appRouter.push(Screens.globalSearch),
+          hasGradient: false,
           iconPath: EvaIcons.search,
         ),
-        AppbarIcon(onPressed: () {}, iconPath: EvaIcons.bellOutline),
+        AppbarIcon(onPressed: () {},
+            hasGradient: false,
+            iconPath: EvaIcons.bellOutline),
         Padding(
           padding: const EdgeInsets.only(
             right: AppSizes.kDefaultPadding,

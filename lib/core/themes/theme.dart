@@ -46,7 +46,7 @@ class AppTheme {
         ),
         backgroundColor: AppColors.white,
         elevation: 0.0,
-        scrolledUnderElevation: 0.0,
+        scrolledUnderElevation: AppSizes.elevationSmall,
         centerTitle: false,
         titleTextStyle: TextStyle(
           color: AppColors.primaryLight,
@@ -213,7 +213,7 @@ class AppTheme {
         ),
         backgroundColor: AppColors.black,
         elevation: 0.0,
-        scrolledUnderElevation: 0.0,
+        scrolledUnderElevation: AppSizes.elevationSmall,
         centerTitle: false,
         titleTextStyle: TextStyle(
           color: AppColors.white,

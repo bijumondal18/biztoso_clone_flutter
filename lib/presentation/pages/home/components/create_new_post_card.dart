@@ -1,3 +1,4 @@
+import 'package:biztoso/presentation/widgets/custom_card.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/themes/app_sizes.dart';
@@ -9,24 +10,9 @@ class CreateNewPostCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
-    return Container(
-      margin: EdgeInsets.all(AppSizes.kDefaultPadding/2),
+    return CustomCard(
+      margin: EdgeInsets.all(AppSizes.kDefaultPadding),
       padding: EdgeInsets.all(AppSizes.kDefaultPadding),
-      decoration: BoxDecoration(
-          color: Theme.of(context).scaffoldBackgroundColor,
-          borderRadius: BorderRadius.circular(AppSizes.cardCornerRadius),
-          border: Border.all(
-            width: 1.0,
-            color: Theme.of(context).dividerColor.withAlpha(100),
-          ),
-          boxShadow: [
-            BoxShadow(
-                color: Theme.of(context).shadowColor,
-                spreadRadius: AppSizes.spreadRadius,
-                blurRadius: AppSizes.blurRadius
-            )
-          ]
-      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         spacing: AppSizes.kDefaultPadding,
