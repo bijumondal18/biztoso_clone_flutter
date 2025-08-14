@@ -41,7 +41,7 @@ class _BuildConnectionsListState extends State<BuildConnectionsList> {
             child: Text(
               widget.screenFlag == 'peopleYouMayKnow'
                   ? 'People You May Know'
-                  : '36 Connections',
+                  : '5 Connections',
               style: Theme.of(
                 context,
               ).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w600),
@@ -49,7 +49,7 @@ class _BuildConnectionsListState extends State<BuildConnectionsList> {
           ),
         ),
         ListView.separated(
-          itemCount: 36,
+          itemCount: 5,
           shrinkWrap: true,
           padding: EdgeInsets.only(bottom: AppSizes.kDefaultPadding),
           physics: const NeverScrollableScrollPhysics(),

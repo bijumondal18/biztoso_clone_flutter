@@ -3,4 +3,6 @@ class ApiEndPoints{
 
   static const String getLanguageUrl = '${baseUrl}user/get_language';
 
+  static const String loginWithEmailUrl = '${baseUrl}user/emailLogin';
+
 }

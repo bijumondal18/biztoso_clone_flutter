@@ -27,8 +27,8 @@ final GoRouter appRouter = GoRouter(
       path: Screens.languageSelection,
       name: 'languageSelection',
       builder: (context, state) {
-        final languageList = state.extra as List<Language>;
-        return LanguageSelectionScreen(languageList: languageList);
+        // final languageList = state.extra as List<Language>;
+        return LanguageSelectionScreen();
       },
     ),
     GoRoute(

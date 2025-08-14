@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:biztoso/core/resources/app_images.dart';
+import 'package:biztoso/presentation/blocs/auth/auth_bloc.dart';
 import 'package:biztoso/presentation/widgets/themed_statusbar_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,23 +22,22 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<UserBloc>(context).add(GetLanguageEvent());
+    BlocProvider.of<AuthBloc>(context).add(CheckAuthStatusEvent());
   }
 
   @override
   Widget build(BuildContext context) {
     return ThemedStatusBarWrapper(
       child: Scaffold(
-        body: BlocConsumer<UserBloc, UserState>(
+        body: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
-            if (state is GetLanguageStateLoaded) {
-              appRouter.go(
-                Screens.languageSelection,
-                extra: state.getLanguage.result,
-              );
+            if (state is CheckAuthStatusLoaded) {
+              Future.delayed(const Duration(milliseconds: 500),(){
+                appRouter.go(Screens.main);
+              });
             }
-            if (state is GetLanguageStateFailed) {
-              log(state.error);
+            if (state is CheckAuthStatusFailed) {
+              appRouter.go(Screens.languageSelection);
             }
           },
           builder: (context, state) {

@@ -3,11 +3,13 @@ import 'dart:io';
 
 import 'package:biztoso/core/api_service/end_points.dart';
 import 'package:biztoso/core/api_service/token_storage.dart';
+import 'package:biztoso/utils/app_utils.dart';
 import 'package:dio/dio.dart';
 
 import '../di/service_locator.dart';
 import 'error_handler.dart';
 import 'network_interceptor.dart';
+
 typedef NoInternetCallback = void Function();
 
 class DioClient {
@@ -44,12 +46,14 @@ class DioClient {
           options.headers.remove('Content-Type');
         }
 
-        log("➡️ [${options.method}] ${options.uri}");
-        if (options.data != null) log("Request Body: ${options.data}");
+        AppUtils.showDebugLog(options.method, options.uri);
+        if (options.data != null) {
+          AppUtils.showDebugLog("Request", options.data);
+        }
         handler.next(options);
       },
       onResponse: (response, handler) {
-        log("✅ [${response.statusCode}] ${response.data}");
+        AppUtils.showDebugLog('${response.statusCode}', response.data);
         handler.next(response);
       },
       onError: (DioException error, handler) async {
@@ -86,12 +90,12 @@ class DioClient {
   }
 
   Future<Response?> _request(
-      String method,
-      String endpoint, {
-        Map<String, dynamic>? data,
-        Map<String, dynamic>? queryParams,
-        bool isFormData = false,
-      }) async {
+    String method,
+    String endpoint, {
+    Map<String, dynamic>? data,
+    Map<String, dynamic>? queryParams,
+    bool isFormData = false,
+  }) async {
     try {
       final payload = isFormData ? FormData.fromMap(data ?? {}) : data;
 
@@ -113,22 +117,22 @@ class DioClient {
       _request('GET', endpoint, queryParams: queryParams);
 
   Future<Response?> post(
-      String endpoint, {
-        Map<String, dynamic>? data,
-        bool isFormData = false,
-      }) => _request('POST', endpoint, data: data, isFormData: isFormData);
+    String endpoint, {
+    Map<String, dynamic>? data,
+    bool isFormData = false,
+  }) => _request('POST', endpoint, data: data, isFormData: isFormData);
 
   Future<Response?> put(
-      String endpoint, {
-        Map<String, dynamic>? data,
-        bool isFormData = false,
-      }) => _request('PUT', endpoint, data: data, isFormData: isFormData);
+    String endpoint, {
+    Map<String, dynamic>? data,
+    bool isFormData = false,
+  }) => _request('PUT', endpoint, data: data, isFormData: isFormData);
 
   Future<Response?> delete(
-      String endpoint, {
-        Map<String, dynamic>? data,
-        bool isFormData = false,
-      }) => _request('DELETE', endpoint, data: data, isFormData: isFormData);
+    String endpoint, {
+    Map<String, dynamic>? data,
+    bool isFormData = false,
+  }) => _request('DELETE', endpoint, data: data, isFormData: isFormData);
 
   Dio get rawDio => _dio;
 }

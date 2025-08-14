@@ -18,7 +18,7 @@ class _BuildChatListState extends State<BuildChatList> {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
-      itemCount: 10,
+      itemCount: 4,
       padding: EdgeInsets.symmetric(vertical: AppSizes.kDefaultPadding),
       itemBuilder: (context, index) {
         return InkWell(

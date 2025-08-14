@@ -142,10 +142,10 @@ class User {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
-    data['FullName'] = this.fullName;
-    data['Email'] = this.email;
+    final Map<String, dynamic> data =  <String, dynamic>{};
+    data['_id'] = sId;
+    data['FullName'] = fullName;
+    data['Email'] = email;
     data['Password'] = this.password;
     data['CountryCode'] = this.countryCode;
     data['PhoneNumber'] = this.phoneNumber;
