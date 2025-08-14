@@ -50,3 +50,24 @@ final class GetConnectionsStateFailed extends UserState {
   @override
   List<Object> get props => [error];
 }
+
+// ------------------------ Get connections list ---------------------------//
+final class SentConnectionRequestStateLoading extends UserState {}
+
+final class SentConnectionRequestStateLoaded extends UserState {
+  final ConnectionSentResponse connectionSentResponse;
+
+  const SentConnectionRequestStateLoaded({required this.connectionSentResponse});
+
+  @override
+  List<Object> get props => [connectionSentResponse];
+}
+
+final class SentConnectionRequestStateFailed extends UserState {
+  final String error;
+
+  const SentConnectionRequestStateFailed({required this.error});
+
+  @override
+  List<Object> get props => [error];
+}

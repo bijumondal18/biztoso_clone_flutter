@@ -7,5 +7,6 @@ class ApiEndPoints{
   static const String loginWithEmailUrl = '${baseAuth}user/emailLogin';
 
   static const String getConnectionList = '${baseCore}network/connection/connection-list';
+  static const String sentConnectionRequestList = '${baseCore}network/connection/list-send-request';
 
 }

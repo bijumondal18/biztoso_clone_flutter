@@ -1,5 +1,6 @@
 import 'package:biztoso/core/themes/app_colors.dart';
 import 'package:biztoso/data/models/connection_response.dart';
+import 'package:biztoso/data/models/user.dart';
 import 'package:biztoso/presentation/widgets/custom_outline_button.dart';
 import 'package:biztoso/utils/app_utils.dart';
 import 'package:flutter/cupertino.dart';
@@ -14,7 +15,7 @@ import '../../../widgets/profile_avatar.dart';
 
 class ConnectionCard extends StatelessWidget {
   final String screenFlag;
-  final Docs docs;
+  final User docs;
 
   const ConnectionCard({
     super.key,

@@ -31,11 +31,185 @@ class _BuildConnectionsListState extends State<BuildConnectionsList> {
   @override
   void initState() {
     super.initState();
-    context.read<UserBloc>().add(GetConnectionsEvent());
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      switch (widget.screenFlag) {
+        case 'connectionScreen':
+          context.read<UserBloc>().add(GetConnectionsEvent());
+          break;
+        case 'sentInvitation':
+          context.read<UserBloc>().add(SentRequestConnectionsListEvent());
+          break;
+        default:
+          context.read<UserBloc>().add(GetConnectionsEvent());
+          break;
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    switch (widget.screenFlag) {
+      case 'connectionScreen':
+        return BlocConsumer<UserBloc, UserState>(
+          listener: (_, __) {},
+          builder: (context, state) {
+            if (state is GetConnectionsStateLoading) {
+              final headerVisible =
+                  (widget.screenFlag == 'peopleYouMayKnow' ||
+                      widget.screenFlag == 'connectionScreen') &&
+                  widget.isPublicProfile == false;
+
+              // Column of shimmer cards (no scrolling)
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (headerVisible) ...[
+                    const Padding(
+                      padding: EdgeInsets.only(
+                        bottom: AppSizes.kDefaultPadding / 2,
+                      ),
+                      child: ConnectionsHeaderShimmer(),
+                    ),
+                  ],
+                  // existing card shimmers
+                  for (int i = 0; i < 6; i++) ...const [
+                    ConnectionCardShimmer(screenFlag: 'connectionScreen'),
+                    SizedBox(height: AppSizes.kDefaultPadding / 1.5),
+                  ],
+                ],
+              );
+            }
+
+            if (state is GetConnectionsStateLoaded) {
+              final items = state.connectionResponse.users?.docs ?? [];
+              final headerVisible =
+                  (widget.screenFlag == 'peopleYouMayKnow' ||
+                      widget.screenFlag == 'connectionScreen') &&
+                  widget.isPublicProfile == false;
+
+              final title = widget.screenFlag == 'peopleYouMayKnow'
+                  ? 'People You May Know'
+                  : '${items.length} Connections';
+
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (headerVisible)
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        bottom: AppSizes.kDefaultPadding / 2,
+                      ),
+                      child: Text(
+                        title,
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  // cards separated by SizedBox
+                  for (int i = 0; i < items.length; i++) ...[
+                    ConnectionCard(
+                      screenFlag: widget.screenFlag,
+                      docs: items[i],
+                    ),
+                    if (i != items.length - 1)
+                      const SizedBox(height: AppSizes.kDefaultPadding / 2),
+                  ],
+                ],
+              );
+            }
+
+            if (state is GetConnectionsStateFailed) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 32),
+                child: Center(child: Text(state.error)),
+              );
+            }
+
+            return const SizedBox.shrink();
+          },
+        );
+      case 'sentInvitation':
+        return BlocConsumer<UserBloc, UserState>(
+          listener: (_, __) {},
+          builder: (context, state) {
+            if (state is SentConnectionRequestStateLoading) {
+              final headerVisible =
+                  (widget.screenFlag == 'peopleYouMayKnow' ||
+                      widget.screenFlag == 'connectionScreen') &&
+                  widget.isPublicProfile == false;
+
+              // Column of shimmer cards (no scrolling)
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (headerVisible) ...[
+                    const Padding(
+                      padding: EdgeInsets.only(
+                        bottom: AppSizes.kDefaultPadding / 2,
+                      ),
+                      child: ConnectionsHeaderShimmer(),
+                    ),
+                  ],
+                  // existing card shimmers
+                  for (int i = 0; i < 6; i++) ...const [
+                    ConnectionCardShimmer(screenFlag: 'connectionScreen'),
+                    SizedBox(height: AppSizes.kDefaultPadding / 1.5),
+                  ],
+                ],
+              );
+            }
+
+            if (state is SentConnectionRequestStateLoaded) {
+              final items = state.connectionSentResponse.users ?? [];
+              final headerVisible =
+                  (widget.screenFlag == 'peopleYouMayKnow' ||
+                      widget.screenFlag == 'connectionScreen') &&
+                  widget.isPublicProfile == false;
+
+              final title = widget.screenFlag == 'peopleYouMayKnow'
+                  ? 'People You May Know'
+                  : '${items.length} Connections';
+
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (headerVisible)
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        bottom: AppSizes.kDefaultPadding / 2,
+                      ),
+                      child: Text(
+                        title,
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  // cards separated by SizedBox
+                  for (int i = 0; i < items.length; i++) ...[
+                    ConnectionCard(
+                      screenFlag: widget.screenFlag,
+                      docs: items[i],
+                    ),
+                    if (i != items.length - 1)
+                      const SizedBox(height: AppSizes.kDefaultPadding / 2),
+                  ],
+                ],
+              );
+            }
+
+            if (state is GetConnectionsStateFailed) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 32),
+                child: Center(child: Text(state.error)),
+              );
+            }
+
+            return const SizedBox.shrink();
+          },
+        );
+    }
     return BlocConsumer<UserBloc, UserState>(
       listener: (_, __) {},
       builder: (context, state) {
@@ -43,7 +217,7 @@ class _BuildConnectionsListState extends State<BuildConnectionsList> {
           final headerVisible =
               (widget.screenFlag == 'peopleYouMayKnow' ||
                   widget.screenFlag == 'connectionScreen') &&
-                  widget.isPublicProfile == false;
+              widget.isPublicProfile == false;
 
           // Column of shimmer cards (no scrolling)
           return Column(
@@ -51,7 +225,9 @@ class _BuildConnectionsListState extends State<BuildConnectionsList> {
             children: [
               if (headerVisible) ...[
                 const Padding(
-                  padding: EdgeInsets.only(bottom: AppSizes.kDefaultPadding / 2),
+                  padding: EdgeInsets.only(
+                    bottom: AppSizes.kDefaultPadding / 2,
+                  ),
                   child: ConnectionsHeaderShimmer(),
                 ),
               ],
@@ -69,7 +245,7 @@ class _BuildConnectionsListState extends State<BuildConnectionsList> {
           final headerVisible =
               (widget.screenFlag == 'peopleYouMayKnow' ||
                   widget.screenFlag == 'connectionScreen') &&
-                  widget.isPublicProfile == false;
+              widget.isPublicProfile == false;
 
           final title = widget.screenFlag == 'peopleYouMayKnow'
               ? 'People You May Know'
@@ -92,10 +268,7 @@ class _BuildConnectionsListState extends State<BuildConnectionsList> {
                 ),
               // cards separated by SizedBox
               for (int i = 0; i < items.length; i++) ...[
-                ConnectionCard(
-                  screenFlag: widget.screenFlag,
-                  docs: items[i],
-                ),
+                ConnectionCard(screenFlag: widget.screenFlag, docs: items[i]),
                 if (i != items.length - 1)
                   const SizedBox(height: AppSizes.kDefaultPadding / 2),
               ],

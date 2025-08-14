@@ -10,3 +10,5 @@ sealed class UserEvent extends Equatable {
 class GetLanguageEvent extends UserEvent {}
 
 class GetConnectionsEvent extends UserEvent {}
+
+class SentRequestConnectionsListEvent extends UserEvent {}

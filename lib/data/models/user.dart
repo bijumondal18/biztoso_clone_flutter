@@ -1,6 +1,7 @@
 class User {
   String? sId;
   String? fullName;
+  String? name;
   String? email;
   String? password;
   String? countryCode;
@@ -39,6 +40,7 @@ class User {
   bool? marketingUse;
   bool? rememberMe;
   String? businessType;
+  String? businessName;
   String? createdAt;
   String? updatedAt;
   int? iV;
@@ -49,6 +51,7 @@ class User {
   User({
     this.sId,
     this.fullName,
+    this.name,
     this.email,
     this.password,
     this.countryCode,
@@ -87,6 +90,7 @@ class User {
     this.marketingUse,
     this.rememberMe,
     this.businessType,
+    this.businessName,
     this.createdAt,
     this.updatedAt,
     this.iV,
@@ -97,6 +101,7 @@ class User {
   User.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     fullName = json['FullName'];
+    name = json['name'];
     email = json['Email'];
     password = json['Password'];
     countryCode = json['CountryCode'];
@@ -107,7 +112,7 @@ class User {
     version = json['version'];
     deactivatedAt = json['deactivatedAt'];
     bannedAt = json['bannedAt'];
-    profilePic = json['ProfilePic'];
+    profilePic = json['profile_pic'];
     preferredLanguage = json['preferredLanguage'];
     signUpType = json['SignUpType'];
     coverPhoto = json['CoverPhoto'];
@@ -135,6 +140,7 @@ class User {
     marketingUse = json['marketing_use'];
     rememberMe = json['remember_me'];
     businessType = json['BusinessType'];
+    businessName = json['business_name'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     iV = json['__v'];
@@ -146,6 +152,7 @@ class User {
     final Map<String, dynamic> data =  <String, dynamic>{};
     data['_id'] = sId;
     data['FullName'] = fullName;
+    data['name'] = name;
     data['Email'] = email;
     data['Password'] = this.password;
     data['CountryCode'] = this.countryCode;
@@ -156,7 +163,7 @@ class User {
     data['version'] = this.version;
     data['deactivatedAt'] = this.deactivatedAt;
     data['bannedAt'] = this.bannedAt;
-    data['ProfilePic'] = this.profilePic;
+    data['profile_pic'] = this.profilePic;
     data['preferredLanguage'] = this.preferredLanguage;
     data['SignUpType'] = this.signUpType;
     data['CoverPhoto'] = this.coverPhoto;
@@ -184,6 +191,7 @@ class User {
     data['marketing_use'] = this.marketingUse;
     data['remember_me'] = this.rememberMe;
     data['BusinessType'] = this.businessType;
+    data['business_name'] = this.businessName;
     data['createdAt'] = this.createdAt;
     data['updatedAt'] = this.updatedAt;
     data['__v'] = this.iV;

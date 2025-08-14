@@ -1,4 +1,6 @@
 
+import 'package:biztoso/data/models/user.dart';
+
 class ConnectionResponse {
   String? message;
   Connections? users;
@@ -21,7 +23,7 @@ class ConnectionResponse {
 }
 
 class Connections {
-  List<Docs>? docs;
+  List<User>? docs;
   int? totalDocs;
   int? limit;
   int? page;
@@ -46,9 +48,9 @@ class Connections {
 
   Connections.fromJson(Map<String, dynamic> json) {
     if (json['docs'] != null) {
-      docs = <Docs>[];
+      docs = <User>[];
       json['docs'].forEach((v) {
-        docs!.add(new Docs.fromJson(v));
+        docs!.add(new User.fromJson(v));
       });
     }
     totalDocs = json['totalDocs'];
@@ -80,51 +82,51 @@ class Connections {
   }
 }
 
-class Docs {
-  String? sId;
-  String? userId;
-  int? gender;
-  String? userName;
-  String? name;
-  String? businessName;
-  String? email;
-  String? address;
-  String? profilePic;
-
-  Docs(
-      {this.sId,
-        this.userId,
-        this.gender,
-        this.userName,
-        this.name,
-        this.businessName,
-        this.email,
-        this.address,
-        this.profilePic});
-
-  Docs.fromJson(Map<String, dynamic> json) {
-    sId = json['_id'];
-    userId = json['userId'];
-    gender = json['gender'];
-    userName = json['user_name'];
-    name = json['name'];
-    businessName = json['business_name'];
-    email = json['email'];
-    address = json['address'];
-    profilePic = json['profile_pic'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =  <String, dynamic>{};
-    data['_id'] = this.sId;
-    data['userId'] = this.userId;
-    data['gender'] = this.gender;
-    data['user_name'] = this.userName;
-    data['name'] = this.name;
-    data['business_name'] = this.businessName;
-    data['email'] = this.email;
-    data['address'] = this.address;
-    data['profile_pic'] = this.profilePic;
-    return data;
-  }
-}
+// class Docs {
+//   String? sId;
+//   String? userId;
+//   int? gender;
+//   String? userName;
+//   String? name;
+//   String? businessName;
+//   String? email;
+//   String? address;
+//   String? profilePic;
+//
+//   Docs(
+//       {this.sId,
+//         this.userId,
+//         this.gender,
+//         this.userName,
+//         this.name,
+//         this.businessName,
+//         this.email,
+//         this.address,
+//         this.profilePic});
+//
+//   Docs.fromJson(Map<String, dynamic> json) {
+//     sId = json['_id'];
+//     userId = json['userId'];
+//     gender = json['gender'];
+//     userName = json['user_name'];
+//     name = json['name'];
+//     businessName = json['business_name'];
+//     email = json['email'];
+//     address = json['address'];
+//     profilePic = json['profile_pic'];
+//   }
+//
+//   Map<String, dynamic> toJson() {
+//     final Map<String, dynamic> data =  <String, dynamic>{};
+//     data['_id'] = this.sId;
+//     data['userId'] = this.userId;
+//     data['gender'] = this.gender;
+//     data['user_name'] = this.userName;
+//     data['name'] = this.name;
+//     data['business_name'] = this.businessName;
+//     data['email'] = this.email;
+//     data['address'] = this.address;
+//     data['profile_pic'] = this.profilePic;
+//     return data;
+//   }
+// }
