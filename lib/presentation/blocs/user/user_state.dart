@@ -78,12 +78,27 @@ final class SentConnectionRequestStateLoading extends UserState {}
 final class SentConnectionRequestStateLoaded extends UserState {
   final ConnectionSentResponse connectionSentResponse;
 
+  /// NEW: track items that are mid-action (e.g., cancel)
+  final Set<String> inProgressIds;
+
   const SentConnectionRequestStateLoaded({
     required this.connectionSentResponse,
+    this.inProgressIds = const {},
   });
 
+  SentConnectionRequestStateLoaded copyWith({
+    ConnectionSentResponse? connectionSentResponse,
+    Set<String>? inProgressIds,
+  }) {
+    return SentConnectionRequestStateLoaded(
+      connectionSentResponse:
+      connectionSentResponse ?? this.connectionSentResponse,
+      inProgressIds: inProgressIds ?? this.inProgressIds,
+    );
+  }
+
   @override
-  List<Object> get props => [connectionSentResponse];
+  List<Object> get props => [connectionSentResponse, inProgressIds];
 }
 
 final class SentConnectionRequestStateFailed extends UserState {
@@ -113,6 +128,27 @@ final class ReceivedConnectionRequestStateFailed extends UserState {
   final String error;
 
   const ReceivedConnectionRequestStateFailed({required this.error});
+
+  @override
+  List<Object> get props => [error];
+}
+
+// ------------------------ Get Received connection requests list ---------------------------//
+final class CancelConnectionRequestStateLoading extends UserState {}
+
+final class CancelConnectionRequestStateLoaded extends UserState {
+  final ResponseMessage message;
+
+  const CancelConnectionRequestStateLoaded({required this.message});
+
+  @override
+  List<Object> get props => [message];
+}
+
+final class CancelConnectionRequestStateFailed extends UserState {
+  final String error;
+
+  const CancelConnectionRequestStateFailed({required this.error});
 
   @override
   List<Object> get props => [error];

@@ -59,6 +59,39 @@ class _BuildConnectionsListState extends State<BuildConnectionsList> with Automa
               ? 'People You May Know'
               : '${items.length} ${items.length > 1 ? "Connections" : "Connection"}';
 
+          // 🔹 Empty-state handling
+          if (items.isEmpty) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (showHeader)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: AppSizes.kDefaultPadding / 2),
+                    child: Text(
+                      title,
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: AppSizes.kDefaultPadding * 2,
+                  ),
+                  child: Center(
+                    child: Text(
+                      _emptyText(widget.type),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                        color: Theme.of(context).colorScheme.surfaceContainer.withAlpha(150),
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            );
+          }
+
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -154,6 +187,13 @@ class _BuildConnectionsListState extends State<BuildConnectionsList> with Automa
     (s as SentConnectionRequestStateFailed).error,
     ConnectionListType.received =>
     (s as ReceivedConnectionRequestStateFailed).error,
+  };
+
+  String _emptyText(ConnectionListType t) => switch (t) {
+    ConnectionListType.connections => 'No Connections Found',
+    ConnectionListType.peopleYouMayKnow => 'No Suggestions Found',
+    ConnectionListType.sent => 'No Sent Requests',
+    ConnectionListType.received => 'No Received Invitations',
   };
 
   String _flagFor(ConnectionListType t) => switch (t) {

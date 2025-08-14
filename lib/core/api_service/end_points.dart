@@ -10,5 +10,8 @@ class ApiEndPoints{
   static const String allConnectionList = '${baseCore}network/connection/list-user';
   static const String sentConnectionRequestList = '${baseCore}network/connection/list-send-request';
   static const String receivedConnectionRequestList = '${baseCore}network/connection/list-recevied-request';
+  static const String acceptConnectionRequestList = '${baseCore}network/connection/accept-request';
+  static const String declineConnectionRequestList = '${baseCore}network/connection/decline-request';
+  static const String cancelConnectionRequestList = '${baseCore}network/connection/cancle-request';
 
 }

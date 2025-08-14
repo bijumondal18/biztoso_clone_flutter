@@ -1,10 +1,13 @@
 import 'package:biztoso/core/themes/app_colors.dart';
 import 'package:biztoso/data/models/connection_response.dart';
 import 'package:biztoso/data/models/user.dart';
+import 'package:biztoso/presentation/blocs/user/user_bloc.dart';
 import 'package:biztoso/presentation/widgets/custom_outline_button.dart';
 import 'package:biztoso/utils/app_utils.dart';
+import 'package:biztoso/utils/snackbar_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax/iconsax.dart';
 
 import '../../../../core/navigation/app_router.dart';
@@ -26,7 +29,10 @@ class ConnectionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final displayName = AppUtils.firstNonEmptyTitle([docs.name]);
-    final displayBusiness = AppUtils.firstNonEmptyTitle([docs.businessName, docs.userName]);
+    final displayBusiness = AppUtils.firstNonEmptyTitle([
+      docs.businessName,
+      docs.userName,
+    ]);
     return Container(
       padding: const EdgeInsets.symmetric(
         horizontal: AppSizes.kDefaultPadding / 2,
@@ -41,8 +47,7 @@ class ConnectionCard extends StatelessWidget {
         spacing: AppSizes.kDefaultPadding / 2,
         children: [
           ProfileAvatar(
-            imageUrl:
-                '${docs.profilePic}',
+            imageUrl: '${docs.profilePic}',
             onPressed: () => appRouter.push(Screens.profile, extra: true),
             // isPublicProfile = true
             radius: 48,
@@ -120,9 +125,45 @@ class ConnectionCard extends StatelessWidget {
           ],
         );
       case 'sentInvitation':
+        final String id = docs.sId?.toString() ?? '';
+
+        // read busy set from bloc state
+        final bool isBusy = context.select<UserBloc, bool>((b) {
+          final s = b.state;
+          if (s is SentConnectionRequestStateLoaded) {
+            return id.isNotEmpty && s.inProgressIds.contains(id);
+          }
+          return false;
+        });
+
+        // show a tiny loader in place of the button while cancel is in-flight
+        if (isBusy) {
+          return SizedBox(
+            height: AppSizes.smallButtonHeight,
+            width: 140, // match your button width; tweak as needed
+            child: Center(
+              child: SizedBox(
+                width: 18,
+                height: 18,
+                child: CupertinoActivityIndicator(
+                  color: Theme.of(context).colorScheme.surfaceContainer,
+                ),
+              ),
+            ),
+          );
+        }
+
         return CustomOutlineButton(
           label: 'Cancel Request',
-          onPressed: () {},
+          onPressed: () {
+            String requestId = docs.sId.toString();
+            if (requestId == null && requestId.isEmpty) {
+              SnackBarHelper.show('Unable to Cancel: missing request id');
+            }
+            context.read<UserBloc>().add(
+              CancelConnectionRequestEvent(userId: requestId),
+            );
+          },
           labelColor: Theme.of(context).primaryColor,
           borderColor: Theme.of(context).primaryColor,
           height: AppSizes.smallButtonHeight,

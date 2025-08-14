@@ -28,3 +28,9 @@ class AllConnectionsListEvent extends UserEvent {}
 class SentRequestConnectionsListEvent extends UserEvent {}
 
 class ReceivedRequestConnectionsListEvent extends UserEvent {}
+
+class CancelConnectionRequestEvent extends UserEvent {
+  final String userId;
+
+  const CancelConnectionRequestEvent({required this.userId});
+}
