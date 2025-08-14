@@ -8,6 +8,9 @@ import 'package:biztoso/presentation/widgets/custom_searchbar.dart';
 import 'package:biztoso/presentation/widgets/horizontal_divider.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../blocs/user/user_bloc.dart';
 
 class ConnectionScreen extends StatefulWidget {
   const ConnectionScreen({super.key});
@@ -17,53 +20,58 @@ class ConnectionScreen extends StatefulWidget {
 }
 
 class _ConnectionScreenState extends State<ConnectionScreen> {
+  Future<void> _refreshConnections() async {
+    final bloc = context.read<UserBloc>();
+    bloc.add(GetConnectionsEvent());
+    // wait until done so the spinner stops at the right time
+    await bloc.stream.firstWhere((s) =>
+    s is GetConnectionsStateLoaded || s is GetConnectionsStateFailed);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      /// Appbar
       appBar: AppBar(
         centerTitle: true,
         title: Text(
           'Connections',
-          style: Theme.of(
-            context,
-          ).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.w900),
+          style: Theme.of(context).textTheme.titleLarge!
+              .copyWith(fontWeight: FontWeight.w900),
         ),
       ),
-      body: ListView(
-        children: [
-          /// Invitations Button
-          InvitationsButton(
-            onPressed: () => appRouter.push(Screens.connectionInvitations),
-          ),
-
-          HorizontalDivider(),
-
-          /// People You May Know Button
-          PeopleYouMayKnowButton(
-            onPressed: () =>
-                appRouter.push(Screens.peopleYoyMayKnow, extra: false),
-          ),
-
-          HorizontalDivider(),
-
-          /// SearchBar
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: AppSizes.kDefaultPadding,
-              vertical: AppSizes.kDefaultPadding,
+      body: RefreshIndicator.adaptive(
+        onRefresh: _refreshConnections,
+        color: Theme.of(context).colorScheme.surfaceContainer,
+        child: ListView(
+          physics: const AlwaysScrollableScrollPhysics(), // important
+          children: [
+            InvitationsButton(
+              onPressed: () => appRouter.push(Screens.connectionInvitations),
             ),
-            child: CustomSearchbar(searchHintText: 'Search Connections ...'),
-          ),
-
-          /// Build Connections List
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: AppSizes.kDefaultPadding,
+            const HorizontalDivider(),
+            PeopleYouMayKnowButton(
+              onPressed: () =>
+                  appRouter.push(Screens.peopleYoyMayKnow, extra: false),
             ),
-            child: BuildConnectionsList(),
-          ),
-        ],
+            const HorizontalDivider(),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSizes.kDefaultPadding,
+                vertical: AppSizes.kDefaultPadding,
+              ),
+              child: const CustomSearchbar(
+                searchHintText: 'Search Connections ...',
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSizes.kDefaultPadding,
+              ),
+              child: const BuildConnectionsList(), // no internal scroll
+            ),
+            const SizedBox(height: AppSizes.kDefaultPadding),
+          ],
+        ),
       ),
     );
   }
