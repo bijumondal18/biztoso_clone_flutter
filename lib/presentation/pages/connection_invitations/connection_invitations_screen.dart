@@ -49,44 +49,72 @@ class _ConnectionInvitationsScreenState
             BlocProvider(
               create: (_) =>
                   UserBloc()..add(ReceivedRequestConnectionsListEvent()),
-              child: ListView(
-                padding: EdgeInsets.symmetric(
-                  horizontal: AppSizes.kDefaultPadding,
-                ),
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      top: AppSizes.kDefaultPadding,
+              child: Builder(
+                builder: (context) => RefreshIndicator.adaptive(
+                  color: Theme.of(context).colorScheme.surfaceContainer,
+                  onRefresh: () async {
+                    final bloc = context.read<UserBloc>();
+                    bloc.add(ReceivedRequestConnectionsListEvent());
+                    await bloc.stream.firstWhere(
+                      (s) =>
+                          s is ReceivedConnectionRequestStateLoaded ||
+                          s is ReceivedConnectionRequestStateFailed,
+                    );
+                  },
+                  child: ListView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    // important
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppSizes.kDefaultPadding,
                     ),
-                    child: SafeArea(
-                      child: BuildConnectionsList(
-                        type: ConnectionListType.received,
+                    children: const [
+                      Padding(
+                        padding: EdgeInsets.only(top: AppSizes.kDefaultPadding),
+                        child: SafeArea(
+                          child: BuildConnectionsList(
+                            type: ConnectionListType.received,
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
+
             // SENT tab
             BlocProvider(
               create: (_) => UserBloc()..add(SentRequestConnectionsListEvent()),
-              child: ListView(
-                padding: EdgeInsets.symmetric(
-                  horizontal: AppSizes.kDefaultPadding,
-                ),
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      top: AppSizes.kDefaultPadding,
+              child: Builder(
+                builder: (context) => RefreshIndicator.adaptive(
+                  color: Theme.of(context).colorScheme.surfaceContainer,
+                  onRefresh: () async {
+                    final bloc = context.read<UserBloc>();
+                    bloc.add(SentRequestConnectionsListEvent());
+                    await bloc.stream.firstWhere(
+                      (s) =>
+                          s is SentConnectionRequestStateLoaded ||
+                          s is SentConnectionRequestStateFailed,
+                    );
+                  },
+                  child: ListView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppSizes.kDefaultPadding,
                     ),
-                    child: SafeArea(
-                      child: BuildConnectionsList(
-                        type: ConnectionListType.sent,
-                        isPublicProfile: false,
+                    children: const [
+                      Padding(
+                        padding: EdgeInsets.only(top: AppSizes.kDefaultPadding),
+                        child: SafeArea(
+                          child: BuildConnectionsList(
+                            type: ConnectionListType.sent,
+                            isPublicProfile: false,
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
           ],

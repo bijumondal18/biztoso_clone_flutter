@@ -19,6 +19,14 @@ class PeopleYouMayKnowScreen extends StatefulWidget {
 class _PeopleYouMayKnowScreenState extends State<PeopleYouMayKnowScreen> {
   final _searchCtrl = TextEditingController();
 
+
+  Future<void> _refreshPymk() async {
+    final bloc = context.read<UserBloc>();
+    bloc.add(AllConnectionsListEvent()); // re-fetch with current _pymkQuery
+    await bloc.stream.firstWhere((s) =>
+    s is AllConnectionListStateLoaded || s is AllConnectionListStateFailed);
+  }
+
   @override
   void dispose() {
     _searchCtrl.dispose();
@@ -73,20 +81,24 @@ class _PeopleYouMayKnowScreenState extends State<PeopleYouMayKnowScreen> {
                 ),
               ),
             ),
-            body: ListView(
-              padding:
-              const EdgeInsets.symmetric(horizontal: AppSizes.kDefaultPadding),
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: AppSizes.kDefaultPadding),
-                  child: SafeArea(
-                    // ⬇️ same bloc instance used by the list
-                    child: const BuildConnectionsList(
-                      type: ConnectionListType.peopleYouMayKnow,
+            body: RefreshIndicator.adaptive(
+              color: Theme.of(context).colorScheme.surfaceContainer,
+              onRefresh: _refreshPymk,
+              child: ListView(
+                padding:
+                const EdgeInsets.symmetric(horizontal: AppSizes.kDefaultPadding),
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: AppSizes.kDefaultPadding),
+                    child: SafeArea(
+                      // ⬇️ same bloc instance used by the list
+                      child: const BuildConnectionsList(
+                        type: ConnectionListType.peopleYouMayKnow,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
         },
