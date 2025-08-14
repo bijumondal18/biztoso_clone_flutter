@@ -34,3 +34,9 @@ class CancelConnectionRequestEvent extends UserEvent {
 
   const CancelConnectionRequestEvent({required this.userId});
 }
+
+class SendConnectionRequestEvent extends UserEvent {
+  final String userId;
+
+  const SendConnectionRequestEvent({required this.userId});
+}

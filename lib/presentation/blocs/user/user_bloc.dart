@@ -194,5 +194,33 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         emit(CancelConnectionRequestStateFailed(error: e.toString()));
       }
     });
+
+    // Send Connection Request
+    on<SendConnectionRequestEvent>((event, emit) async {
+      final cur = state;
+      if (cur is AllConnectionListStateLoaded) {
+        emit(cur.copyWith(inProgressIds: {...cur.inProgressIds}..add(event.userId)));
+      }
+      try {
+        final res = await DioClient(baseUrl: ApiEndPoints.baseCore).post(
+          '${ApiEndPoints.sendConnectionRequest}/${event.userId}',
+        );
+        if (res != null && res.statusCode == 201) {
+          final s = state;
+          if (s is AllConnectionListStateLoaded) {
+            final busy = {...s.inProgressIds}..remove(event.userId);
+            final requested = {...s.requestedIds}..add(event.userId);
+            emit(s.copyWith(inProgressIds: busy, requestedIds: requested));
+          }
+          return;
+        }
+      } catch (_) {/* fallthrough */}
+      // failure → unbusy only (keep list visible); optionally show a SnackBar via listener
+      final s = state;
+      if (s is AllConnectionListStateLoaded) {
+        final busy = {...s.inProgressIds}..remove(event.userId);
+        emit(s.copyWith(inProgressIds: busy));
+      }
+    });
   }
 }

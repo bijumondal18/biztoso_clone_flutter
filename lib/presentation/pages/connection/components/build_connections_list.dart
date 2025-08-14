@@ -63,6 +63,7 @@ class _BuildConnectionsListState extends State<BuildConnectionsList> with Automa
           if (items.isEmpty) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 if (showHeader)
                   Padding(

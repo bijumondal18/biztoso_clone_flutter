@@ -54,13 +54,36 @@ final class GetConnectionsStateFailed extends UserState {
 // ------------------------ All connection list ---------------------------//
 final class AllConnectionListStateLoading extends UserState {}
 
-final class AllConnectionListStateLoaded extends UserState {
+class AllConnectionListStateLoaded extends UserState {
   final AllConnectionResponse allConnectionResponse;
 
-  const AllConnectionListStateLoaded({required this.allConnectionResponse});
+  /// ids currently performing an action (show spinner)
+  final Set<String> inProgressIds;
+
+  /// ids for which a request has been sent (show "Cancel Request")
+  final Set<String> requestedIds;
+
+  const AllConnectionListStateLoaded({
+    required this.allConnectionResponse,
+    this.inProgressIds = const {},
+    this.requestedIds = const {},
+  });
+
+  AllConnectionListStateLoaded copyWith({
+    AllConnectionResponse? allConnectionResponse,
+    Set<String>? inProgressIds,
+    Set<String>? requestedIds,
+  }) {
+    return AllConnectionListStateLoaded(
+      allConnectionResponse:
+      allConnectionResponse ?? this.allConnectionResponse,
+      inProgressIds: inProgressIds ?? this.inProgressIds,
+      requestedIds: requestedIds ?? this.requestedIds,
+    );
+  }
 
   @override
-  List<Object> get props => [allConnectionResponse];
+  List<Object> get props => [allConnectionResponse, inProgressIds, requestedIds];
 }
 
 final class AllConnectionListStateFailed extends UserState {

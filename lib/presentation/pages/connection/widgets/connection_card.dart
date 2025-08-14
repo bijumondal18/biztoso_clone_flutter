@@ -99,9 +99,64 @@ class ConnectionCard extends StatelessWidget {
           height: AppSizes.smallButtonHeight,
         );
       case 'peopleYouMayKnow':
+        final id = docs.sId?.toString() ?? '';
+
+        final tuple = context.select<UserBloc, ({bool busy, bool requested})>((
+          b,
+        ) {
+          final s = b.state;
+          if (s is AllConnectionListStateLoaded) {
+            return (
+              busy: id.isNotEmpty && s.inProgressIds.contains(id),
+              requested: id.isNotEmpty && s.requestedIds.contains(id),
+            );
+          }
+          return (busy: false, requested: false);
+        });
+
+        // spinner while API in-flight
+        if (tuple.busy) {
+          return SizedBox(
+            height: AppSizes.smallButtonHeight,
+            width: 150,
+            child: Center(
+              child: SizedBox(
+                width: 18,
+                height: 18,
+                child: CupertinoActivityIndicator(
+                  color: Theme.of(context).colorScheme.surfaceContainer,
+                ),
+              ),
+            ),
+          );
+        }
+
+        // already requested → show "Cancel Request"
+        if (tuple.requested) {
+          return CustomOutlineButton(
+            label: 'Cancel Request',
+            onPressed: () {
+              if (id == null || id.isEmpty) return;
+              context.read<UserBloc>().add(
+                CancelConnectionRequestEvent(userId: id),
+              );
+            },
+            labelColor: Theme.of(context).primaryColor,
+            borderColor: Theme.of(context).primaryColor,
+            height: AppSizes.smallButtonHeight,
+          );
+        }
         return CustomPrimaryButton(
           label: 'Connect',
-          onPressed: () {},
+          onPressed: () {
+            if (id == null || id.isEmpty) {
+              SnackBarHelper.show('Unable to connect: missing user id');
+              return;
+            }
+            context.read<UserBloc>().add(
+              SendConnectionRequestEvent(userId: id),
+            );
+          },
           hasIcon: true,
           iconPath: CupertinoIcons.person_add_solid,
           height: AppSizes.smallButtonHeight,
