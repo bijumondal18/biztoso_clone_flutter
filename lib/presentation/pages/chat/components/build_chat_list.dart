@@ -1,3 +1,5 @@
+import 'package:biztoso/core/navigation/app_router.dart';
+import 'package:biztoso/core/navigation/screens.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/themes/app_colors.dart';
@@ -20,7 +22,7 @@ class _BuildChatListState extends State<BuildChatList> {
       padding: EdgeInsets.symmetric(vertical: AppSizes.kDefaultPadding),
       itemBuilder: (context, index) {
         return InkWell(
-          onTap: () {},
+          onTap: () => appRouter.push(Screens.chatInbox),
           child: Padding(
             padding: EdgeInsets.symmetric(
               horizontal: AppSizes.kDefaultPadding,

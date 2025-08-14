@@ -28,7 +28,7 @@ class ConnectionCard extends StatelessWidget {
         border: Border.all(width: 1.0, color: Theme.of(context).dividerColor),
       ),
       child: Row(
-        spacing: AppSizes.kDefaultPadding,
+        spacing: AppSizes.kDefaultPadding/2,
         children: [
           ProfileAvatar(
             imageUrl:
@@ -38,27 +38,30 @@ class ConnectionCard extends StatelessWidget {
             radius: 48,
           ),
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              spacing: 2.0,
-              children: [
-                Text(
-                  'Wade Warren',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(
-                    context,
-                  ).textTheme.titleSmall!.copyWith(fontWeight: FontWeight.w600),
-                ),
-                Text(
-                  'Networking Professional',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                    color: Theme.of(context).hintColor,
+            child: GestureDetector(
+              onTap: () => appRouter.push(Screens.profile, extra: true),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 2.0,
+                children: [
+                  Text(
+                    'Wade Warren',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(
+                      context,
+                    ).textTheme.titleSmall!.copyWith(fontWeight: FontWeight.w600),
                   ),
-                ),
-              ],
+                  Text(
+                    'Networking Professional',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                      color: Theme.of(context).hintColor,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           _buildTrailingButton(context: context, screenFlag: screenFlag),
@@ -75,7 +78,7 @@ class ConnectionCard extends StatelessWidget {
       case 'connectionScreen':
         return CustomPrimaryButton(
           label: 'Message',
-          onPressed: () {},
+          onPressed: () => appRouter.push(Screens.chatInbox),
           hasIcon: true,
           iconPath: Iconsax.message5,
           height: AppSizes.smallButtonHeight,

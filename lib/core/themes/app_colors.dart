@@ -10,7 +10,7 @@ class AppColors {
   static const labelPrimary = Color(0xFF000000);
   static const labelSecondary = Color(0xFF616161);
 
-  static const shadowDark = Color(0xFF1F1F1F);
+  static const shadowDark = Color(0xFF181818);
   static const shadowLight = Color(0xE2E8E8E8);
 
   static const canvasLight = Color(0xFFD0D0D0);
@@ -44,6 +44,10 @@ class AppColors {
   static const lightColor1 = Color(0xFFE5F1F3);
   static const lightColor2 = Color(0xFFEFE5F7);
   static const lightColor3 = Color(0xFFE7F0F8);
+
+  static const darkColor1 = Color(0xFF2D3536);
+  static const darkColor2 = Color(0xFF39313F);
+  static const darkColor3 = Color(0xFF292D31);
 
   static const gradientOne = Color(0xFF0021FF);
   static const gradientThree = Color(0xFF8F6CF1);

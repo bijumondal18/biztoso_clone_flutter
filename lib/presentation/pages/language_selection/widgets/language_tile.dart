@@ -53,14 +53,14 @@ class LanguageTile extends StatelessWidget {
                       language.languageName ?? '',
                       style: Theme.of(
                         context,
-                      ).textTheme.titleMedium!.copyWith(color: AppColors.black),
+                      ).textTheme.titleMedium,
                     ),
                   ),
                   Text(
                     language.languageNameEnglish ?? '',
                     style: Theme.of(
                       context,
-                    ).textTheme.titleMedium!.copyWith(color: AppColors.black),
+                    ).textTheme.titleMedium,
                   ),
                 ],
               ),

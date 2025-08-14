@@ -4,9 +4,12 @@ class Screens{
   static const String main = '/main';
   static const String globalSearch = '/globalSearch';
   static const String connection = '/connection';
+  static const String chatConnection = '/chatConnection';
+  static const String chatInbox = '/chatInbox';
   static const String connectionInvitations = '/connectionInvitations';
   static const String peopleYoyMayKnow = '/peopleYoyMayKnow';
   static const String analytics = '/analytics';
+  static const String createPost = '/createPost';
   static const String login = '/login';
   static const String languageSelection = '/languageSelection';
   static const String settings = '/settings';

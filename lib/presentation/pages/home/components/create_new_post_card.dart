@@ -1,3 +1,5 @@
+import 'package:biztoso/core/navigation/app_router.dart';
+import 'package:biztoso/core/navigation/screens.dart';
 import 'package:biztoso/presentation/widgets/custom_card.dart';
 import 'package:flutter/material.dart';
 
@@ -10,20 +12,34 @@ class CreateNewPostCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
-    return CustomCard(
+    return Container(
       margin: EdgeInsets.all(AppSizes.kDefaultPadding),
       padding: EdgeInsets.all(AppSizes.kDefaultPadding),
+      decoration: BoxDecoration(
+        color: Theme.of(context).scaffoldBackgroundColor,
+        borderRadius: BorderRadius.circular(AppSizes.cardCornerRadius),
+        border: Border.all(
+          width: 1.0,
+          color: Theme.of(context).dividerColor.withAlpha(100),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Theme.of(context).shadowColor,
+            blurRadius: AppSizes.blurRadius,
+          ),
+        ],
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         spacing: AppSizes.kDefaultPadding,
         children: [
           Row(
-            spacing: AppSizes.kDefaultPadding/2,
+            spacing: AppSizes.kDefaultPadding / 2,
             children: [
               ProfileAvatar(
                 radius: 38,
                 imageUrl:
-                'https://media.istockphoto.com/id/1682296067/photo/happy-studio-portrait-or-professional-man-real-estate-agent-or-asian-businessman-smile-for.jpg?s=612x612&w=0&k=20&c=9zbG2-9fl741fbTWw5fNgcEEe4ll-JegrGlQQ6m54rg=',
+                    'https://media.istockphoto.com/id/1682296067/photo/happy-studio-portrait-or-professional-man-real-estate-agent-or-asian-businessman-smile-for.jpg?s=612x612&w=0&k=20&c=9zbG2-9fl741fbTWw5fNgcEEe4ll-JegrGlQQ6m54rg=',
                 onPressed: () {},
               ),
               Expanded(
@@ -32,8 +48,9 @@ class CreateNewPostCard extends StatelessWidget {
                   children: [
                     Text(
                       'Nitish Ranjan',
-                      style: Theme.of(context).textTheme.bodyLarge!
-                          .copyWith(fontWeight: FontWeight.w600),
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                     Text(
                       '@nitish123',
@@ -44,16 +61,23 @@ class CreateNewPostCard extends StatelessWidget {
               ),
             ],
           ),
-          Container(
-            width: width,
-            padding: EdgeInsets.all(AppSizes.kDefaultPadding/2),
-            decoration: BoxDecoration(
+          InkWell(
+            onTap: () => appRouter.push(Screens.createPost),
+            borderRadius: BorderRadius.circular(AppSizes.cardCornerRadius),
+            child: Container(
+              width: width,
+              padding: EdgeInsets.all(AppSizes.kDefaultPadding / 2),
+              decoration: BoxDecoration(
                 color: Theme.of(context).dividerColor.withAlpha(100),
-                borderRadius: BorderRadius.circular(AppSizes.cardCornerRadius)
-            ),
-            child: Text(
-              'What\'s on your mind?',
-              style: Theme.of(context).textTheme.labelLarge,
+                borderRadius: BorderRadius.circular(AppSizes.cardCornerRadius),
+              ),
+              child: Text(
+                'What\'s on your mind?',
+                style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: Theme.of(context).hintColor,
+                ),
+              ),
             ),
           ),
         ],

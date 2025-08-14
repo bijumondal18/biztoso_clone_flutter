@@ -1,3 +1,5 @@
+import 'package:biztoso/core/navigation/app_router.dart';
+import 'package:biztoso/core/navigation/screens.dart';
 import 'package:biztoso/core/themes/app_colors.dart';
 import 'package:biztoso/core/themes/app_sizes.dart';
 import 'package:biztoso/presentation/pages/chat/components/build_chat_list.dart';
@@ -45,7 +47,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   child: CustomSearchbar(searchHintText: 'Search here ...'),
                 ),
                 AppbarIcon(
-                  onPressed: () {},
+                  onPressed: () => appRouter.push(Screens.chatConnection),
                   hasGradient: false,
                   iconPath: EvaIcons.plus,
                 ),

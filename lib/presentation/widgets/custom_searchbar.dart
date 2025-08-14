@@ -16,6 +16,7 @@ class CustomSearchbar extends StatelessWidget {
       height: 40,
       padding: EdgeInsets.symmetric(horizontal: AppSizes.kDefaultPadding/2),
       decoration: BoxDecoration(
+        color: Theme.of(context).scaffoldBackgroundColor,
         borderRadius: BorderRadius.circular(AppSizes.cardCornerRadius),
         border: Border.all(width: 1.0, color: Theme.of(context).dividerColor),
       ),

@@ -24,16 +24,28 @@ class LanguageSelectionScreen extends StatefulWidget {
 }
 
 class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
-  final colors = [
-    AppColors.lightColor1,
-    AppColors.lightColor2,
-    AppColors.lightColor3,
-  ];
+
+  List<Color> getCardColors(BuildContext context) {
+    if (Theme.of(context).brightness != Brightness.dark) {
+      return [
+        AppColors.darkColor1,
+        AppColors.darkColor2,
+        AppColors.darkColor3,
+      ];
+    } else {
+      return [
+        AppColors.lightColor1,
+        AppColors.lightColor2,
+        AppColors.lightColor3,
+      ];
+    }
+  }
 
   int selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
+    final colors = getCardColors(context);
     return ThemedStatusBarWrapper(
       child: Scaffold(
         body: Stack(
