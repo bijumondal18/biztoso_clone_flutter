@@ -1,5 +1,6 @@
 import 'package:biztoso/core/navigation/app_router.dart';
 import 'package:biztoso/core/navigation/screens.dart';
+import 'package:biztoso/data/models/user.dart';
 import 'package:biztoso/presentation/pages/connection/widgets/connection_card.dart';
 import 'package:biztoso/presentation/widgets/custom_primary_button.dart';
 import 'package:biztoso/presentation/widgets/profile_avatar.dart';
@@ -13,13 +14,17 @@ import '../../../blocs/user/user_bloc.dart';
 import '../widgets/connection_card_shimmer.dart';
 import '../widgets/connections_header_shimmer.dart';
 
-class BuildConnectionsList extends StatefulWidget {
-  final String screenFlag;
+enum ConnectionListType { connections, peopleYouMayKnow, sent, received }
+
+
+class BuildConnectionsList extends StatefulWidget
+     {
+  final ConnectionListType type;
   final bool isPublicProfile;
 
   const BuildConnectionsList({
     super.key,
-    this.screenFlag = 'connectionScreen',
+    this.type = ConnectionListType.connections,
     this.isPublicProfile = false,
   });
 
@@ -27,380 +32,156 @@ class BuildConnectionsList extends StatefulWidget {
   State<BuildConnectionsList> createState() => _BuildConnectionsListState();
 }
 
-class _BuildConnectionsListState extends State<BuildConnectionsList>
-    with AutomaticKeepAliveClientMixin {
-  bool _requestedOnce = false;
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => _dispatchForFlag());
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _dispatchForFlag();
-  }
-
-  void _dispatchForFlag() {
-    if (_requestedOnce) return;
-
-    final bloc = context.read<UserBloc>();
-    final s = bloc.state;
-
-    switch (widget.screenFlag) {
-      case 'sentInvitation':
-        if (s is! SentConnectionRequestStateLoading &&
-            s is! SentConnectionRequestStateLoaded) {
-          _requestedOnce = true;
-          bloc.add(SentRequestConnectionsListEvent());
-        }
-        break;
-
-      case 'receivedInvitation':
-        if (s is! ReceivedConnectionRequestStateLoading &&
-            s is! ReceivedConnectionRequestStateLoaded) {
-          _requestedOnce = true;
-          bloc.add(ReceivedRequestConnectionsListEvent());
-        }
-        break;
-
-      default: // 'connectionScreen' (and others you want to map here)
-        if (s is! GetConnectionsStateLoading &&
-            s is! GetConnectionsStateLoaded) {
-          _requestedOnce = true;
-          bloc.add(GetConnectionsEvent());
-        }
-        break;
-    }
-  }
-
+class _BuildConnectionsListState extends State<BuildConnectionsList> with AutomaticKeepAliveClientMixin{
   @override
   Widget build(BuildContext context) {
-    super.build(context);
-    switch (widget.screenFlag) {
-      case 'connectionScreen':
-        return BlocConsumer<UserBloc, UserState>(
-          listener: (_, __) {},
-          builder: (context, state) {
-            if (state is GetConnectionsStateLoading) {
-              final headerVisible =
-                  (widget.screenFlag == 'peopleYouMayKnow' ||
-                      widget.screenFlag == 'connectionScreen') &&
-                  widget.isPublicProfile == false;
+    super.build(context); // keep-alive
 
-              // Column of shimmer cards (no scrolling)
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (headerVisible) ...[
-                    const Padding(
-                      padding: EdgeInsets.only(
-                        bottom: AppSizes.kDefaultPadding / 2,
-                      ),
-                      child: ConnectionsHeaderShimmer(),
+    return BlocBuilder<UserBloc, UserState>(
+      buildWhen: (prev, curr) => _relevantForType(curr, widget.type),
+      builder: (context, state) {
+        if (_isLoading(state, widget.type)) return _loadingSkeleton();
+
+        if (_isFailed(state, widget.type)) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 32),
+            child: Center(child: Text(_errorText(state, widget.type))),
+          );
+        }
+
+        if (_isLoaded(state, widget.type)) {
+          final items = _items(state, widget.type);
+          final showHeader = (widget.type == ConnectionListType.connections ||
+              widget.type == ConnectionListType.peopleYouMayKnow) &&
+              !widget.isPublicProfile;
+
+          final title = widget.type == ConnectionListType.peopleYouMayKnow
+              ? 'People You May Know'
+              : '${items.length} ${items.length > 1 ? "Connections" : "Connection"}';
+
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (showHeader)
+                Padding(
+                  padding:
+                  const EdgeInsets.only(bottom: AppSizes.kDefaultPadding / 2),
+                  child: Text(
+                    title,
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      fontWeight: FontWeight.w600,
                     ),
-                  ],
-                  // existing card shimmers
-                  for (int i = 0; i < 6; i++) ...const [
-                    ConnectionCardShimmer(screenFlag: 'connectionScreen'),
-                    SizedBox(height: AppSizes.kDefaultPadding / 1.5),
-                  ],
-                ],
-              );
-            }
+                  ),
+                ),
+              for (int i = 0; i < items.length; i++) ...[
+                ConnectionCard(
+                  screenFlag: _flagFor(widget.type),
+                  docs: items[i],
+                ),
+                if (i != items.length - 1)
+                  const SizedBox(height: AppSizes.kDefaultPadding / 2),
+              ],
+            ],
+          );
+        }
 
-            if (state is GetConnectionsStateLoaded) {
-              final items = state.connectionResponse.users?.docs ?? [];
-              final headerVisible =
-                  (widget.screenFlag == 'peopleYouMayKnow' ||
-                      widget.screenFlag == 'connectionScreen') &&
-                  widget.isPublicProfile == false;
+        // initial/unknown
+        return _loadingSkeleton();
+      },
+    );
+  }
 
-              final title = widget.screenFlag == 'peopleYouMayKnow'
-                  ? 'People You May Know'
-                  : '${items.length} Connections';
+  // ----- helpers -----
+  bool _relevantForType(UserState s, ConnectionListType t) {
+    return switch (t) {
+      ConnectionListType.connections =>
+      s is GetConnectionsStateLoading ||
+          s is GetConnectionsStateLoaded ||
+          s is GetConnectionsStateFailed,
+      ConnectionListType.peopleYouMayKnow =>
+      s is AllConnectionListStateLoading ||
+          s is AllConnectionListStateLoaded ||
+          s is AllConnectionListStateFailed,
+      ConnectionListType.sent =>
+      s is SentConnectionRequestStateLoading ||
+          s is SentConnectionRequestStateLoaded ||
+          s is SentConnectionRequestStateFailed,
+      ConnectionListType.received =>
+      s is ReceivedConnectionRequestStateLoading ||
+          s is ReceivedConnectionRequestStateLoaded ||
+          s is ReceivedConnectionRequestStateFailed,
+    };
+  }
 
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (headerVisible)
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        bottom: AppSizes.kDefaultPadding / 2,
-                      ),
-                      child: Text(
-                        title,
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  // cards separated by SizedBox
-                  for (int i = 0; i < items.length; i++) ...[
-                    ConnectionCard(
-                      screenFlag: widget.screenFlag,
-                      docs: items[i],
-                    ),
-                    if (i != items.length - 1)
-                      const SizedBox(height: AppSizes.kDefaultPadding / 2),
-                  ],
-                ],
-              );
-            }
+  bool _isLoading(UserState s, ConnectionListType t) => switch (t) {
+    ConnectionListType.connections => s is GetConnectionsStateLoading,
+    ConnectionListType.peopleYouMayKnow => s is AllConnectionListStateLoading,
+    ConnectionListType.sent => s is SentConnectionRequestStateLoading,
+    ConnectionListType.received => s is ReceivedConnectionRequestStateLoading,
+  };
 
-            if (state is GetConnectionsStateFailed) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 32),
-                child: Center(child: Text(state.error)),
-              );
-            }
+  bool _isLoaded(UserState s, ConnectionListType t) => switch (t) {
+    ConnectionListType.connections => s is GetConnectionsStateLoaded,
+    ConnectionListType.peopleYouMayKnow => s is AllConnectionListStateLoaded,
+    ConnectionListType.sent => s is SentConnectionRequestStateLoaded,
+    ConnectionListType.received => s is ReceivedConnectionRequestStateLoaded,
+  };
 
-            return const SizedBox.shrink();
-          },
-        );
-      case 'sentInvitation':
-        return BlocConsumer<UserBloc, UserState>(
-          listener: (_, __) {},
-          builder: (context, state) {
-            if (state is SentConnectionRequestStateLoading) {
-              final headerVisible =
-                  (widget.screenFlag == 'peopleYouMayKnow' ||
-                      widget.screenFlag == 'connectionScreen') &&
-                  widget.isPublicProfile == false;
+  bool _isFailed(UserState s, ConnectionListType t) => switch (t) {
+    ConnectionListType.connections => s is GetConnectionsStateFailed,
+    ConnectionListType.peopleYouMayKnow => s is AllConnectionListStateFailed,
+    ConnectionListType.sent => s is SentConnectionRequestStateFailed,
+    ConnectionListType.received => s is ReceivedConnectionRequestStateFailed,
+  };
 
-              // Column of shimmer cards (no scrolling)
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (headerVisible) ...[
-                    const Padding(
-                      padding: EdgeInsets.only(
-                        bottom: AppSizes.kDefaultPadding / 2,
-                      ),
-                      child: ConnectionsHeaderShimmer(),
-                    ),
-                  ],
-                  // existing card shimmers
-                  for (int i = 0; i < 6; i++) ...const [
-                    ConnectionCardShimmer(screenFlag: 'connectionScreen'),
-                    SizedBox(height: AppSizes.kDefaultPadding / 1.5),
-                  ],
-                ],
-              );
-            }
+  List<User> _items(UserState s, ConnectionListType t) => switch (t) {
+    ConnectionListType.connections =>
+    (s as GetConnectionsStateLoaded).connectionResponse.users?.docs ?? [],
+    ConnectionListType.peopleYouMayKnow =>
+    (s as AllConnectionListStateLoaded).allConnectionResponse.users ?? [],
+    ConnectionListType.sent =>
+    (s as SentConnectionRequestStateLoaded).connectionSentResponse.users ?? [],
+    ConnectionListType.received =>
+    (s as ReceivedConnectionRequestStateLoaded).connectionReceivedResponse.users ?? [],
+  };
 
-            if (state is SentConnectionRequestStateLoaded) {
-              final items = state.connectionSentResponse.users ?? [];
-              final headerVisible =
-                  (widget.screenFlag == 'peopleYouMayKnow' ||
-                      widget.screenFlag == 'connectionScreen') &&
-                  widget.isPublicProfile == false;
+  String _errorText(UserState s, ConnectionListType t) => switch (t) {
+    ConnectionListType.connections =>
+    (s as GetConnectionsStateFailed).error,
+    ConnectionListType.peopleYouMayKnow =>
+    (s as AllConnectionListStateFailed).error,
+    ConnectionListType.sent =>
+    (s as SentConnectionRequestStateFailed).error,
+    ConnectionListType.received =>
+    (s as ReceivedConnectionRequestStateFailed).error,
+  };
 
-              final title = widget.screenFlag == 'peopleYouMayKnow'
-                  ? 'People You May Know'
-                  : '${items.length} Connections';
+  String _flagFor(ConnectionListType t) => switch (t) {
+    ConnectionListType.connections => 'connectionScreen',
+    ConnectionListType.peopleYouMayKnow => 'peopleYouMayKnow',
+    ConnectionListType.sent => 'sentInvitation',
+    ConnectionListType.received => 'receivedInvitation',
+  };
 
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (headerVisible)
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        bottom: AppSizes.kDefaultPadding / 2,
-                      ),
-                      child: Text(
-                        title,
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  // cards separated by SizedBox
-                  for (int i = 0; i < items.length; i++) ...[
-                    ConnectionCard(
-                      screenFlag: widget.screenFlag,
-                      docs: items[i],
-                    ),
-                    if (i != items.length - 1)
-                      const SizedBox(height: AppSizes.kDefaultPadding / 2),
-                  ],
-                ],
-              );
-            }
+  Widget _loadingSkeleton() {
+    final showHeader = (widget.type == ConnectionListType.connections ||
+        widget.type == ConnectionListType.peopleYouMayKnow) &&
+        !widget.isPublicProfile;
 
-            if (state is SentConnectionRequestStateFailed) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 32),
-                child: Center(child: Text(state.error)),
-              );
-            }
-
-            return const SizedBox.shrink();
-          },
-        );
-      case 'receivedInvitation':
-        return BlocConsumer<UserBloc, UserState>(
-          listener: (_, __) {},
-          builder: (context, state) {
-            if (state is ReceivedConnectionRequestStateLoading) {
-              final headerVisible =
-                  (widget.screenFlag == 'peopleYouMayKnow' ||
-                      widget.screenFlag == 'connectionScreen') &&
-                      widget.isPublicProfile == false;
-
-              // Column of shimmer cards (no scrolling)
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (headerVisible) ...[
-                    const Padding(
-                      padding: EdgeInsets.only(
-                        bottom: AppSizes.kDefaultPadding / 2,
-                      ),
-                      child: ConnectionsHeaderShimmer(),
-                    ),
-                  ],
-                  // existing card shimmers
-                  for (int i = 0; i < 6; i++) ...const [
-                    ConnectionCardShimmer(screenFlag: 'connectionScreen'),
-                    SizedBox(height: AppSizes.kDefaultPadding / 1.5),
-                  ],
-                ],
-              );
-            }
-
-            if (state is ReceivedConnectionRequestStateLoaded) {
-              final items = state.connectionReceivedResponse.users ?? [];
-              final headerVisible =
-                  (widget.screenFlag == 'peopleYouMayKnow' ||
-                      widget.screenFlag == 'connectionScreen') &&
-                      widget.isPublicProfile == false;
-
-              final title = widget.screenFlag == 'peopleYouMayKnow'
-                  ? 'People You May Know'
-                  : '${items.length} Connections';
-
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (headerVisible)
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        bottom: AppSizes.kDefaultPadding / 2,
-                      ),
-                      child: Text(
-                        title,
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  // cards separated by SizedBox
-                  for (int i = 0; i < items.length; i++) ...[
-                    ConnectionCard(
-                      screenFlag: widget.screenFlag,
-                      docs: items[i],
-                    ),
-                    if (i != items.length - 1)
-                      const SizedBox(height: AppSizes.kDefaultPadding / 2),
-                  ],
-                ],
-              );
-            }
-
-            if (state is ReceivedConnectionRequestStateFailed) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 32),
-                child: Center(child: Text(state.error)),
-              );
-            }
-
-            return const SizedBox.shrink();
-          },
-        );
-      default:
-        return BlocConsumer<UserBloc, UserState>(
-          listener: (_, __) {},
-          builder: (context, state) {
-            if (state is GetConnectionsStateLoading) {
-              final headerVisible =
-                  (widget.screenFlag == 'peopleYouMayKnow' ||
-                      widget.screenFlag == 'connectionScreen') &&
-                  widget.isPublicProfile == false;
-
-              // Column of shimmer cards (no scrolling)
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (headerVisible) ...[
-                    const Padding(
-                      padding: EdgeInsets.only(
-                        bottom: AppSizes.kDefaultPadding / 2,
-                      ),
-                      child: ConnectionsHeaderShimmer(),
-                    ),
-                  ],
-                  // existing card shimmers
-                  for (int i = 0; i < 6; i++) ...const [
-                    ConnectionCardShimmer(screenFlag: 'connectionScreen'),
-                    SizedBox(height: AppSizes.kDefaultPadding / 1.5),
-                  ],
-                ],
-              );
-            }
-
-            if (state is GetConnectionsStateLoaded) {
-              final items = state.connectionResponse.users?.docs ?? [];
-              final headerVisible =
-                  (widget.screenFlag == 'peopleYouMayKnow' ||
-                      widget.screenFlag == 'connectionScreen') &&
-                  widget.isPublicProfile == false;
-
-              final title = widget.screenFlag == 'peopleYouMayKnow'
-                  ? 'People You May Know'
-                  : '${items.length} Connections';
-
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (headerVisible)
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        bottom: AppSizes.kDefaultPadding / 2,
-                      ),
-                      child: Text(
-                        title,
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  // cards separated by SizedBox
-                  for (int i = 0; i < items.length; i++) ...[
-                    ConnectionCard(
-                      screenFlag: widget.screenFlag,
-                      docs: items[i],
-                    ),
-                    if (i != items.length - 1)
-                      const SizedBox(height: AppSizes.kDefaultPadding / 2),
-                  ],
-                ],
-              );
-            }
-
-            if (state is GetConnectionsStateFailed) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 32),
-                child: Center(child: Text(state.error)),
-              );
-            }
-
-            return const SizedBox.shrink();
-          },
-        );
-    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (showHeader)
+          const Padding(
+            padding: EdgeInsets.only(bottom: AppSizes.kDefaultPadding / 2),
+            child: ConnectionsHeaderShimmer(),
+          ),
+        for (int i = 0; i < 6; i++) ...[
+          ConnectionCardShimmer(screenFlag: _flagFor(widget.type)),
+          const SizedBox(height: AppSizes.kDefaultPadding / 1.5),
+        ],
+      ],
+    );
   }
 
   @override

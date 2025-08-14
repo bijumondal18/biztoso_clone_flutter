@@ -60,7 +60,7 @@ class _ConnectionInvitationsScreenState
                     ),
                     child: SafeArea(
                       child: BuildConnectionsList(
-                        screenFlag: 'receivedInvitation',
+                        type: ConnectionListType.received,
                       ),
                     ),
                   ),
@@ -81,7 +81,7 @@ class _ConnectionInvitationsScreenState
                     ),
                     child: SafeArea(
                       child: BuildConnectionsList(
-                        screenFlag: 'sentInvitation',
+                        type: ConnectionListType.sent,
                         isPublicProfile: false,
                       ),
                     ),

@@ -20,12 +20,33 @@ class ConnectionScreen extends StatefulWidget {
 }
 
 class _ConnectionScreenState extends State<ConnectionScreen> {
+  final _searchCtrl = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    // Kick off the first load and restore any previous query text
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final bloc = context.read<UserBloc>();
+      // if your bloc stores the last query, you can restore it:
+      // _searchCtrl.text = bloc.connectionsQuery;  // optional
+      bloc.add(GetConnectionsEvent());
+    });
+  }
+
+  @override
+  void dispose() {
+    _searchCtrl.dispose();
+    super.dispose();
+  }
+
   Future<void> _refreshConnections() async {
     final bloc = context.read<UserBloc>();
     bloc.add(GetConnectionsEvent());
     // wait until done so the spinner stops at the right time
-    await bloc.stream.firstWhere((s) =>
-    s is GetConnectionsStateLoaded || s is GetConnectionsStateFailed);
+    await bloc.stream.firstWhere(
+      (s) => s is GetConnectionsStateLoaded || s is GetConnectionsStateFailed,
+    );
   }
 
   @override
@@ -35,8 +56,9 @@ class _ConnectionScreenState extends State<ConnectionScreen> {
         centerTitle: true,
         title: Text(
           'Connections',
-          style: Theme.of(context).textTheme.titleLarge!
-              .copyWith(fontWeight: FontWeight.w900),
+          style: Theme.of(
+            context,
+          ).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.w900),
         ),
       ),
       body: RefreshIndicator.adaptive(
@@ -49,9 +71,12 @@ class _ConnectionScreenState extends State<ConnectionScreen> {
               onPressed: () => appRouter.push(Screens.connectionInvitations),
             ),
             const HorizontalDivider(),
-            PeopleYouMayKnowButton(
-              onPressed: () =>
-                  appRouter.push(Screens.peopleYoyMayKnow, extra: false),
+            BlocProvider(
+              create: (context) => UserBloc()..add(AllConnectionsListEvent()),
+              child: PeopleYouMayKnowButton(
+                onPressed: () =>
+                    appRouter.push(Screens.peopleYoyMayKnow, extra: false),
+              ),
             ),
             const HorizontalDivider(),
             Padding(
@@ -59,8 +84,18 @@ class _ConnectionScreenState extends State<ConnectionScreen> {
                 horizontal: AppSizes.kDefaultPadding,
                 vertical: AppSizes.kDefaultPadding,
               ),
-              child: const CustomSearchbar(
+              child: CustomSearchbar(
                 searchHintText: 'Search Connections ...',
+                controller: _searchCtrl,
+                onChanged: (q) => context.read<UserBloc>().add(
+                  SearchConnectionsChanged(query: q),
+                ),
+                onClear: () {
+                  _searchCtrl.clear();
+                  context.read<UserBloc>().add(
+                    SearchConnectionsChanged(query: ''),
+                  );
+                },
               ),
             ),
             Padding(

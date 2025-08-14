@@ -19,6 +19,15 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
+
+  final _searchCtrl = TextEditingController();
+
+  @override
+  void dispose() {
+    _searchCtrl.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,7 +53,7 @@ class _ChatScreenState extends State<ChatScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
-                  child: CustomSearchbar(searchHintText: 'Search here ...'),
+                  child: CustomSearchbar(searchHintText: 'Search here ...', controller: _searchCtrl,),
                 ),
                 AppbarIcon(
                   onPressed: () => appRouter.push(Screens.chatConnection),

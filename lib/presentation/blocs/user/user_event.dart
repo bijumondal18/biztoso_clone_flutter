@@ -7,9 +7,23 @@ sealed class UserEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class SearchConnectionsChanged extends UserEvent {
+  final String query;
+
+  const SearchConnectionsChanged({required this.query});
+}
+
+class SearchPymkChanged extends UserEvent {
+  final String query;
+
+  const SearchPymkChanged({required this.query});
+}
+
 class GetLanguageEvent extends UserEvent {}
 
 class GetConnectionsEvent extends UserEvent {}
+
+class AllConnectionsListEvent extends UserEvent {}
 
 class SentRequestConnectionsListEvent extends UserEvent {}
 

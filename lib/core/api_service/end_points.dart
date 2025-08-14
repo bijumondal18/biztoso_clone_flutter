@@ -6,7 +6,8 @@ class ApiEndPoints{
 
   static const String loginWithEmailUrl = '${baseAuth}user/emailLogin';
 
-  static const String getConnectionList = '${baseCore}network/connection/connection-list';
+  static const String getCurrentUsersConnectionList = '${baseCore}network/connection/connection-list';
+  static const String allConnectionList = '${baseCore}network/connection/list-user';
   static const String sentConnectionRequestList = '${baseCore}network/connection/list-send-request';
   static const String receivedConnectionRequestList = '${baseCore}network/connection/list-recevied-request';
 

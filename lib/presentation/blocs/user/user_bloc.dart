@@ -1,19 +1,42 @@
 import 'package:biztoso/core/api_service/app_preference.dart';
 import 'package:biztoso/core/api_service/dio_client.dart';
 import 'package:biztoso/core/api_service/end_points.dart';
+import 'package:biztoso/data/models/all_connection_response.dart';
 import 'package:biztoso/data/models/connection_received_response.dart';
 import 'package:biztoso/data/models/connection_response.dart';
 import 'package:biztoso/data/models/connection_sent_response.dart';
 import 'package:biztoso/data/models/language.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:rxdart/rxdart.dart';
+import 'package:bloc_concurrency/bloc_concurrency.dart'; // optional
 
 part 'user_event.dart';
 
 part 'user_state.dart';
 
+EventTransformer<T> debounce<T>(Duration d) {
+  return (events, mapper) => events.debounceTime(d).switchMap(mapper);
+}
+
 class UserBloc extends Bloc<UserEvent, UserState> {
+  String _connectionsQuery = '';
+  String _pymkQuery = '';
+
+  String get connectionsQuery => _connectionsQuery; // (optional) for restoring text
+  String get pymkQuery => _pymkQuery;
+
   UserBloc() : super(UserInitial()) {
+    on<SearchConnectionsChanged>((e, emit) {
+      _connectionsQuery = e.query.trim();
+      add(GetConnectionsEvent());
+    }, transformer: debounce(const Duration(milliseconds: 300)));
+
+    on<SearchPymkChanged>((e, emit) {
+      _pymkQuery = e.query.trim();
+      add(AllConnectionsListEvent());            // refetch PYMK only
+    }, transformer: debounce(const Duration(milliseconds: 300)));
+
     // Get Language
     on<GetLanguageEvent>((event, emit) async {
       try {
@@ -40,9 +63,14 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       try {
         emit(GetConnectionsStateLoading());
 
-        final response = await DioClient(
-          baseUrl: ApiEndPoints.baseCore,
-        ).get('${ApiEndPoints.getConnectionList}/$userId');
+        final queryParams = <String, dynamic>{
+          if (_connectionsQuery.isNotEmpty) 'search': _connectionsQuery,
+        };
+
+        final response = await DioClient(baseUrl: ApiEndPoints.baseCore).get(
+          '${ApiEndPoints.getCurrentUsersConnectionList}/$userId',
+          queryParams: queryParams,
+        );
         if (response?.statusCode == 200) {
           emit(
             GetConnectionsStateLoaded(
@@ -52,6 +80,30 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         }
       } catch (e) {
         emit(GetConnectionsStateFailed(error: e.toString()));
+      }
+    });
+
+    // All Connections List
+    on<AllConnectionsListEvent>((event, emit) async {
+      try {
+        emit(AllConnectionListStateLoading());
+        final queryParams = <String, dynamic>{
+          if (_pymkQuery.isNotEmpty) 'search': _pymkQuery,
+        };
+        final response = await DioClient(
+          baseUrl: ApiEndPoints.baseCore,
+        ).get(ApiEndPoints.allConnectionList, queryParams: queryParams);
+        if (response?.statusCode == 200) {
+          emit(
+            AllConnectionListStateLoaded(
+              allConnectionResponse: AllConnectionResponse.fromJson(
+                response?.data,
+              ),
+            ),
+          );
+        }
+      } catch (e) {
+        emit(AllConnectionListStateFailed(error: e.toString()));
       }
     });
 
