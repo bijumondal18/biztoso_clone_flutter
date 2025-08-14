@@ -1,5 +1,7 @@
 import 'package:biztoso/core/themes/app_colors.dart';
+import 'package:biztoso/data/models/connection_response.dart';
 import 'package:biztoso/presentation/widgets/custom_outline_button.dart';
+import 'package:biztoso/utils/app_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
@@ -12,11 +14,18 @@ import '../../../widgets/profile_avatar.dart';
 
 class ConnectionCard extends StatelessWidget {
   final String screenFlag;
+  final Docs docs;
 
-  const ConnectionCard({super.key, required this.screenFlag});
+  const ConnectionCard({
+    super.key,
+    required this.screenFlag,
+    required this.docs,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final displayName = AppUtils.firstNonEmptyTitle([docs.name]);
+    final displayBusiness = AppUtils.firstNonEmptyTitle([docs.businessName, docs.userName]);
     return Container(
       padding: const EdgeInsets.symmetric(
         horizontal: AppSizes.kDefaultPadding / 2,
@@ -28,11 +37,11 @@ class ConnectionCard extends StatelessWidget {
         border: Border.all(width: 1.0, color: Theme.of(context).dividerColor),
       ),
       child: Row(
-        spacing: AppSizes.kDefaultPadding/2,
+        spacing: AppSizes.kDefaultPadding / 2,
         children: [
           ProfileAvatar(
             imageUrl:
-                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuNhTZJTtkR6b-ADMhmzPvVwaLuLdz273wvQ&s',
+                '${docs.profilePic}',
             onPressed: () => appRouter.push(Screens.profile, extra: true),
             // isPublicProfile = true
             radius: 48,
@@ -45,15 +54,15 @@ class ConnectionCard extends StatelessWidget {
                 spacing: 2.0,
                 children: [
                   Text(
-                    'Wade Warren',
+                    displayName,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: Theme.of(
-                      context,
-                    ).textTheme.titleSmall!.copyWith(fontWeight: FontWeight.w600),
+                    style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                   Text(
-                    'Networking Professional',
+                    displayBusiness,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.labelLarge!.copyWith(

@@ -1,8 +1,8 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:biztoso/core/api_service/app_preference.dart';
 import 'package:biztoso/core/api_service/end_points.dart';
-import 'package:biztoso/core/api_service/token_storage.dart';
 import 'package:biztoso/utils/app_utils.dart';
 import 'package:dio/dio.dart';
 
@@ -14,13 +14,12 @@ typedef NoInternetCallback = void Function();
 
 class DioClient {
   late final Dio _dio;
-  final TokenStorage _tokenStorage = sl<TokenStorage>();
   final int _maxRetryAttempts = 2;
 
-  DioClient() {
+  DioClient({required String baseUrl}) {
     _dio = Dio(
       BaseOptions(
-        baseUrl: ApiEndPoints.baseUrl,
+        baseUrl: baseUrl,
         connectTimeout: const Duration(seconds: 10),
         receiveTimeout: const Duration(seconds: 10),
         headers: {
@@ -37,7 +36,7 @@ class DioClient {
   InterceptorsWrapper _authInterceptor() {
     return InterceptorsWrapper(
       onRequest: (options, handler) async {
-        final token = await _tokenStorage.readToken();
+        final token = await AppPreference.getString(AppPreference.token);
         if (token?.isNotEmpty ?? false) {
           options.headers['Authorization'] = 'Bearer $token';
         }

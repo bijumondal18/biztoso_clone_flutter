@@ -6,6 +6,7 @@ import 'package:biztoso/core/themes/app_colors.dart';
 import 'package:biztoso/core/themes/app_sizes.dart';
 import 'package:biztoso/data/models/language.dart';
 import 'package:biztoso/presentation/pages/language_selection/widgets/language_tile.dart';
+import 'package:biztoso/presentation/pages/language_selection/widgets/language_tile_shimmer.dart';
 import 'package:biztoso/presentation/widgets/custom_primary_button.dart';
 import 'package:biztoso/presentation/widgets/themed_statusbar_wrapper.dart';
 import 'package:flutter/material.dart';
@@ -16,8 +17,7 @@ import '../../../core/resources/app_images.dart';
 import '../../blocs/user/user_bloc.dart';
 
 class LanguageSelectionScreen extends StatefulWidget {
-
-  const LanguageSelectionScreen({super.key,});
+  const LanguageSelectionScreen({super.key});
 
   @override
   State<LanguageSelectionScreen> createState() =>
@@ -38,6 +38,12 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
   }
 
   int selectedIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<UserBloc>(context).add(GetLanguageEvent());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,18 +77,18 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                     ),
                     Expanded(
                       child: BlocConsumer<UserBloc, UserState>(
-                        listener: (context, state) {
-                          if(state is GetLanguageStateLoaded){
-
-                          }
-                        },
+                        listener: (context, state) {},
                         builder: (context, state) {
-                          if(state is GetLanguageStateLoading){
-
-                          }
-                          if(state is GetLanguageStateLoaded){
+                          if (state is GetLanguageStateLoading) {
                             return ListView.builder(
-                              itemCount:  state.getLanguage.result?.length,
+                              itemCount: 3,
+                              itemBuilder: (_, __) =>
+                                  const LanguageTileShimmer(),
+                            );
+                          }
+                          if (state is GetLanguageStateLoaded) {
+                            return ListView.builder(
+                              itemCount: state.getLanguage.result?.length,
                               itemBuilder: (context, index) {
                                 return LanguageTile(
                                   language: state.getLanguage.result![index],

@@ -9,6 +9,7 @@ sealed class UserState extends Equatable {
 
 final class UserInitial extends UserState {}
 
+// ------------------------ Get language list ---------------------------//
 final class GetLanguageStateLoading extends UserState {}
 
 final class GetLanguageStateLoaded extends UserState {
@@ -24,6 +25,27 @@ final class GetLanguageStateFailed extends UserState {
   final String error;
 
   const GetLanguageStateFailed({required this.error});
+
+  @override
+  List<Object> get props => [error];
+}
+
+// ------------------------ Get connections list ---------------------------//
+final class GetConnectionsStateLoading extends UserState {}
+
+final class GetConnectionsStateLoaded extends UserState {
+  final ConnectionResponse connectionResponse;
+
+  const GetConnectionsStateLoaded({required this.connectionResponse});
+
+  @override
+  List<Object> get props => [connectionResponse];
+}
+
+final class GetConnectionsStateFailed extends UserState {
+  final String error;
+
+  const GetConnectionsStateFailed({required this.error});
 
   @override
   List<Object> get props => [error];

@@ -45,6 +45,7 @@ class User {
   int? age;
   int? userPrivacy;
 
+
   User({
     this.sId,
     this.fullName,

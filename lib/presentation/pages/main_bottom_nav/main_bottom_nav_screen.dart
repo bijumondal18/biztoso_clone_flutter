@@ -20,18 +20,20 @@ class MainBottomNavScreen extends StatefulWidget {
 class _MainBottomNavScreenState extends State<MainBottomNavScreen> {
   int _selectedIndex = 0;
 
+  final PageStorageBucket _bucket = PageStorageBucket();
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
   }
 
-  final List<Widget> _screens = [
-    HomeScreen(),
-    MarketplaceScreen(),
-    ConnectionScreen(),
-    ChatScreen(),
-    MoreScreen(),
+  final List<Widget> _screens = const [
+    HomeScreen(key: PageStorageKey('home')),
+    MarketplaceScreen(key: PageStorageKey('marketplace')),
+    ConnectionScreen(key: PageStorageKey('connection')),
+    ChatScreen(key: PageStorageKey('chat')),
+    MoreScreen(key: PageStorageKey('more')),
   ];
 
   @override
@@ -39,8 +41,13 @@ class _MainBottomNavScreenState extends State<MainBottomNavScreen> {
     return Scaffold(
       extendBody: true,
       resizeToAvoidBottomInset: false,
-      body: _screens[_selectedIndex],
-      bottomNavigationBar: Column(
+      body: PageStorage(
+        bucket: _bucket,
+        child: IndexedStack(
+          index: _selectedIndex,
+          children: _screens,
+        ),
+      ),      bottomNavigationBar: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           HorizontalDivider(),
