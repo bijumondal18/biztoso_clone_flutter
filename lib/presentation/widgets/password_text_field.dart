@@ -12,15 +12,16 @@ class PasswordTextField extends StatefulWidget {
   String? labelText;
   bool isMandatory;
 
-  PasswordTextField(
-      {super.key,
-        required this.controller,
-        this.hintText = 'Enter your password',
-        this.validator,
-        this.onChanged,
-        this.labelText = '',
-        this.isMandatory = false,
-        required this.errorText});
+  PasswordTextField({
+    super.key,
+    required this.controller,
+    this.hintText = 'Enter your password',
+    this.validator,
+    this.onChanged,
+    this.labelText = '',
+    this.isMandatory = false,
+    required this.errorText,
+  });
 
   @override
   State<PasswordTextField> createState() => _PasswordTextFieldState();
@@ -78,36 +79,47 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
               ),
             ),
             hintText: widget.hintText,
+            labelStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
+              color: Theme.of(context).colorScheme.surfaceContainer,
+            ),
             hintStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
               color: Theme.of(context).hintColor,
               height: 3,
             ),
-            errorStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
-              color: AppColors.errorLight,
-            ),
+            errorStyle: Theme.of(
+              context,
+            ).textTheme.bodyMedium!.copyWith(color: AppColors.errorLight),
             errorText: widget.controller == '' ? widget.errorText : null,
             contentPadding: const EdgeInsets.symmetric(
-                horizontal: AppSizes.kDefaultPadding),
+              horizontal: AppSizes.kDefaultPadding,
+            ),
             border: OutlineInputBorder(
-                borderRadius:
-                BorderRadius.circular(AppSizes.cardCornerRadius),
-                borderSide: BorderSide(
-                    color: AppColors.hintLight.withAlpha(100), width: 1.0)),
+              borderRadius: BorderRadius.circular(AppSizes.cardCornerRadius),
+              borderSide: BorderSide(
+                color: AppColors.hintLight.withAlpha(100),
+                width: 1.0,
+              ),
+            ),
             enabledBorder: OutlineInputBorder(
-                borderRadius:
-                BorderRadius.circular(AppSizes.cardCornerRadius ),
-                borderSide: BorderSide(
-                    color: AppColors.hintLight.withAlpha(100), width: 1.0)),
+              borderRadius: BorderRadius.circular(AppSizes.cardCornerRadius),
+              borderSide: BorderSide(
+                color: AppColors.hintLight.withAlpha(100),
+                width: 1.0,
+              ),
+            ),
             focusedBorder: OutlineInputBorder(
-                borderRadius:
-                BorderRadius.circular(AppSizes.cardCornerRadius ),
-                borderSide: BorderSide(
-                    color: AppColors.hintLight.withAlpha(100), width: 1.0)),
+              borderRadius: BorderRadius.circular(AppSizes.cardCornerRadius),
+              borderSide: BorderSide(
+                color: AppColors.hintLight.withAlpha(100),
+                width: 1.0,
+              ),
+            ),
             errorBorder: OutlineInputBorder(
-              borderRadius:
-              BorderRadius.circular(AppSizes.cardCornerRadius ),
-              borderSide:
-              const BorderSide(color: AppColors.errorLight, width: 1.0),
+              borderRadius: BorderRadius.circular(AppSizes.cardCornerRadius),
+              borderSide: const BorderSide(
+                color: AppColors.errorLight,
+                width: 1.0,
+              ),
             ),
           ),
         ),

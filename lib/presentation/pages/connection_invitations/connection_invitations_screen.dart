@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/navigation/app_router.dart';
 import '../../../core/themes/app_sizes.dart';
+import '../../blocs/user/user_bloc.dart';
 import '../../widgets/appbar_icon.dart';
 import '../connection/components/build_connections_list.dart';
 
@@ -35,7 +37,7 @@ class _ConnectionInvitationsScreenState
             preferredSize: Size.fromHeight(kTextTabBarHeight),
             child: TabBar(
               tabs: [
-                Tab(text: 'Recieved'),
+                Tab(text: 'Received'),
                 Tab(text: 'Sent'),
               ],
             ),
@@ -43,33 +45,49 @@ class _ConnectionInvitationsScreenState
         ),
         body: TabBarView(
           children: [
-            ListView(
-              padding: EdgeInsets.symmetric(
-                horizontal: AppSizes.kDefaultPadding,
-              ),
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: AppSizes.kDefaultPadding),
-                  child: SafeArea(
-                    child: BuildConnectionsList(
-                      screenFlag: 'receivedInvitation',
+            // RECEIVED tab
+            BlocProvider(
+              create: (_) =>
+                  UserBloc()..add(ReceivedRequestConnectionsListEvent()),
+              child: ListView(
+                padding: EdgeInsets.symmetric(
+                  horizontal: AppSizes.kDefaultPadding,
+                ),
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      top: AppSizes.kDefaultPadding,
+                    ),
+                    child: SafeArea(
+                      child: BuildConnectionsList(
+                        screenFlag: 'receivedInvitation',
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            ListView(
-              padding: EdgeInsets.symmetric(
-                horizontal: AppSizes.kDefaultPadding,
+                ],
               ),
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: AppSizes.kDefaultPadding),
-                  child: SafeArea(
-                    child: BuildConnectionsList(screenFlag: 'sentInvitation', isPublicProfile: false,),
-                  ),
+            ),
+            // SENT tab
+            BlocProvider(
+              create: (_) => UserBloc()..add(SentRequestConnectionsListEvent()),
+              child: ListView(
+                padding: EdgeInsets.symmetric(
+                  horizontal: AppSizes.kDefaultPadding,
                 ),
-              ],
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      top: AppSizes.kDefaultPadding,
+                    ),
+                    child: SafeArea(
+                      child: BuildConnectionsList(
+                        screenFlag: 'sentInvitation',
+                        isPublicProfile: false,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),

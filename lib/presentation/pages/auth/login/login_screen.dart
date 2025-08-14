@@ -79,6 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(height: AppSizes.kDefaultPadding * 2),
                       EmailTextField(
                         controller: _emailController,
+                        readOnly: false,
                         errorText: 'Please enter email address',
                         onChanged: (dynamic value) {
                           setState(() {

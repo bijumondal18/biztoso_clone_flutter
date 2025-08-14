@@ -8,5 +8,6 @@ class ApiEndPoints{
 
   static const String getConnectionList = '${baseCore}network/connection/connection-list';
   static const String sentConnectionRequestList = '${baseCore}network/connection/list-send-request';
+  static const String receivedConnectionRequestList = '${baseCore}network/connection/list-recevied-request';
 
 }

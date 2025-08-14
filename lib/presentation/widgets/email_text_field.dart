@@ -88,8 +88,8 @@ class EmailTextField extends StatelessWidget {
             ),
             labelStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
                 color: readOnly == true
-                    ? AppColors.darkGrey.withAlpha(200)
-                    : AppColors.black),
+                    ? Theme.of(context).colorScheme.surfaceContainer.withAlpha(200)
+                    : Theme.of(context).colorScheme.surfaceContainer),
             hintStyle: Theme.of(context)
                 .textTheme
                 .bodyLarge!
