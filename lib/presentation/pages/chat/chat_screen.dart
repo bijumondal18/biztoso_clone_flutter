@@ -1,4 +1,13 @@
+import 'package:biztoso/core/themes/app_colors.dart';
+import 'package:biztoso/core/themes/app_sizes.dart';
+import 'package:biztoso/presentation/pages/chat/components/build_chat_list.dart';
+import 'package:biztoso/presentation/widgets/appbar_icon.dart';
+import 'package:biztoso/presentation/widgets/horizontal_divider.dart';
+import 'package:biztoso/presentation/widgets/profile_avatar.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
+
+import '../../widgets/custom_searchbar.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
@@ -19,7 +28,33 @@ class _ChatScreenState extends State<ChatScreen> {
             context,
           ).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.w900),
         ),
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(kTextTabBarHeight),
+          child: Padding(
+            padding: EdgeInsets.only(
+              left: AppSizes.kDefaultPadding,
+              right: AppSizes.kDefaultPadding / 3,
+              bottom: AppSizes.kDefaultPadding / 2,
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: CustomSearchbar(searchHintText: 'Search here ...'),
+                ),
+                AppbarIcon(
+                  onPressed: () {},
+                  hasGradient: false,
+                  iconPath: EvaIcons.plus,
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
+      body: SafeArea(child: BuildChatList()),
     );
   }
 }

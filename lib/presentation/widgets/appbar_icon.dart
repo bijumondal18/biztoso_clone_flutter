@@ -21,7 +21,9 @@ class AppbarIcon extends StatelessWidget {
     return IconButton(
       onPressed: onPressed,
       icon: Container(
-        padding: EdgeInsets.all(AppSizes.kDefaultPadding / 3),
+        width: AppSizes.smallButtonHeight,
+        height: AppSizes.smallButtonHeight,
+        // padding: EdgeInsets.all(AppSizes.kDefaultPadding / 2),
         decoration: hasGradient
             ? BoxDecoration(
                 gradient: AppColors.primaryGradient,
