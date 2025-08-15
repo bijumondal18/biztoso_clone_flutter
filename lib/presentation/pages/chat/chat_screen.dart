@@ -8,7 +8,9 @@ import 'package:biztoso/presentation/widgets/horizontal_divider.dart';
 import 'package:biztoso/presentation/widgets/profile_avatar.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../blocs/user/user_bloc.dart';
 import '../../widgets/custom_searchbar.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -19,7 +21,6 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-
   final _searchCtrl = TextEditingController();
 
   @override
@@ -53,7 +54,10 @@ class _ChatScreenState extends State<ChatScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
-                  child: CustomSearchbar(searchHintText: 'Search here ...', controller: _searchCtrl,),
+                  child: CustomSearchbar(
+                    searchHintText: 'Search here ...',
+                    controller: _searchCtrl,
+                  ),
                 ),
                 AppbarIcon(
                   onPressed: () => appRouter.push(Screens.chatConnection),
@@ -65,7 +69,10 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
         ),
       ),
-      body: SafeArea(child: BuildChatList()),
+      body: BlocProvider(
+        create: (context) => UserBloc()..add(GetChatListEvent()),
+        child: SafeArea(child: BuildChatList()),
+      ),
     );
   }
 }

@@ -2,6 +2,7 @@ import 'package:biztoso/core/api_service/app_preference.dart';
 import 'package:biztoso/core/api_service/dio_client.dart';
 import 'package:biztoso/core/api_service/end_points.dart';
 import 'package:biztoso/data/models/all_connection_response.dart';
+import 'package:biztoso/data/models/chat_list_response.dart';
 import 'package:biztoso/data/models/connection_received_response.dart';
 import 'package:biztoso/data/models/connection_response.dart';
 import 'package:biztoso/data/models/connection_sent_response.dart';
@@ -292,6 +293,26 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         emit(
           s.copyWith(inProgressIds: {...s.inProgressIds}..remove(event.userId)),
         );
+      }
+    });
+
+    // Fetch Chat List
+    on<GetChatListEvent>((event, emit) async {
+      try {
+        emit(ChatListStateLoading());
+
+        final response = await DioClient(
+          baseUrl: ApiEndPoints.baseCore,
+        ).get(ApiEndPoints.getChatList);
+        if (response?.statusCode == 200) {
+          emit(
+            ChatListStateLoaded(
+              chatListResponse: ChatListResponse.fromJson(response?.data),
+            ),
+          );
+        }
+      } catch (e) {
+        emit(ChatListStateFailed(error: e.toString()));
       }
     });
   }

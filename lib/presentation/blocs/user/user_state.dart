@@ -191,3 +191,24 @@ final class CancelConnectionRequestStateFailed extends UserState {
   @override
   List<Object> get props => [error];
 }
+
+// ------------------------ Get Chat list ---------------------------//
+final class ChatListStateLoading extends UserState {}
+
+final class ChatListStateLoaded extends UserState {
+  final ChatListResponse chatListResponse;
+
+  const ChatListStateLoaded({required this.chatListResponse});
+
+  @override
+  List<Object> get props => [chatListResponse];
+}
+
+final class ChatListStateFailed extends UserState {
+  final String error;
+
+  const ChatListStateFailed({required this.error});
+
+  @override
+  List<Object> get props => [error];
+}

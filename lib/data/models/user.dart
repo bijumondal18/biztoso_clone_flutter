@@ -1,6 +1,7 @@
 class User {
   String? sId;
   String? fullName;
+  String? userFullName;
   String? name;
   String? email;
   String? password;
@@ -13,6 +14,7 @@ class User {
   dynamic deactivatedAt;
   dynamic bannedAt;
   String? profilePic;
+  String? profileImage;
   String? preferredLanguage;
   int? signUpType;
   String? coverPhoto;
@@ -51,6 +53,7 @@ class User {
   User({
     this.sId,
     this.fullName,
+    this.userFullName,
     this.name,
     this.email,
     this.password,
@@ -63,6 +66,7 @@ class User {
     this.deactivatedAt,
     this.bannedAt,
     this.profilePic,
+    this.profileImage,
     this.preferredLanguage,
     this.signUpType,
     this.coverPhoto,
@@ -101,6 +105,7 @@ class User {
   User.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     fullName = json['FullName'];
+    userFullName = json['fullName'];
     name = json['name'];
     email = json['Email'];
     password = json['Password'];
@@ -113,6 +118,7 @@ class User {
     deactivatedAt = json['deactivatedAt'];
     bannedAt = json['bannedAt'];
     profilePic = json['profile_pic'];
+    profileImage = json['profileImage'];
     preferredLanguage = json['preferredLanguage'];
     signUpType = json['SignUpType'];
     coverPhoto = json['CoverPhoto'];
@@ -152,6 +158,7 @@ class User {
     final Map<String, dynamic> data =  <String, dynamic>{};
     data['_id'] = sId;
     data['FullName'] = fullName;
+    data['fullName'] = userFullName;
     data['name'] = name;
     data['Email'] = email;
     data['Password'] = this.password;
@@ -164,6 +171,7 @@ class User {
     data['deactivatedAt'] = this.deactivatedAt;
     data['bannedAt'] = this.bannedAt;
     data['profile_pic'] = this.profilePic;
+    data['profileImage'] = this.profileImage;
     data['preferredLanguage'] = this.preferredLanguage;
     data['SignUpType'] = this.signUpType;
     data['CoverPhoto'] = this.coverPhoto;

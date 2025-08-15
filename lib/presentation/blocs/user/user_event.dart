@@ -64,3 +64,5 @@ class DeclineReceivedInvitationEvent extends UserEvent {
   @override
   List<Object> get props => [userId];
 }
+
+class GetChatListEvent extends UserEvent {}

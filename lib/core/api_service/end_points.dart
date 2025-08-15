@@ -15,4 +15,7 @@ class ApiEndPoints{
   static const String cancelConnectionRequestList = '${baseCore}network/connection/cancle-request';
   static const String sendConnectionRequest = '${baseCore}network/connection/send-request';
 
+
+  static const String getChatList = '${baseCore}network/inbox/chat/get-user-chats';
+
 }
