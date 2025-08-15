@@ -18,6 +18,7 @@ import 'package:iconsax/iconsax.dart';
 import '../../../../core/resources/app_images.dart';
 import '../../../blocs/user/user_bloc.dart';
 import 'components/profile_screen_shimmer.dart';
+import 'dart:ui' show lerpDouble;
 
 class ProfileScreen extends StatefulWidget {
   final bool isPublicProfile;
@@ -30,6 +31,12 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  static const double kExpandedHeight = 200; // cover height
+  static const double kAvatarMax = 112; // expanded diameter
+  static const double kAvatarMin =
+      44; // collapsed diameter (smaller than before)
+  static const double kLeadingWidth = 36; // default AppBar leading space
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,6 +76,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               return CustomScrollView(
                 slivers: [
                   SliverAppBar(
+                    pinned: true,
+                    expandedHeight: kExpandedHeight,
                     leading: AppbarIcon(onPressed: () => appRouter.pop()),
                     actions: [
                       Visibility(
@@ -79,18 +88,109 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ),
                     ],
-                    expandedHeight: 200.0,
-                    pinned: true,
-                    flexibleSpace: FlexibleSpaceBar(
-                      background: CachedNetworkImage(
-                        imageUrl: '${state.profileResponse.result?.coverPhoto}',
-                        fit: BoxFit.cover,
-                        placeholder: (context, value) => _defaultAvatar(),
-                        errorWidget: (context, value, error) =>
-                            _defaultAvatar(),
-                      ),
+                    // ⚠️ No `bottom:` here — allows full collapse
+                    flexibleSpace: LayoutBuilder(
+                      builder: (context, constraints) {
+                        final top = constraints.biggest.height;
+                        final statusBar = MediaQuery.paddingOf(context).top;
+                        final collapsedHeight = kToolbarHeight + statusBar;
+
+                        // 0 = fully expanded, 1 = fully collapsed
+                        final t =
+                            ((kExpandedHeight - top) /
+                                    (kExpandedHeight - collapsedHeight))
+                                .clamp(0.0, 1.0);
+
+                        final avatarSize = lerpDouble(
+                          kAvatarMax,
+                          kAvatarMin,
+                          t,
+                        )!;
+
+                        // When expanded: hang half below the appbar
+                        // When collapsed: vertically centered in toolbar (ignores status bar)
+                        final bottomOffset = lerpDouble(
+                          -kAvatarMax / 2, // expanded
+                          (kToolbarHeight - kAvatarMin) / 2, // collapsed
+                          t,
+                        )!;
+
+                        // When expanded: normal page padding
+                        // When collapsed: sit just to the right of the back button area
+                        final leftOffset = lerpDouble(
+                          AppSizes.kDefaultPadding, // expanded
+                          kLeadingWidth + AppSizes.kDefaultPadding,
+                          // collapsed (next to back)
+                          t,
+                        )!;
+
+                        return Stack(
+                          fit: StackFit.expand,
+                          clipBehavior: Clip.none,
+                          children: [
+                            // 1) Cover image (fades OUT as we collapse)
+                            Opacity(
+                              opacity: 1 - t,
+                              child: CachedNetworkImage(
+                                imageUrl: '${state.profileResponse.result?.coverPhoto}',
+                                fit: BoxFit.cover,
+                                placeholder: (_, __) => _defaultAvatar(),
+                                errorWidget: (_, __, ___) => _defaultAvatar(),
+                              ),
+                            ),
+
+                            // Shrinking/moving avatar
+                            Positioned(
+                              left: leftOffset,
+                              bottom: bottomOffset,
+                              child: Container(
+                                padding: const EdgeInsets.all(3),
+                                decoration: BoxDecoration(
+                                  color: Theme.of(
+                                    context,
+                                  ).scaffoldBackgroundColor,
+                                  shape: BoxShape.circle,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Theme.of(
+                                        context,
+                                      ).shadowColor.withOpacity(0.08),
+                                      blurRadius: 8,
+                                    ),
+                                  ],
+                                ),
+                                child: CircleAvatar(
+                                  radius: avatarSize / 2,
+                                  backgroundImage:
+                                      (state
+                                              .profileResponse
+                                              .result
+                                              ?.profilePic
+                                              ?.isNotEmpty ??
+                                          false)
+                                      ? NetworkImage(
+                                          state
+                                              .profileResponse
+                                              .result!
+                                              .profilePic!,
+                                        )
+                                      : const AssetImage(
+                                              'assets/images/avatar_placeholder.png',
+                                            )
+                                            as ImageProvider,
+                                  backgroundColor: Theme.of(
+                                    context,
+                                  ).dividerColor,
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
                     ),
                   ),
+
+                  /// rest of your content
                   SliverFillRemaining(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -380,9 +480,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             ),
                                             Text(
                                               '${state.profileResponse.result?.email}',
-                                              style: Theme.of(
-                                                context,
-                                              ).textTheme.labelLarge,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .labelLarge!
+                                                  .copyWith(
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
                                             ),
                                           ],
                                         ),
@@ -398,9 +501,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             ),
                                             Text(
                                               '${state.profileResponse.result?.phoneNumber}',
-                                              style: Theme.of(
-                                                context,
-                                              ).textTheme.labelLarge,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .labelLarge!
+                                                  .copyWith(
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
                                             ),
                                           ],
                                         ),
@@ -569,6 +675,78 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _overlappedAvatar({
+    required String? imageUrl,
+    required bool showTick,
+  }) {
+    const double size = 112; // avatar diameter
+    return SliverToBoxAdapter(
+      child: SizedBox(
+        // gives room for the avatar to overlap upwards
+        height: size / 2 + AppSizes.kDefaultPadding,
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Positioned(
+              left: AppSizes.kDefaultPadding,
+              top: -(size / 2), // pull up half the avatar to overlap the banner
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  // white ring + avatar
+                  Container(
+                    padding: const EdgeInsets.all(3),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Theme.of(context).scaffoldBackgroundColor,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Theme.of(
+                            context,
+                          ).shadowColor.withOpacity(0.08),
+                          blurRadius: 8,
+                        ),
+                      ],
+                    ),
+                    child: CircleAvatar(
+                      radius: size / 2,
+                      backgroundImage: (imageUrl != null && imageUrl.isNotEmpty)
+                          ? NetworkImage(imageUrl)
+                          : const AssetImage(
+                                  'assets/images/avatar_placeholder.png',
+                                )
+                                as ImageProvider,
+                      backgroundColor: Theme.of(context).dividerColor,
+                    ),
+                  ),
+
+                  // verification badge (bottom-right of avatar)
+                  if (showTick)
+                    Positioned(
+                      right: -2,
+                      bottom: -2,
+                      child: Container(
+                        padding: const EdgeInsets.all(3),
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          Iconsax.verify5,
+                          size: 20,
+                          color: Colors.green,
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
