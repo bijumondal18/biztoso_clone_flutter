@@ -69,8 +69,18 @@ class GetChatListEvent extends UserEvent {}
 
 class SearchChatsChanged extends UserEvent {
   final String query;
+
   const SearchChatsChanged(this.query);
 
   @override
   List<Object> get props => [query];
+}
+
+class FetchProfileDetailsEvent extends UserEvent {
+  final String? userId;
+
+  const FetchProfileDetailsEvent({this.userId});
+
+  @override
+  List<Object> get props => [userId??''];
 }

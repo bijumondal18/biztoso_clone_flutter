@@ -7,6 +7,7 @@ import 'package:biztoso/data/models/connection_received_response.dart';
 import 'package:biztoso/data/models/connection_response.dart';
 import 'package:biztoso/data/models/connection_sent_response.dart';
 import 'package:biztoso/data/models/language.dart';
+import 'package:biztoso/data/models/profile_response.dart';
 import 'package:biztoso/data/models/response_message.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -325,6 +326,33 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         }
       } catch (e) {
         emit(ChatListStateFailed(error: e.toString()));
+      }
+    });
+
+    // Fetch User Profile Details
+    on<FetchProfileDetailsEvent>((event, emit) async {
+      String? currentUserId = await AppPreference.getString(
+        AppPreference.userId,
+      );
+      try {
+        emit(FetchUserProfileStateLoading());
+
+        final uid = event.userId == null || event.userId!.isEmpty
+            ? currentUserId
+            : event.userId;
+
+        final response = await DioClient(
+          baseUrl: ApiEndPoints.baseAuth,
+        ).get('${ApiEndPoints.fetchProfileDetails}/$uid');
+        if (response != null && response.statusCode == 200) {
+          emit(
+            FetchUserProfileStateLoaded(
+              profileResponse: ProfileResponse.fromJson(response.data),
+            ),
+          );
+        }
+      } catch (e) {
+        emit(FetchUserProfileStateFailed(error: e.toString()));
       }
     });
   }

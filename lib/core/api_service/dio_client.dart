@@ -37,6 +37,7 @@ class DioClient {
     return InterceptorsWrapper(
       onRequest: (options, handler) async {
         final token = await AppPreference.getString(AppPreference.token);
+        final userId = await AppPreference.getString(AppPreference.userId);
         if (token?.isNotEmpty ?? false) {
           options.headers['Authorization'] = 'Bearer $token';
         }
@@ -46,6 +47,8 @@ class DioClient {
         }
 
         AppUtils.showDebugLog(options.method, options.uri);
+        AppUtils.showDebugLog('token', 'Bearer $token');
+        AppUtils.showDebugLog('current user id', '$userId');
         if (options.data != null) {
           AppUtils.showDebugLog("Request", options.data);
         }

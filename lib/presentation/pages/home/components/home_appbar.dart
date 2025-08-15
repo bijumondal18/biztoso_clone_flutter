@@ -1,9 +1,11 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/navigation/app_router.dart';
 import '../../../../core/navigation/screens.dart';
 import '../../../../core/themes/app_sizes.dart';
+import '../../../blocs/user/user_bloc.dart';
 import '../../../widgets/appbar_icon.dart';
 import '../../../widgets/profile_avatar.dart';
 
@@ -26,18 +28,33 @@ class HomeAppbar extends StatelessWidget implements PreferredSizeWidget {
           hasGradient: false,
           iconPath: EvaIcons.search,
         ),
-        AppbarIcon(onPressed: () {},
-            hasGradient: false,
-            iconPath: EvaIcons.bellOutline),
+        AppbarIcon(
+          onPressed: () {},
+          hasGradient: false,
+          iconPath: EvaIcons.bellOutline,
+        ),
         Padding(
           padding: const EdgeInsets.only(
             right: AppSizes.kDefaultPadding,
             left: AppSizes.kDefaultPadding / 2,
           ),
-          child: ProfileAvatar(
-            onPressed: () => appRouter.push(Screens.profile, extra: false),
-            imageUrl:
-            'https://media.istockphoto.com/id/1682296067/photo/happy-studio-portrait-or-professional-man-real-estate-agent-or-asian-businessman-smile-for.jpg?s=612x612&w=0&k=20&c=9zbG2-9fl741fbTWw5fNgcEEe4ll-JegrGlQQ6m54rg=',
+          child: BlocBuilder<UserBloc, UserState>(
+            builder: (context, state) {
+              if (state is FetchUserProfileStateLoaded) {
+                String profileImage =
+                    state.profileResponse.result?.profilePic ?? '';
+                return ProfileAvatar(
+                  onPressed: () =>
+                      appRouter.push(Screens.profile, extra: false),
+                  imageUrl: profileImage,
+                );
+              }
+              return ProfileAvatar(
+                onPressed: () =>
+                    appRouter.push(Screens.profile, extra: false),
+                imageUrl: '',
+              );
+            },
           ),
         ),
       ],

@@ -18,4 +18,7 @@ class ApiEndPoints{
 
   static const String getChatList = '${baseCore}network/inbox/chat/get-user-chats';
 
+
+  static const String fetchProfileDetails = '${baseAuth}user/details';
+
 }

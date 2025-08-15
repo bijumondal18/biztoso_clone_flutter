@@ -76,14 +76,18 @@ class AllConnectionListStateLoaded extends UserState {
   }) {
     return AllConnectionListStateLoaded(
       allConnectionResponse:
-      allConnectionResponse ?? this.allConnectionResponse,
+          allConnectionResponse ?? this.allConnectionResponse,
       inProgressIds: inProgressIds ?? this.inProgressIds,
       requestedIds: requestedIds ?? this.requestedIds,
     );
   }
 
   @override
-  List<Object> get props => [allConnectionResponse, inProgressIds, requestedIds];
+  List<Object> get props => [
+    allConnectionResponse,
+    inProgressIds,
+    requestedIds,
+  ];
 }
 
 final class AllConnectionListStateFailed extends UserState {
@@ -115,7 +119,7 @@ final class SentConnectionRequestStateLoaded extends UserState {
   }) {
     return SentConnectionRequestStateLoaded(
       connectionSentResponse:
-      connectionSentResponse ?? this.connectionSentResponse,
+          connectionSentResponse ?? this.connectionSentResponse,
       inProgressIds: inProgressIds ?? this.inProgressIds,
     );
   }
@@ -153,7 +157,7 @@ class ReceivedConnectionRequestStateLoaded extends UserState {
   }) {
     return ReceivedConnectionRequestStateLoaded(
       connectionReceivedResponse:
-      connectionReceivedResponse ?? this.connectionReceivedResponse,
+          connectionReceivedResponse ?? this.connectionReceivedResponse,
       inProgressIds: inProgressIds ?? this.inProgressIds,
     );
   }
@@ -197,6 +201,7 @@ final class ChatListStateLoading extends UserState {}
 
 class ChatListStateLoaded extends UserState {
   final ChatListResponse chatListResponse;
+
   const ChatListStateLoaded({required this.chatListResponse});
 
   @override
@@ -207,6 +212,27 @@ final class ChatListStateFailed extends UserState {
   final String error;
 
   const ChatListStateFailed({required this.error});
+
+  @override
+  List<Object> get props => [error];
+}
+
+// ------------------------ Get Current User Profile Details ---------------------------//
+final class FetchUserProfileStateLoading extends UserState {}
+
+class FetchUserProfileStateLoaded extends UserState {
+  final ProfileResponse profileResponse;
+
+  const FetchUserProfileStateLoaded({required this.profileResponse});
+
+  @override
+  List<Object> get props => [profileResponse];
+}
+
+final class FetchUserProfileStateFailed extends UserState {
+  final String error;
+
+  const FetchUserProfileStateFailed({required this.error});
 
   @override
   List<Object> get props => [error];
