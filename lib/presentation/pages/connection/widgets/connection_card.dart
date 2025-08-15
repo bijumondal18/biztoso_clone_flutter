@@ -48,13 +48,19 @@ class ConnectionCard extends StatelessWidget {
         children: [
           ProfileAvatar(
             imageUrl: '${docs.profilePic}',
-            onPressed: () => appRouter.push(Screens.profile, extra: true),
+            onPressed: () {
+              final id = docs.userId?.toString() ?? docs.sId?.toString();
+              appRouter.push(Screens.profile, extra: [true, id]);
+            },
             // isPublicProfile = true
             radius: 48,
           ),
           Expanded(
             child: GestureDetector(
-              onTap: () => appRouter.push(Screens.profile, extra: true),
+              onTap: () {
+                final id = docs.userId?.toString() ?? docs.sId?.toString();
+                appRouter.push(Screens.profile, extra: [true, id]);
+              },
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 spacing: 2.0,
@@ -162,7 +168,7 @@ class ConnectionCard extends StatelessWidget {
           height: AppSizes.smallButtonHeight,
         );
       case 'receivedInvitation':
-        final id = docs.sId?.toString()??'';
+        final id = docs.sId?.toString() ?? '';
 
         final busy = context.select<UserBloc, bool>((b) {
           final s = b.state;
@@ -177,8 +183,12 @@ class ConnectionCard extends StatelessWidget {
             height: AppSizes.smallButtonHeight,
             width: 200, // roughly the width of the two buttons
             child: Center(
-              child: SizedBox(width: 18, height: 18,
-                child: CupertinoActivityIndicator(color: Theme.of(context).colorScheme.surfaceContainer),
+              child: SizedBox(
+                width: 18,
+                height: 18,
+                child: CupertinoActivityIndicator(
+                  color: Theme.of(context).colorScheme.surfaceContainer,
+                ),
               ),
             ),
           );
@@ -193,9 +203,9 @@ class ConnectionCard extends StatelessWidget {
                   SnackBarHelper.show('Unable to accept: missing id');
                   return;
                 }
-                context
-                    .read<UserBloc>()
-                    .add(AcceptReceivedInvitationEvent(userId: id));
+                context.read<UserBloc>().add(
+                  AcceptReceivedInvitationEvent(userId: id),
+                );
               },
               height: AppSizes.smallButtonHeight,
             ),
@@ -206,9 +216,9 @@ class ConnectionCard extends StatelessWidget {
                   SnackBarHelper.show('Unable to decline: missing id');
                   return;
                 }
-                context
-                    .read<UserBloc>()
-                    .add(DeclineReceivedInvitationEvent(userId: id));
+                context.read<UserBloc>().add(
+                  DeclineReceivedInvitationEvent(userId: id),
+                );
               },
               labelColor: AppColors.red,
               borderColor: AppColors.red,

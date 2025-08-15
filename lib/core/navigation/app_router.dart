@@ -97,8 +97,18 @@ final GoRouter appRouter = GoRouter(
       path: Screens.profile,
       name: 'profile',
       builder: (context, state) {
-        final isPublicProfile = state.extra as bool;
-        return ProfileScreen(isPublicProfile: isPublicProfile);
+        final extra = state.extra;
+        bool isPublicProfile = false;
+        String userId = '';
+
+        if (extra is List && extra.length >= 2) {
+          final first = extra[0];
+          final second = extra[1];
+
+          if (first is bool) isPublicProfile = first;
+          if (second != null) userId = second.toString();
+        }
+        return ProfileScreen(isPublicProfile: isPublicProfile, userId: userId);
       },
     ),
     // GoRoute(

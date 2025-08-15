@@ -1,5 +1,6 @@
 class User {
   String? sId;
+  String? userId;
   String? fullName;
   String? userFullName;
   String? name;
@@ -52,6 +53,7 @@ class User {
 
   User({
     this.sId,
+    this.userId,
     this.fullName,
     this.userFullName,
     this.name,
@@ -104,6 +106,7 @@ class User {
 
   User.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
+    userId = json['userId'];
     fullName = json['FullName'];
     userFullName = json['fullName'];
     name = json['name'];
@@ -157,6 +160,7 @@ class User {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data =  <String, dynamic>{};
     data['_id'] = sId;
+    data['userId'] = userId;
     data['FullName'] = fullName;
     data['fullName'] = userFullName;
     data['name'] = name;

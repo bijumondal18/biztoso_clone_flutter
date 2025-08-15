@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 
 import '../../../../../core/themes/app_colors.dart';
 import '../../../../../core/themes/app_sizes.dart';
@@ -45,7 +46,7 @@ class VerifiedBadge extends StatelessWidget {
                   right: 0,
                   top: -3,
                   child: Icon(
-                    Icons.check_circle,
+                    Iconsax.verify5,
                     color: Colors.green,
                     size: 26,
                   ),
