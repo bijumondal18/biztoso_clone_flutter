@@ -195,9 +195,8 @@ final class CancelConnectionRequestStateFailed extends UserState {
 // ------------------------ Get Chat list ---------------------------//
 final class ChatListStateLoading extends UserState {}
 
-final class ChatListStateLoaded extends UserState {
+class ChatListStateLoaded extends UserState {
   final ChatListResponse chatListResponse;
-
   const ChatListStateLoaded({required this.chatListResponse});
 
   @override

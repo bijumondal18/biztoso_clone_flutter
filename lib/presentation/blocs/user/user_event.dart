@@ -66,3 +66,11 @@ class DeclineReceivedInvitationEvent extends UserEvent {
 }
 
 class GetChatListEvent extends UserEvent {}
+
+class SearchChatsChanged extends UserEvent {
+  final String query;
+  const SearchChatsChanged(this.query);
+
+  @override
+  List<Object> get props => [query];
+}

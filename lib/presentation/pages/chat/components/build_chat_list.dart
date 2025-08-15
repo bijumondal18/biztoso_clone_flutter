@@ -20,12 +20,27 @@ class BuildChatList extends StatefulWidget {
 class _BuildChatListState extends State<BuildChatList> {
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<UserBloc, UserState>(
-      listener: (context, state) {},
+    return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
-        if (state is ChatListStateLoading) {}
+        // if (state is ChatListStateLoading) {}
         if (state is ChatListStateLoaded) {
           var items = state.chatListResponse.chats ?? [];
+          if (items.isEmpty) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 48),
+              child: Center(
+                child: Text(
+                  'No chats found',
+                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.surfaceContainer.withAlpha(150),
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            );
+          }
           return ListView.separated(
             itemCount: items.length,
             padding: EdgeInsets.symmetric(vertical: AppSizes.kDefaultPadding),

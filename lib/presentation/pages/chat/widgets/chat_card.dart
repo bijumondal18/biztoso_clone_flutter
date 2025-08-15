@@ -32,11 +32,31 @@ class ChatCard extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           children: [
             Padding(
-              padding: const EdgeInsets.only(top: 4.0),
-              child: ProfileAvatar(
-                imageUrl: '${chat.user?.profileImage}',
-                radius: 44,
-                onPressed: () {},
+              padding: const EdgeInsets.only(top: 2.0),
+              child: Stack(
+                children: [
+                  ProfileAvatar(
+                    imageUrl: '${chat.user?.profileImage}',
+                    radius: 44,
+                    onPressed: () {},
+                  ),
+                  Positioned(
+                    right: 0,
+                    bottom: 0,
+                    child: CircleAvatar(
+                      radius: 6,
+                      backgroundColor: Theme.of(
+                        context,
+                      ).scaffoldBackgroundColor,
+                      child: CircleAvatar(
+                        radius: 4,
+                        backgroundColor: chat.isOnline == true
+                            ? Colors.green
+                            : Theme.of(context).hintColor.withAlpha(150),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
             Expanded(

@@ -31,47 +31,53 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          'Inbox',
-          style: Theme.of(
-            context,
-          ).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.w900),
-        ),
-        bottom: PreferredSize(
-          preferredSize: Size.fromHeight(kTextTabBarHeight),
-          child: Padding(
-            padding: EdgeInsets.only(
-              left: AppSizes.kDefaultPadding,
-              right: AppSizes.kDefaultPadding / 3,
-              bottom: AppSizes.kDefaultPadding / 2,
-            ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: CustomSearchbar(
-                    searchHintText: 'Search here ...',
-                    controller: _searchCtrl,
+    return BlocProvider(
+      create: (context) => UserBloc()..add(GetChatListEvent()),
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text(
+            'Inbox',
+            style: Theme.of(
+              context,
+            ).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.w900),
+          ),
+          bottom: PreferredSize(
+            preferredSize: Size.fromHeight(kTextTabBarHeight),
+            child: Padding(
+              padding: EdgeInsets.only(
+                left: AppSizes.kDefaultPadding,
+                right: AppSizes.kDefaultPadding / 3,
+                bottom: AppSizes.kDefaultPadding / 2,
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: CustomSearchbar(
+                      searchHintText: 'Search here ...',
+                      controller: _searchCtrl,
+                      onChanged: (q) =>
+                          context.read<UserBloc>().add(SearchChatsChanged(q)),
+                      onClear: () {
+                        _searchCtrl.clear();
+                        context.read<UserBloc>().add(SearchChatsChanged(''));
+                      },
+                    ),
                   ),
-                ),
-                AppbarIcon(
-                  onPressed: () => appRouter.push(Screens.chatConnection),
-                  hasGradient: false,
-                  iconPath: EvaIcons.plus,
-                ),
-              ],
+                  AppbarIcon(
+                    onPressed: () => appRouter.push(Screens.chatConnection),
+                    hasGradient: false,
+                    iconPath: EvaIcons.plus,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
-      ),
-      body: BlocProvider(
-        create: (context) => UserBloc()..add(GetChatListEvent()),
-        child: SafeArea(child: BuildChatList()),
+        body: SafeArea(child: BuildChatList()),
       ),
     );
   }

@@ -1,30 +1,36 @@
 import 'package:intl/intl.dart';
 
 class DateTimeUtils {
+  /// Formats an ISO 8601 UTC string like "2025-08-13T06:23:26.541Z"
+  /// Rules:
+  /// 1) Today -> "10:02 AM"
+  /// 2) Yesterday -> "Yesterday"
+  /// 3) Day before yesterday -> weekday ("Monday", "Tuesday", ...)
+  /// 4) Else -> date "dd/MM/yy"
   static String formatChatTimestamp(String isoUtc, {DateTime? now}) {
-    // Parse and convert to local time
-    final dt = DateTime.parse(isoUtc).toLocal();
-    final ref = (now ?? DateTime.now()).toLocal();
+    try {
+      final dt = DateTime.parse(isoUtc).toLocal();
+      final ref = (now ?? DateTime.now()).toLocal();
 
-    // Strip time for day-diff comparison
-    DateTime justDate(DateTime d) => DateTime(d.year, d.month, d.day);
-    final diffDays = justDate(ref).difference(justDate(dt)).inDays;
+      DateTime justDate(DateTime d) => DateTime(d.year, d.month, d.day);
+      final diffDays = justDate(ref).difference(justDate(dt)).inDays;
 
-    // Day label: Today / Yesterday / Weekday
-    String dayLabel;
-    if (diffDays == 0) {
-      dayLabel = 'Today';
-    } else if (diffDays == 1) {
-      dayLabel = 'Yesterday';
-    } else {
-      dayLabel = DateFormat('EEEE').format(dt); // Monday, Tuesday, ...
+      if (diffDays == 0) {
+        // Today
+        return DateFormat('h:mm a').format(dt);
+      } else if (diffDays == 1) {
+        // Yesterday
+        return 'Yesterday';
+      } else if (diffDays == 2) {
+        // Day before yesterday -> weekday
+        return DateFormat('EEEE').format(dt);
+      } else {
+        // Everything else -> date only
+        return DateFormat('dd MMM').format(dt);
+      }
+    } catch (_) {
+      // Fallback if parsing fails
+      return isoUtc;
     }
-
-    // Time + short date
-    final timeStr = DateFormat('h:mm a').format(dt); // e.g., 10:02 AM
-    final dateStr = DateFormat('dd MMM').format(dt); // e.g., 06/07/25
-
-    return '$dateStr';
-    // return '$timeStr, $dayLabel, $dateStr';
   }
 }

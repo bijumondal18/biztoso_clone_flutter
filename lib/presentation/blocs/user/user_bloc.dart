@@ -24,10 +24,13 @@ EventTransformer<T> debounce<T>(Duration d) {
 class UserBloc extends Bloc<UserEvent, UserState> {
   String _connectionsQuery = '';
   String _pymkQuery = '';
+  String _chatQuery = '';
 
-  String get connectionsQuery =>
-      _connectionsQuery; // (optional) for restoring text
+  String get connectionsQuery => _connectionsQuery;
+
   String get pymkQuery => _pymkQuery;
+
+  String get chatQuery => _chatQuery;
 
   UserBloc() : super(UserInitial()) {
     on<SearchConnectionsChanged>((e, emit) {
@@ -38,6 +41,11 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     on<SearchPymkChanged>((e, emit) {
       _pymkQuery = e.query.trim();
       add(AllConnectionsListEvent()); // refetch PYMK only
+    }, transformer: debounce(const Duration(milliseconds: 300)));
+
+    on<SearchChatsChanged>((e, emit) {
+      _chatQuery = e.query.trim();
+      add(GetChatListEvent()); // refetch with search
     }, transformer: debounce(const Duration(milliseconds: 300)));
 
     // Get Language
@@ -301,13 +309,17 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       try {
         emit(ChatListStateLoading());
 
+        final queryParams = <String, dynamic>{
+          if (_chatQuery.isNotEmpty) 'search': _chatQuery,
+        };
+
         final response = await DioClient(
           baseUrl: ApiEndPoints.baseCore,
-        ).get(ApiEndPoints.getChatList);
-        if (response?.statusCode == 200) {
+        ).get(ApiEndPoints.getChatList, queryParams: queryParams);
+        if (response != null && response.statusCode == 200) {
           emit(
             ChatListStateLoaded(
-              chatListResponse: ChatListResponse.fromJson(response?.data),
+              chatListResponse: ChatListResponse.fromJson(response.data),
             ),
           );
         }
