@@ -71,10 +71,10 @@ class _ChatScreenState extends State<ChatScreen> {
                     onPressed: () => appRouter.push(
                       Screens.chatConnection,
                       extra: [
-                        false,
-                        '',
-                        '',
-                        true,
+                        false, // isPublicProfile - required here
+                        '', //userID - not needed here
+                        '', // profileName - not needed here
+                        true, // isComingFromChat - required here
                       ],
                     ),
                     hasGradient: false,
