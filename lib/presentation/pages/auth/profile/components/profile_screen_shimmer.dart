@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../../../core/themes/app_sizes.dart';
-
 class ProfileScreenShimmer extends StatelessWidget {
   const ProfileScreenShimmer({super.key});
+
+  static const double kBannerHeight = 220; // same as expandedHeight you use
+  static const double kAvatarSize = 112;   // matches real avatar (diameter)
 
   @override
   Widget build(BuildContext context) {
@@ -21,13 +23,76 @@ class ProfileScreenShimmer extends StatelessWidget {
 
     return CustomScrollView(
       slivers: [
-        // Banner shimmer (SliverAppBar replacement)
+        // Cover + overlapped avatar (like SliverAppBar + flexibleSpace)
         SliverToBoxAdapter(
-          child: Shimmer.fromColors(
-            baseColor: base,
-            highlightColor: highlight,
-            child: Container(height: 200 + kToolbarHeight, color: Colors.white),
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              // Cover shimmer
+              Shimmer.fromColors(
+                baseColor: base,
+                highlightColor: highlight,
+                child: Container(
+                  height: kBannerHeight,
+                  color: Colors.white,
+                ),
+              ),
+
+              // Overlapped circular avatar shimmer
+              Positioned(
+                left: AppSizes.kDefaultPadding,
+                bottom: -kAvatarSize / 2, // hang half below the banner
+                child: Shimmer.fromColors(
+                  baseColor: base,
+                  highlightColor: highlight,
+                  child: Container(
+                    padding: const EdgeInsets.all(3), // white ring
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).scaffoldBackgroundColor,
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Theme.of(context).shadowColor.withOpacity(0.08),
+                          blurRadius: 8,
+                        ),
+                      ],
+                    ),
+                    child: Container(
+                      width: kAvatarSize,
+                      height: kAvatarSize,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
+              // Optional: tiny verify-badge placeholder on avatar
+              Positioned(
+                left: AppSizes.kDefaultPadding + kAvatarSize - 26,
+                bottom: -kAvatarSize / 2 - 6,
+                child: Shimmer.fromColors(
+                  baseColor: base,
+                  highlightColor: highlight,
+                  child: Container(
+                    width: 22,
+                    height: 22,
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
+        ),
+
+        // Spacer so content doesn't sit under the overlapped avatar
+        SliverToBoxAdapter(
+          child: SizedBox(height: kAvatarSize / 2 + AppSizes.kDefaultPadding),
         ),
 
         // Body shimmer
@@ -81,9 +146,8 @@ class ProfileScreenShimmer extends StatelessWidget {
                         height: 80,
                         decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius: BorderRadius.circular(
-                            AppSizes.cardCornerRadius,
-                          ),
+                          borderRadius:
+                          BorderRadius.circular(AppSizes.cardCornerRadius),
                         ),
                       ),
                     ),
@@ -126,7 +190,7 @@ class ProfileScreenShimmer extends StatelessWidget {
 
               const SizedBox(height: AppSizes.kDefaultPadding),
 
-              // three big icons
+              // three big icons (badges)
               Shimmer.fromColors(
                 baseColor: base,
                 highlightColor: highlight,

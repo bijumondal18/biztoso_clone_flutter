@@ -13,6 +13,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:iconsax/iconsax.dart';
 
 import '../../../../core/resources/app_images.dart';
@@ -132,7 +133,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             Opacity(
                               opacity: 1 - t,
                               child: CachedNetworkImage(
-                                imageUrl: '${state.profileResponse.result?.coverPhoto}',
+                                imageUrl:
+                                    '${state.profileResponse.result?.coverPhoto}',
                                 fit: BoxFit.cover,
                                 placeholder: (_, __) => _defaultAvatar(),
                                 errorWidget: (_, __, ___) => _defaultAvatar(),
@@ -446,7 +448,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 spacing: AppSizes.kDefaultPadding,
                                 children: [
                                   Expanded(
-                                    flex: 3,
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
@@ -463,6 +464,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                   .result
                                                   ?.fullName,
                                             ]),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
                                             style: Theme.of(
                                               context,
                                             ).textTheme.headlineMedium,
@@ -480,6 +483,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             ),
                                             Text(
                                               '${state.profileResponse.result?.email}',
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .labelLarge!
@@ -501,6 +506,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             ),
                                             Text(
                                               '${state.profileResponse.result?.phoneNumber}',
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .labelLarge!
@@ -515,10 +522,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ),
 
                                   /// Build Connections Count Card
-                                  Expanded(
-                                    flex: 2,
-                                    child: _buildConnectionWidget(state),
-                                  ),
+                                  _buildConnectionWidget(state),
                                 ],
                               ),
 
@@ -736,10 +740,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           color: Colors.white,
                           shape: BoxShape.circle,
                         ),
-                        child: Icon(
-                          Iconsax.verify5,
-                          size: 20,
-                          color: Colors.green,
+                        child: SvgPicture.asset(
+                          AppImages.icGreenCheck,
+                          width: 20,
+                          height: 20,
                         ),
                       ),
                     ),
