@@ -21,7 +21,14 @@ class SearchPymkChanged extends UserEvent {
 
 class GetLanguageEvent extends UserEvent {}
 
-class GetConnectionsEvent extends UserEvent {}
+class GetConnectionsEvent extends UserEvent {
+  final String? userId;
+
+  const GetConnectionsEvent({this.userId});
+
+  @override
+  List<Object> get props => [userId ?? ''];
+}
 
 class AllConnectionsListEvent extends UserEvent {}
 
@@ -82,5 +89,5 @@ class FetchProfileDetailsEvent extends UserEvent {
   const FetchProfileDetailsEvent({this.userId});
 
   @override
-  List<Object> get props => [userId??''];
+  List<Object> get props => [userId ?? ''];
 }

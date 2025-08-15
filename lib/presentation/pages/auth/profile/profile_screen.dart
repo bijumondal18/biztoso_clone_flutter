@@ -533,8 +533,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget _buildConnectionWidget(FetchUserProfileStateLoaded state) {
     return InkWell(
       onTap: () => appRouter.push(
-        Screens.peopleYoyMayKnow,
-        extra: widget.isPublicProfile == true ? true : false,
+        Screens.chatConnection,
+        extra: [
+          widget.isPublicProfile,
+          state.profileResponse.result?.sId,
+          state.profileResponse.result?.fullName,
+          false // isComingFromChat
+        ],
       ),
       borderRadius: BorderRadius.circular(AppSizes.cardCornerRadius),
       child: Container(

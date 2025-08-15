@@ -11,7 +11,18 @@ import '../../widgets/appbar_icon.dart';
 import '../../widgets/custom_searchbar.dart';
 
 class ChatConnectionScreen extends StatefulWidget {
-  const ChatConnectionScreen({super.key});
+  final bool isPublicProfile;
+  final bool isComingFromChat;
+  final String? userId;
+  final String? profileName;
+
+  const ChatConnectionScreen({
+    super.key,
+    required this.isPublicProfile,
+    this.userId,
+    this.profileName,
+    this.isComingFromChat = false,
+  });
 
   @override
   State<ChatConnectionScreen> createState() => _ChatConnectionScreenState();
@@ -37,14 +48,19 @@ class _ChatConnectionScreenState extends State<ChatConnectionScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => UserBloc()..add(GetConnectionsEvent()),
+      create: (context) =>
+          UserBloc()..add(GetConnectionsEvent(userId: widget.userId)),
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
           scrolledUnderElevation: AppSizes.elevationSmall,
           leading: AppbarIcon(onPressed: () => appRouter.pop()),
           title: Text(
-            'Start New Conversation',
+            widget.isPublicProfile
+                ? '${widget.profileName}\'s Connection'
+                : widget.isComingFromChat
+                ? 'Start New Conversation'
+                : '',
             style: Theme.of(
               context,
             ).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.w900),

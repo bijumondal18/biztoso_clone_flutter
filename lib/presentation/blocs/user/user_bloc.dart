@@ -75,12 +75,16 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       try {
         emit(GetConnectionsStateLoading());
 
+        final uid = event.userId != null && event.userId!.isNotEmpty
+            ? event.userId
+            : userId;
+
         final queryParams = <String, dynamic>{
           if (_connectionsQuery.isNotEmpty) 'search': _connectionsQuery,
         };
 
         final response = await DioClient(baseUrl: ApiEndPoints.baseCore).get(
-          '${ApiEndPoints.getCurrentUsersConnectionList}/$userId',
+          '${ApiEndPoints.getCurrentUsersConnectionList}/$uid',
           queryParams: queryParams,
         );
         if (response?.statusCode == 200) {

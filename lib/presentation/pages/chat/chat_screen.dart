@@ -68,7 +68,15 @@ class _ChatScreenState extends State<ChatScreen> {
                     ),
                   ),
                   AppbarIcon(
-                    onPressed: () => appRouter.push(Screens.chatConnection),
+                    onPressed: () => appRouter.push(
+                      Screens.chatConnection,
+                      extra: [
+                        false,
+                        '',
+                        '',
+                        true,
+                      ],
+                    ),
                     hasGradient: false,
                     iconPath: EvaIcons.plus,
                   ),

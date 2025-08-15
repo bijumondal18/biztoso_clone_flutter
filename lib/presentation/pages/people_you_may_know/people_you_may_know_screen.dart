@@ -10,7 +10,8 @@ import '../../widgets/appbar_icon.dart';
 
 class PeopleYouMayKnowScreen extends StatefulWidget {
   final bool isPublicProfile;
-  const PeopleYouMayKnowScreen({super.key, this.isPublicProfile = false});
+  final String? userId;
+  const PeopleYouMayKnowScreen({super.key, this.isPublicProfile = false, this.userId});
 
   @override
   State<PeopleYouMayKnowScreen> createState() => _PeopleYouMayKnowScreenState();
@@ -48,7 +49,7 @@ class _PeopleYouMayKnowScreenState extends State<PeopleYouMayKnowScreen> {
               centerTitle: true,
               leading: AppbarIcon(onPressed: () => appRouter.pop()),
               title: Visibility(
-                visible: widget.isPublicProfile == true,
+                visible: widget.isPublicProfile,
                 child: Text(
                   "Ranjan's Connections",
                   style: Theme.of(context)

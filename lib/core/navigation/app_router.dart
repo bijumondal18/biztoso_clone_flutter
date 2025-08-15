@@ -62,7 +62,31 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: Screens.chatConnection,
       name: 'chatConnection',
-      builder: (context, state) => ChatConnectionScreen(),
+      builder: (context, state) {
+        final extra = state.extra;
+        bool isPublicProfile = false;
+        bool isComingFromChat = false;
+        String userId = '';
+        String profileName = '';
+
+        if (extra is List && extra.length >= 4) {
+          final first = extra[0];
+          final second = extra[1];
+          final third = extra[2];
+          final fourth = extra[3];
+
+          if (first is bool) isPublicProfile = first;
+          if (second != null) userId = second.toString();
+          if (third != null) profileName = third.toString();
+          if (fourth is bool) isComingFromChat = fourth;
+        }
+        return ChatConnectionScreen(
+          isPublicProfile: isPublicProfile,
+          userId: userId,
+          profileName: profileName,
+          isComingFromChat: isComingFromChat,
+        );
+      },
     ),
     GoRoute(
       path: Screens.chatInbox,
