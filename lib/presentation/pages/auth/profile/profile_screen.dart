@@ -352,16 +352,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           CrossAxisAlignment.start,
                                       spacing: AppSizes.kDefaultPadding / 2,
                                       children: [
-                                        Text(
-                                          AppUtils.firstNonEmptyTitle([
-                                            state
-                                                .profileResponse
-                                                .result
-                                                ?.fullName,
-                                          ]),
-                                          style: Theme.of(
-                                            context,
-                                          ).textTheme.headlineMedium,
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                            bottom: 4.0,
+                                          ),
+                                          child: Text(
+                                            AppUtils.firstNonEmptyTitle([
+                                              state
+                                                  .profileResponse
+                                                  .result
+                                                  ?.fullName,
+                                            ]),
+                                            style: Theme.of(
+                                              context,
+                                            ).textTheme.headlineMedium,
+                                          ),
                                         ),
                                         Row(
                                           spacing: AppSizes.kDefaultPadding / 2,
@@ -538,7 +543,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           widget.isPublicProfile,
           state.profileResponse.result?.sId,
           state.profileResponse.result?.fullName,
-          false // isComingFromChat
+          false, // isComingFromChat
         ],
       ),
       borderRadius: BorderRadius.circular(AppSizes.cardCornerRadius),

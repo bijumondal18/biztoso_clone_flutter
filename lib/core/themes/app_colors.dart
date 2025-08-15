@@ -69,8 +69,8 @@ class AppColors {
     begin: Alignment.centerLeft,
     end: Alignment.centerRight,
     colors: [
-      AppColors.canvasLight,
-      AppColors.canvasDark,
+      AppColors.hintLight,
+      AppColors.hintDark,
     ],
   );
 
