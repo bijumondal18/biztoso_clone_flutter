@@ -17,10 +17,13 @@ class MoreTile extends StatelessWidget {
     return ListTile(
       onTap: onPressed,
       dense: true,
-      leading: Icon(
-        moreOptions.iconPath,
-        size: 22,
-        color: Theme.of(context).colorScheme.surfaceContainer,
+      leading: Padding(
+        padding: const EdgeInsets.only(top: 2.0),
+        child: Icon(
+          moreOptions.iconPath,
+          size: 22,
+          color: Theme.of(context).colorScheme.surfaceContainer,
+        ),
       ),
       title: Text(
         moreOptions.label,

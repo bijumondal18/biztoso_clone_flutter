@@ -1,5 +1,6 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
 class MoreOptions {
@@ -10,15 +11,15 @@ class MoreOptions {
 }
 
 final List<MoreOptions> moreOptionsList = [
-  MoreOptions('Wishlist', EvaIcons.heartOutline),
+  MoreOptions('Wishlist', Iconsax.heart),
   MoreOptions('Settings', EvaIcons.settingsOutline),
   MoreOptions('My Store', Iconsax.shop),
   MoreOptions('My Leads', EvaIcons.personDoneOutline),
-  MoreOptions('Feedback', EvaIcons.messageSquareOutline),
+  MoreOptions('Feedback', Icons.reviews_outlined),
 ];
 
 final List<MoreOptions> supportOptionsList = [
-  MoreOptions('Blog', Iconsax.card),
+  MoreOptions('Blog', Icons.post_add_outlined),
   MoreOptions('FAQs', EvaIcons.questionMarkCircleOutline),
   MoreOptions('Knowledge Base', EvaIcons.bulbOutline),
   MoreOptions('User Support', Iconsax.support),
