@@ -8,8 +8,8 @@ class CreateNewPostCardShimmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
-    final base = Theme.of(context).dividerColor.withAlpha(80);
-    final highlight = Theme.of(context).dividerColor.withAlpha(30);
+    final base = Theme.of(context).dividerColor.withAlpha(130);
+    final highlight = Theme.of(context).dividerColor.withAlpha(60);
 
     Widget box({double? w, double h = 12, double r = 8}) => Container(
       width: w,

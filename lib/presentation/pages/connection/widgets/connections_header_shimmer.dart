@@ -6,9 +6,8 @@ class ConnectionsHeaderShimmer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness != Brightness.dark;
-    final base = isDark ? Colors.grey[600]! : Colors.grey[100]!;
-    final highlight = isDark ? Colors.grey[800]! : Colors.grey[400]!;
+    final base = Theme.of(context).dividerColor.withAlpha(130);
+    final highlight = Theme.of(context).dividerColor.withAlpha(60);
 
     // Mimics: “8 Connections”  → small box (number) + big box (text)
     return Shimmer.fromColors(
