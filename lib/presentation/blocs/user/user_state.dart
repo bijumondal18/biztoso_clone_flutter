@@ -136,15 +136,30 @@ final class SentConnectionRequestStateFailed extends UserState {
 // ------------------------ Get Received connection requests list ---------------------------//
 final class ReceivedConnectionRequestStateLoading extends UserState {}
 
-final class ReceivedConnectionRequestStateLoaded extends UserState {
+class ReceivedConnectionRequestStateLoaded extends UserState {
   final ConnectionReceivedResponse connectionReceivedResponse;
+
+  /// NEW: ids currently performing accept/decline (to show spinner)
+  final Set<String> inProgressIds;
 
   const ReceivedConnectionRequestStateLoaded({
     required this.connectionReceivedResponse,
+    this.inProgressIds = const {},
   });
 
+  ReceivedConnectionRequestStateLoaded copyWith({
+    ConnectionReceivedResponse? connectionReceivedResponse,
+    Set<String>? inProgressIds,
+  }) {
+    return ReceivedConnectionRequestStateLoaded(
+      connectionReceivedResponse:
+      connectionReceivedResponse ?? this.connectionReceivedResponse,
+      inProgressIds: inProgressIds ?? this.inProgressIds,
+    );
+  }
+
   @override
-  List<Object> get props => [connectionReceivedResponse];
+  List<Object> get props => [connectionReceivedResponse, inProgressIds];
 }
 
 final class ReceivedConnectionRequestStateFailed extends UserState {

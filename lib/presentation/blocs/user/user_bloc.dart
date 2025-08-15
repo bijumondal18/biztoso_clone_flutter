@@ -199,12 +199,16 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     on<SendConnectionRequestEvent>((event, emit) async {
       final cur = state;
       if (cur is AllConnectionListStateLoaded) {
-        emit(cur.copyWith(inProgressIds: {...cur.inProgressIds}..add(event.userId)));
+        emit(
+          cur.copyWith(
+            inProgressIds: {...cur.inProgressIds}..add(event.userId),
+          ),
+        );
       }
       try {
-        final res = await DioClient(baseUrl: ApiEndPoints.baseCore).post(
-          '${ApiEndPoints.sendConnectionRequest}/${event.userId}',
-        );
+        final res = await DioClient(
+          baseUrl: ApiEndPoints.baseCore,
+        ).post('${ApiEndPoints.sendConnectionRequest}/${event.userId}');
         if (res != null && res.statusCode == 201) {
           final s = state;
           if (s is AllConnectionListStateLoaded) {
@@ -214,12 +218,80 @@ class UserBloc extends Bloc<UserEvent, UserState> {
           }
           return;
         }
-      } catch (_) {/* fallthrough */}
+      } catch (_) {
+        /* fallthrough */
+      }
       // failure → unbusy only (keep list visible); optionally show a SnackBar via listener
       final s = state;
       if (s is AllConnectionListStateLoaded) {
         final busy = {...s.inProgressIds}..remove(event.userId);
         emit(s.copyWith(inProgressIds: busy));
+      }
+    });
+
+    // Accept
+    on<AcceptReceivedInvitationEvent>((event, emit) async {
+      final cur = state;
+      if (cur is ReceivedConnectionRequestStateLoaded) {
+        emit(
+          cur.copyWith(
+            inProgressIds: {...cur.inProgressIds}..add(event.userId),
+          ),
+        );
+      }
+
+      try {
+        // 🔁 Adjust endpoint/method to your backend
+        final res = await DioClient(
+          baseUrl: ApiEndPoints.baseCore,
+        ).put('${ApiEndPoints.acceptConnectionRequestList}/${event.userId}');
+
+        if (res != null && res.statusCode == 200) {
+          // ✅ refresh the received list so the accepted item disappears
+          add(ReceivedRequestConnectionsListEvent());
+          return;
+        }
+      } catch (_) {}
+
+      // ❌ failure: unmark busy
+      final s = state;
+      if (s is ReceivedConnectionRequestStateLoaded) {
+        emit(
+          s.copyWith(inProgressIds: {...s.inProgressIds}..remove(event.userId)),
+        );
+      }
+    });
+
+    // Decline
+    on<DeclineReceivedInvitationEvent>((event, emit) async {
+      final cur = state;
+      if (cur is ReceivedConnectionRequestStateLoaded) {
+        emit(
+          cur.copyWith(
+            inProgressIds: {...cur.inProgressIds}..add(event.userId),
+          ),
+        );
+      }
+
+      try {
+        // 🔁 Adjust endpoint/method to your backend
+        final res = await DioClient(
+          baseUrl: ApiEndPoints.baseCore,
+        ).put('${ApiEndPoints.declineConnectionRequestList}/${event.userId}');
+
+        if (res != null && res.statusCode == 200) {
+          // ✅ refresh so the declined item disappears
+          add(ReceivedRequestConnectionsListEvent());
+          return;
+        }
+      } catch (_) {}
+
+      // ❌ failure: unmark busy
+      final s = state;
+      if (s is ReceivedConnectionRequestStateLoaded) {
+        emit(
+          s.copyWith(inProgressIds: {...s.inProgressIds}..remove(event.userId)),
+        );
       }
     });
   }

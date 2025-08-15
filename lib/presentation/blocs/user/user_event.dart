@@ -33,10 +33,34 @@ class CancelConnectionRequestEvent extends UserEvent {
   final String userId;
 
   const CancelConnectionRequestEvent({required this.userId});
+
+  @override
+  List<Object> get props => [userId];
 }
 
 class SendConnectionRequestEvent extends UserEvent {
   final String userId;
 
   const SendConnectionRequestEvent({required this.userId});
+
+  @override
+  List<Object> get props => [userId];
+}
+
+class AcceptReceivedInvitationEvent extends UserEvent {
+  final String userId;
+
+  const AcceptReceivedInvitationEvent({required this.userId});
+
+  @override
+  List<Object> get props => [userId];
+}
+
+class DeclineReceivedInvitationEvent extends UserEvent {
+  final String userId;
+
+  const DeclineReceivedInvitationEvent({required this.userId});
+
+  @override
+  List<Object> get props => [userId];
 }

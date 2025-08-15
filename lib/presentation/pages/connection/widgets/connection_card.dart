@@ -162,17 +162,54 @@ class ConnectionCard extends StatelessWidget {
           height: AppSizes.smallButtonHeight,
         );
       case 'receivedInvitation':
+        final id = docs.sId?.toString()??'';
+
+        final busy = context.select<UserBloc, bool>((b) {
+          final s = b.state;
+          if (s is ReceivedConnectionRequestStateLoaded) {
+            return id.isNotEmpty && s.inProgressIds.contains(id);
+          }
+          return false;
+        });
+
+        if (busy) {
+          return SizedBox(
+            height: AppSizes.smallButtonHeight,
+            width: 200, // roughly the width of the two buttons
+            child: Center(
+              child: SizedBox(width: 18, height: 18,
+                child: CupertinoActivityIndicator(color: Theme.of(context).colorScheme.surfaceContainer),
+              ),
+            ),
+          );
+        }
         return Row(
           spacing: AppSizes.kDefaultPadding / 2,
           children: [
             CustomPrimaryButton(
               label: 'Accept',
-              onPressed: () {},
+              onPressed: () {
+                if (id.isEmpty) {
+                  SnackBarHelper.show('Unable to accept: missing id');
+                  return;
+                }
+                context
+                    .read<UserBloc>()
+                    .add(AcceptReceivedInvitationEvent(userId: id));
+              },
               height: AppSizes.smallButtonHeight,
             ),
             CustomOutlineButton(
               label: 'Decline',
-              onPressed: () {},
+              onPressed: () {
+                if (id.isEmpty) {
+                  SnackBarHelper.show('Unable to decline: missing id');
+                  return;
+                }
+                context
+                    .read<UserBloc>()
+                    .add(DeclineReceivedInvitationEvent(userId: id));
+              },
               labelColor: AppColors.red,
               borderColor: AppColors.red,
               height: AppSizes.smallButtonHeight,
