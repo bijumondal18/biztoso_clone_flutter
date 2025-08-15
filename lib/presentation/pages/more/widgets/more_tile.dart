@@ -26,7 +26,7 @@ class MoreTile extends StatelessWidget {
         moreOptions.label,
         style: Theme.of(
           context,
-        ).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w600),
+        ).textTheme.titleSmall!.copyWith(fontWeight: FontWeight.w600),
       ),
       trailing: Icon(
         EvaIcons.arrowIosForward,
