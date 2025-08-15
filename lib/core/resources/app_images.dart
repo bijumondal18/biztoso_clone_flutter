@@ -11,4 +11,6 @@ class AppImages {
   static const String imgVoice = '${basePath}img_voice$extensionSvg';
   static const String avatarPlaceholder =
       '${basePath}avatar_placeholder$extensionPng';
+  static const String icGreenCheck = '${basePath}ic_green_check$extensionSvg';
+
 }
