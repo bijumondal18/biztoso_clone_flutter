@@ -68,21 +68,27 @@ class ChatCard extends StatelessWidget {
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
+              spacing: 4.0,
               children: [
                 Text(
-                  DateTimeUtils.formatChatTimestamp(chat.lastMessageAt.toString()),
+                  DateTimeUtils.formatChatTimestamp(
+                    chat.lastMessageAt.toString(),
+                  ),
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     fontWeight: FontWeight.w600,
-                    color: Theme.of(
-                      context,
-                    ).colorScheme.surfaceContainer.withAlpha(180),
+                    color: chat.unreadMessagesCount != 0
+                        ? Theme.of(context).primaryColor
+                        : Theme.of(
+                            context,
+                          ).colorScheme.surfaceContainer.withAlpha(180),
                   ),
                 ),
                 Visibility(
                   visible: chat.unreadMessagesCount != 0,
                   child: Container(
                     alignment: Alignment.center,
-                    padding: EdgeInsets.all(AppSizes.kDefaultPadding / 3),
+                    width: 20,
+                    height: 20,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: Theme.of(context).primaryColor,
@@ -90,7 +96,7 @@ class ChatCard extends StatelessWidget {
                     child: Text(
                       '${chat.unreadMessagesCount}',
                       textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                      style: Theme.of(context).textTheme.labelMedium!.copyWith(
                         color: AppColors.white,
                         fontWeight: FontWeight.w600,
                       ),
