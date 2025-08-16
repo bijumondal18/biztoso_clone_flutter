@@ -638,18 +638,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       .copyWith(fontWeight: FontWeight.w600),
                                 ),
                               ),
-                              BuildSocialPresenceList(
-                                socialMedia:
-                                    state.profileResponse.result?.socialmedia ??
-                                    [],
-                                isPublicProfile: widget.isPublicProfile,
-                                onAdd: (platform, link) {
-                                  // context.read<UserBloc>().add(AddSocialLinkEvent(platform: platform, link: link));
-                                },
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: AppSizes.kDefaultPadding),
+                                child: BuildSocialPresenceList(
+                                  socialMedia:
+                                      state.profileResponse.result?.socialmedia ??
+                                      [],
+                                  isPublicProfile: widget.isPublicProfile,
+                                  onAdd: (platform, link) {
+                                    // context.read<UserBloc>().add(AddSocialLinkEvent(platform: platform, link: link));
+                                  },
+                                ),
                               ),
                             ],
                           ),
                         ),
+                        HorizontalDivider(),
+
                       ],
                     ),
                   ),

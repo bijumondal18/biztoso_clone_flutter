@@ -34,6 +34,8 @@ class BuildSocialPresenceList extends StatelessWidget {
 
     if (items.isEmpty && onAdd == null) return const SizedBox.shrink();
 
+    final double circleSize = iconSize + padding * 2;
+
     return Padding(
       padding: const EdgeInsets.only(left: AppSizes.kDefaultPadding),
       child: Wrap(
@@ -47,7 +49,7 @@ class BuildSocialPresenceList extends StatelessWidget {
               platform: e.platform,
               url: e.link!,
               iconSize: iconSize,
-              padding: padding,
+              circleSize: circleSize,
             ),
           ),
 
@@ -57,7 +59,8 @@ class BuildSocialPresenceList extends StatelessWidget {
               visible: !isPublicProfile,
               child: _AddSocialButton(
                 onPressed: () => _showAddSocialBottomSheet(context),
-                size: iconSize + padding * 1.4,
+                size: circleSize,
+                iconSize: iconSize,
               ),
             ),
         ],
@@ -234,18 +237,19 @@ class _SocialIcon extends StatelessWidget {
   final int? platform;
   final String url;
   final double iconSize;
-  final double padding;
+  final double circleSize;
 
   const _SocialIcon({
     required this.platform,
     required this.url,
     required this.iconSize,
-    required this.padding,
+    required this.circleSize,
   });
 
   @override
   Widget build(BuildContext context) {
     final (asset, label) = _iconFor(platform);
+
     return Tooltip(
       message: label,
       child: InkWell(
@@ -256,17 +260,22 @@ class _SocialIcon extends StatelessWidget {
             await launchUrl(uri, mode: LaunchMode.externalApplication);
           }
         },
-        child: Container(
-          padding: EdgeInsets.all(padding),
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(width: 1, color: Theme.of(context).dividerColor),
-          ),
-          child: SvgPicture.asset(
-            asset,
-            width: iconSize,
-            height: iconSize,
-            fit: BoxFit.contain,
+        child: SizedBox(
+          width: circleSize,
+          height: circleSize,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(width: 1, color: Theme.of(context).dividerColor),
+            ),
+            child: Center(
+              child: SvgPicture.asset(
+                asset,
+                width: iconSize,
+                height: iconSize,
+                fit: BoxFit.contain,
+              ),
+            ),
           ),
         ),
       ),
@@ -294,8 +303,13 @@ class _SocialIcon extends StatelessWidget {
 class _AddSocialButton extends StatelessWidget {
   final VoidCallback onPressed;
   final double size;
+  final double iconSize;
 
-  const _AddSocialButton({required this.onPressed, required this.size});
+  const _AddSocialButton({
+    required this.onPressed,
+    required this.size,
+    required this.iconSize,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -303,19 +317,20 @@ class _AddSocialButton extends StatelessWidget {
       onTap: onPressed,
       customBorder: const CircleBorder(),
       child: DottedBorder(
+        // If your package version supports this API:
         options: CircularDottedBorderOptions(
-          dashPattern: const [5, 4],
+          dashPattern: const [5, 6],
           color: Theme.of(context).primaryColor,
-          strokeWidth: 1.4,
+          strokeWidth: 1,
         ),
-
-        child: SizedBox(
-          width: size,
-          height: size,
-          child: Icon(
-            Icons.add,
-            size: 24,
-            color: Theme.of(context).primaryColor,
+        child: Padding(
+          padding: const EdgeInsets.only(left: 2.0),
+          child: SizedBox(
+            width: size-8,
+            height: size-8,
+            child: Center(
+              child: Icon(Icons.add, color: Theme.of(context).primaryColor),
+            ),
           ),
         ),
       ),
