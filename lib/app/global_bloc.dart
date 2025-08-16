@@ -1,6 +1,8 @@
 import 'package:biztoso/core/api_service/dio_client.dart';
 import 'package:biztoso/core/api_service/end_points.dart';
+import 'package:biztoso/data/repositories/post_repository.dart';
 import 'package:biztoso/presentation/blocs/auth/auth_bloc.dart';
+import 'package:biztoso/presentation/blocs/post/post_bloc.dart';
 import 'package:biztoso/presentation/blocs/user/user_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,6 +19,7 @@ class GlobalBloc extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => AuthBloc()),
         BlocProvider(create: (context) => UserBloc()),
+        BlocProvider(create: (context) => PostBloc(repo: PostRepository())),
       ],
       child: child,
     );
