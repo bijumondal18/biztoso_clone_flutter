@@ -33,10 +33,10 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   static const double kExpandedHeight = 200; // cover height
-  static const double kAvatarMax = 112; // expanded diameter
+  static const double kAvatarMax = 122; // expanded diameter
   static const double kAvatarMin =
-      44; // collapsed diameter (smaller than before)
-  static const double kLeadingWidth = 36; // default AppBar leading space
+      46; // collapsed diameter (smaller than before)
+  static const double kLeadingWidth = 42; // default AppBar leading space
 
   @override
   Widget build(BuildContext context) {

@@ -29,7 +29,7 @@ class VerifiedBadge extends StatelessWidget {
                 ? AppColors.primaryGradient
                 : AppColors.secondaryGradient,
             borderRadius: BorderRadius.circular(
-              AppSizes.cardCornerRadius * 1.8,
+              AppSizes.cardCornerRadius * 2,
             ),
           ),
           child: Icon(

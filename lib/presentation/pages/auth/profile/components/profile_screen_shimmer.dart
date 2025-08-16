@@ -4,8 +4,8 @@ import '../../../../../core/themes/app_sizes.dart';
 class ProfileScreenShimmer extends StatelessWidget {
   const ProfileScreenShimmer({super.key});
 
-  static const double kBannerHeight = 220; // same as expandedHeight you use
-  static const double kAvatarSize = 112;   // matches real avatar (diameter)
+  static const double kBannerHeight = 200; // same as expandedHeight you use
+  static const double kAvatarSize = 122;   // matches real avatar (diameter)
 
   @override
   Widget build(BuildContext context) {
