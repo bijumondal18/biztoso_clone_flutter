@@ -153,6 +153,7 @@ class BuildSocialPresenceList extends StatelessWidget {
                       controller: ctrl,
                       decoration: InputDecoration(
                         labelText: 'Link (e.g. https://instagram.com/username)',
+                        // labelStyle: Theme.of(context).textTheme.bodyLarge,
                         contentPadding: const EdgeInsets.symmetric(
                           horizontal: AppSizes.kDefaultPadding,
                         ),
