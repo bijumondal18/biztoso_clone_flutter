@@ -41,7 +41,7 @@ class Result {
   String? businessType;
   int? age;
   List<Userinfo>? userinfo;
-  List<Socialmedia>? socialmedia;
+  List<SocialMedia>? socialmedia;
   dynamic connectionFlag;
   dynamic connectionStatus;
   bool? isBlocked;
@@ -117,9 +117,9 @@ class Result {
       });
     }
     if (json['socialmedia'] != null) {
-      socialmedia = <Socialmedia>[];
+      socialmedia = <SocialMedia>[];
       json['socialmedia'].forEach((v) {
-        socialmedia!.add(new Socialmedia.fromJson(v));
+        socialmedia!.add(new SocialMedia.fromJson(v));
       });
     }
     connectionFlag = json['connectionFlag'];
@@ -227,7 +227,7 @@ class Userinfo {
   }
 }
 
-class Socialmedia {
+class SocialMedia {
   String? sId;
   int? platform;
   String? link;
@@ -236,7 +236,7 @@ class Socialmedia {
   String? updatedAt;
   int? iV;
 
-  Socialmedia(
+  SocialMedia(
       {this.sId,
         this.platform,
         this.link,
@@ -245,7 +245,7 @@ class Socialmedia {
         this.updatedAt,
         this.iV});
 
-  Socialmedia.fromJson(Map<String, dynamic> json) {
+  SocialMedia.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     platform = json['platform'];
     link = json['link'];
@@ -256,7 +256,7 @@ class Socialmedia {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data =  Map<String, dynamic>();
     data['_id'] = this.sId;
     data['platform'] = this.platform;
     data['link'] = this.link;

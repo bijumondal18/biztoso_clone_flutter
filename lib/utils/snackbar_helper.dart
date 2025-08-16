@@ -14,12 +14,16 @@ class SnackBarHelper {
       messenger.showSnackBar(
         SnackBar(
           backgroundColor: AppColors.red,
+          elevation: 0.0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppSizes.cardCornerRadius),
+          ),
           content: Text(
             message,
             style: GoogleFonts.lato(
-              fontSize: AppSizes.bodyMedium,
+              fontSize: AppSizes.titleSmall,
               color: AppColors.white,
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w600,
             ),
           ),
           behavior: SnackBarBehavior.floating,

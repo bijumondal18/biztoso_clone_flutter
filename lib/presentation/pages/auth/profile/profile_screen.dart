@@ -2,6 +2,7 @@ import 'package:biztoso/core/navigation/app_router.dart';
 import 'package:biztoso/core/navigation/screens.dart';
 import 'package:biztoso/core/themes/app_colors.dart';
 import 'package:biztoso/core/themes/app_sizes.dart';
+import 'package:biztoso/presentation/pages/auth/profile/components/build_social_presence_list.dart';
 import 'package:biztoso/presentation/pages/auth/profile/widgets/verified_badge.dart';
 import 'package:biztoso/presentation/pages/auth/profile/widgets/verify_now_button.dart';
 import 'package:biztoso/presentation/widgets/appbar_icon.dart';
@@ -196,6 +197,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   SliverFillRemaining(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.max,
                       children: [
                         Padding(
                           padding: const EdgeInsets.symmetric(
@@ -616,21 +618,37 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                         ),
                         HorizontalDivider(),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: AppSizes.kDefaultPadding,
-                                vertical: AppSizes.kDefaultPadding / 2,
+                        Visibility(
+                          visible: state
+                              .profileResponse
+                              .result!
+                              .socialmedia!
+                              .isNotEmpty,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: AppSizes.kDefaultPadding,
+                                  vertical: AppSizes.kDefaultPadding / 2,
+                                ),
+                                child: Text(
+                                  'Social Presence',
+                                  style: Theme.of(context).textTheme.titleSmall!
+                                      .copyWith(fontWeight: FontWeight.w600),
+                                ),
                               ),
-                              child: Text(
-                                'Social Presence',
-                                style: Theme.of(context).textTheme.titleSmall!
-                                    .copyWith(fontWeight: FontWeight.w600),
+                              BuildSocialPresenceList(
+                                socialMedia:
+                                    state.profileResponse.result?.socialmedia ??
+                                    [],
+                                isPublicProfile: widget.isPublicProfile,
+                                onAdd: (platform, link) {
+                                  // context.read<UserBloc>().add(AddSocialLinkEvent(platform: platform, link: link));
+                                },
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ],
                     ),
