@@ -1,4 +1,6 @@
+import 'package:biztoso/data/models/chat_list_response.dart';
 import 'package:biztoso/presentation/widgets/profile_avatar.dart';
+import 'package:biztoso/utils/app_utils.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/navigation/app_router.dart';
@@ -6,7 +8,9 @@ import '../../../core/themes/app_sizes.dart';
 import '../../widgets/appbar_icon.dart';
 
 class ChatInboxScreen extends StatefulWidget {
-  const ChatInboxScreen({super.key});
+  final Chats chats;
+
+  const ChatInboxScreen({super.key, required this.chats});
 
   @override
   State<ChatInboxScreen> createState() => _ChatInboxScreenState();
@@ -24,8 +28,7 @@ class _ChatInboxScreenState extends State<ChatInboxScreen> {
           spacing: AppSizes.kDefaultPadding / 2,
           children: [
             ProfileAvatar(
-              imageUrl:
-                  'https://static-cse.canva.com/blob/2121234/1600w-B-cRyoh7b98.jpg',
+              imageUrl: '${widget.chats.user?.profileImage}',
               radius: 38,
               onPressed: () {},
             ),
@@ -33,15 +36,19 @@ class _ChatInboxScreenState extends State<ChatInboxScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Kushal Kumar',
+                  AppUtils.firstNonEmptyTitle([
+                    widget.chats.user?.userFullName,
+                  ]),
                   style: Theme.of(
                     context,
                   ).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w600),
                 ),
                 Text(
-                  'Online',
+                  widget.chats.isOnline == true ? 'Online' : 'Offline',
                   style: Theme.of(context).textTheme.labelMedium!.copyWith(
-                    color: Colors.green,
+                    color: widget.chats.isOnline == true
+                        ? Colors.green
+                        : Theme.of(context).hintColor,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -49,7 +56,16 @@ class _ChatInboxScreenState extends State<ChatInboxScreen> {
             ),
           ],
         ),
-        actions: [],
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: Icon(
+              Icons.more_vert,
+              size: 24,
+              color: Theme.of(context).colorScheme.surfaceContainer,
+            ),
+          ),
+        ],
       ),
       body: ListView(children: []),
     );

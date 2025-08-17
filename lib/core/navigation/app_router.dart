@@ -1,4 +1,5 @@
 import 'package:biztoso/core/navigation/screens.dart';
+import 'package:biztoso/data/models/chat_list_response.dart';
 import 'package:biztoso/data/models/language.dart';
 import 'package:biztoso/presentation/pages/auth/edit_profile_picture/edit_profile_picture_screen.dart';
 import 'package:biztoso/presentation/pages/chat_connection/chat_connection_screen.dart';
@@ -92,7 +93,10 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: Screens.chatInbox,
       name: 'chatInbox',
-      builder: (context, state) => ChatInboxScreen(),
+      builder: (context, state) {
+        final Chats chats = state.extra as Chats;
+        return ChatInboxScreen(chats: chats);
+      },
     ),
     GoRoute(
       path: Screens.createPost,

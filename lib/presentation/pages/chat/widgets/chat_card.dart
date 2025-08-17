@@ -19,7 +19,7 @@ class ChatCard extends StatelessWidget {
     final displayName = AppUtils.firstNonEmptyTitle([chat.user?.userFullName]);
 
     return InkWell(
-      onTap: () => appRouter.push(Screens.chatInbox),
+      onTap: () => appRouter.push(Screens.chatInbox, extra: chat),
       child: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: AppSizes.kDefaultPadding,
@@ -38,7 +38,10 @@ class ChatCard extends StatelessWidget {
                   ProfileAvatar(
                     imageUrl: '${chat.user?.profileImage}',
                     radius: 44,
-                    onPressed: () {},
+                    onPressed: () => appRouter.push(
+                      Screens.editProfilePic,
+                      extra: chat.user?.profileImage ?? '',
+                    ),
                   ),
                   Positioned(
                     right: 0,

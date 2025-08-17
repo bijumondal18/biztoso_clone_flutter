@@ -23,16 +23,25 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   final _searchCtrl = TextEditingController();
 
+  late final UserBloc _bloc; // <-- stable instance
+
+  @override
+  void initState() {
+    super.initState();
+    _bloc = UserBloc()..add(GetChatListEvent()); // create once
+  }
+
   @override
   void dispose() {
     _searchCtrl.dispose();
+    _bloc.close(); // dispose once
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => UserBloc()..add(GetChatListEvent()),
+    return BlocProvider.value(
+      value: _bloc,
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -59,11 +68,10 @@ class _ChatScreenState extends State<ChatScreen> {
                     child: CustomSearchbar(
                       searchHintText: 'Search here ...',
                       controller: _searchCtrl,
-                      onChanged: (q) =>
-                          context.read<UserBloc>().add(SearchChatsChanged(q)),
+                      onChanged: (q) => _bloc.add(SearchChatsChanged(q)),
                       onClear: () {
                         _searchCtrl.clear();
-                        context.read<UserBloc>().add(SearchChatsChanged(''));
+                        _bloc.add(SearchChatsChanged(''));
                       },
                     ),
                   ),
