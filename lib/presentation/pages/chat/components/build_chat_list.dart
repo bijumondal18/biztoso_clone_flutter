@@ -1,5 +1,6 @@
 import 'package:biztoso/core/navigation/app_router.dart';
 import 'package:biztoso/core/navigation/screens.dart';
+import 'package:biztoso/presentation/pages/chat/components/chat_list_shimmer.dart';
 import 'package:biztoso/presentation/pages/chat/widgets/chat_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,7 +23,9 @@ class _BuildChatListState extends State<BuildChatList> {
   Widget build(BuildContext context) {
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
-        // if (state is ChatListStateLoading) {}
+        if (state is ChatListStateLoading) {
+          return const ChatListShimmer();
+        }
         if (state is ChatListStateLoaded) {
           var items = state.chatListResponse.chats ?? [];
           if (items.isEmpty) {

@@ -30,26 +30,30 @@ class ChatConnectionScreen extends StatefulWidget {
 
 class _ChatConnectionScreenState extends State<ChatConnectionScreen> {
   final _searchCtrl = TextEditingController();
+  late final UserBloc _bloc; // <-- stable instance
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _searchCtrl.text = context.read<UserBloc>().connectionsQuery;
-    });
+    _bloc = UserBloc()
+      ..add(GetConnectionsEvent(userId: widget.userId)); // create once
+
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   _searchCtrl.text = context.read<UserBloc>().connectionsQuery;
+    // });
   }
 
   @override
   void dispose() {
     _searchCtrl.dispose();
+    _bloc.close(); // dispose once
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) =>
-          UserBloc()..add(GetConnectionsEvent(userId: widget.userId)),
+    return BlocProvider.value(
+      value: _bloc,
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -76,14 +80,10 @@ class _ChatConnectionScreenState extends State<ChatConnectionScreen> {
               child: CustomSearchbar(
                 searchHintText: 'Search here ...',
                 controller: _searchCtrl,
-                onChanged: (q) => context.read<UserBloc>().add(
-                  SearchConnectionsChanged(query: q),
-                ),
+                onChanged: (q) => _bloc.add(SearchConnectionsChanged(query: q)),
                 onClear: () {
                   _searchCtrl.clear();
-                  context.read<UserBloc>().add(
-                    SearchConnectionsChanged(query: ''),
-                  );
+                  _bloc.add(SearchConnectionsChanged(query: ''));
                 },
               ),
             ),
