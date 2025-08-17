@@ -40,7 +40,7 @@ class ChatCard extends StatelessWidget {
                     radius: 44,
                     onPressed: () => appRouter.push(
                       Screens.editProfilePic,
-                      extra: chat.user?.profileImage ?? '',
+                      extra: [true, chat.user?.profileImage ?? '',],
                     ),
                   ),
                   Positioned(

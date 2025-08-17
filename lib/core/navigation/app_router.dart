@@ -94,7 +94,7 @@ final GoRouter appRouter = GoRouter(
       path: Screens.chatInbox,
       name: 'chatInbox',
       builder: (context, state) {
-        final Chats chats = state.extra as Chats;
+        final Chats? chats = state.extra as Chats;
         return ChatInboxScreen(chats: chats);
       },
     ),
@@ -106,11 +106,38 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: Screens.editProfilePic,
       name: 'editProfilePic',
-      builder: (context, state) {
-        final imageUrl = state.extra as String;
-        return ProfilePictureViewScreen(profilePic: imageUrl);
+      pageBuilder: (context, state) {
+        final extra = state.extra;
+        bool isPublicProfile = false;
+        String imageUrl = '';
+
+        if (extra is List && extra.length >= 2) {
+          final first = extra[0];
+          final second = extra[1];
+          if (first is bool) isPublicProfile = first;
+          if (second != null) imageUrl = second.toString();
+        }
+        return CustomTransitionPage(
+          barrierColor: Colors.transparent,
+          opaque: false, // <-- this is the key
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(opacity: animation, child: child);
+          },
+          child: ProfilePictureViewScreen(
+            imageUrl: imageUrl,
+            isPublicProfile: isPublicProfile,
+          ),
+        );
       },
     ),
+    // GoRoute(
+    //   path: Screens.editProfilePic,
+    //   name: 'editProfilePic',
+    //   builder: (context, state) {
+    //     final imageUrl = state.extra as String;
+    //     return ProfilePictureViewScreen(profilePic: imageUrl);
+    //   },
+    // ),
     // GoRoute(
     //   path: Screens.analytics,
     //   name: 'analytics',

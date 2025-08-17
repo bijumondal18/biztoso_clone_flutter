@@ -37,7 +37,7 @@ class BuildProfileAppBar extends StatelessWidget {
           child: AppbarIcon(
             onPressed: () => appRouter.push(
               Screens.editProfilePic,
-              extra: profileResponse.result?.coverPhoto,
+              extra: [isPublicProfile, profileResponse.result?.coverPhoto],
             ),
             iconPath: Icons.edit,
           ),
@@ -108,7 +108,7 @@ class BuildProfileAppBar extends StatelessWidget {
                   child: GestureDetector(
                     onTap: () => appRouter.push(
                       Screens.editProfilePic,
-                      extra: profileResponse.result?.profilePic,
+                      extra: [isPublicProfile, profileResponse.result?.profilePic],
                     ),
                     child: CircleAvatar(
                       radius: avatarSize / 2,

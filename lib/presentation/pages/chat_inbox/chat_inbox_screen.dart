@@ -8,9 +8,9 @@ import '../../../core/themes/app_sizes.dart';
 import '../../widgets/appbar_icon.dart';
 
 class ChatInboxScreen extends StatefulWidget {
-  final Chats chats;
+  final Chats? chats;
 
-  const ChatInboxScreen({super.key, required this.chats});
+  const ChatInboxScreen({super.key,  this.chats});
 
   @override
   State<ChatInboxScreen> createState() => _ChatInboxScreenState();
@@ -28,7 +28,7 @@ class _ChatInboxScreenState extends State<ChatInboxScreen> {
           spacing: AppSizes.kDefaultPadding / 2,
           children: [
             ProfileAvatar(
-              imageUrl: '${widget.chats.user?.profileImage}',
+              imageUrl: '${widget.chats?.user?.profileImage}',
               radius: 38,
               onPressed: () {},
             ),
@@ -37,16 +37,16 @@ class _ChatInboxScreenState extends State<ChatInboxScreen> {
               children: [
                 Text(
                   AppUtils.firstNonEmptyTitle([
-                    widget.chats.user?.userFullName,
+                    widget.chats?.user?.userFullName,
                   ]),
                   style: Theme.of(
                     context,
                   ).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w600),
                 ),
                 Text(
-                  widget.chats.isOnline == true ? 'Online' : 'Offline',
+                  widget.chats?.isOnline == true ? 'Online' : 'Offline',
                   style: Theme.of(context).textTheme.labelMedium!.copyWith(
-                    color: widget.chats.isOnline == true
+                    color: widget.chats?.isOnline == true
                         ? Colors.green
                         : Theme.of(context).hintColor,
                     fontWeight: FontWeight.w600,
