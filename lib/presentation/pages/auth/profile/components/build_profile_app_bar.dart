@@ -1,3 +1,4 @@
+import 'package:biztoso/core/navigation/screens.dart';
 import 'package:biztoso/data/models/profile_response.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
@@ -33,7 +34,13 @@ class BuildProfileAppBar extends StatelessWidget {
       actions: [
         Visibility(
           visible: isPublicProfile == false,
-          child: AppbarIcon(onPressed: () {}, iconPath: EvaIcons.edit),
+          child: AppbarIcon(
+            onPressed: () => appRouter.push(
+              Screens.editProfilePic,
+              extra: profileResponse.result?.coverPhoto,
+            ),
+            iconPath: Icons.edit,
+          ),
         ),
       ],
       // ⚠️ No `bottom:` here — allows full collapse
@@ -98,17 +105,23 @@ class BuildProfileAppBar extends StatelessWidget {
                       ),
                     ],
                   ),
-                  child: CircleAvatar(
-                    radius: avatarSize / 2,
-                    backgroundImage:
-                        (profileResponse.result?.profilePic?.isNotEmpty ??
-                            false)
-                        ? NetworkImage(profileResponse.result!.profilePic!)
-                        : const AssetImage(
-                                'assets/images/avatar_placeholder.png',
-                              )
-                              as ImageProvider,
-                    backgroundColor: Theme.of(context).dividerColor,
+                  child: GestureDetector(
+                    onTap: () => appRouter.push(
+                      Screens.editProfilePic,
+                      extra: profileResponse.result?.profilePic,
+                    ),
+                    child: CircleAvatar(
+                      radius: avatarSize / 2,
+                      backgroundImage:
+                          (profileResponse.result?.profilePic?.isNotEmpty ??
+                              false)
+                          ? NetworkImage(
+                              profileResponse.result?.profilePic ?? '',
+                            )
+                          : const AssetImage(AppImages.avatarPlaceholder)
+                                as ImageProvider,
+                      backgroundColor: Theme.of(context).dividerColor,
+                    ),
                   ),
                 ),
               ),

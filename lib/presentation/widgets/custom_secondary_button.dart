@@ -10,7 +10,9 @@ class CustomSecondaryButton extends StatelessWidget {
   final bool hasRoundedCorner;
   final Color? bgColor;
   final Color? labelColor;
+  final Color? borderColor;
   final Color? iconColor;
+  final bool? hasBorder;
 
   const CustomSecondaryButton({
     super.key,
@@ -22,6 +24,8 @@ class CustomSecondaryButton extends StatelessWidget {
     this.bgColor,
     this.labelColor,
     this.iconColor,
+    this.hasBorder = false,
+    this.borderColor = Colors.transparent,
   });
 
   @override
@@ -43,9 +47,14 @@ class CustomSecondaryButton extends StatelessWidget {
                 ? AppSizes.cardCornerRadius * 5
                 : AppSizes.cardCornerRadius,
           ),
+          border: Border.all(
+            width: 1.0,
+            color: hasBorder == true ? borderColor! : Colors.transparent,
+          ),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Visibility(
               visible: hasIcon == true,

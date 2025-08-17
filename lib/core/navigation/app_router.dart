@@ -1,5 +1,6 @@
 import 'package:biztoso/core/navigation/screens.dart';
 import 'package:biztoso/data/models/language.dart';
+import 'package:biztoso/presentation/pages/auth/edit_profile_picture/edit_profile_picture_screen.dart';
 import 'package:biztoso/presentation/pages/chat_connection/chat_connection_screen.dart';
 import 'package:biztoso/presentation/pages/chat_inbox/chat_inbox_screen.dart';
 import 'package:biztoso/presentation/pages/connection_invitations/connection_invitations_screen.dart';
@@ -97,6 +98,14 @@ final GoRouter appRouter = GoRouter(
       path: Screens.createPost,
       name: 'createPost',
       builder: (context, state) => CreatePostScreen(),
+    ),
+    GoRoute(
+      path: Screens.editProfilePic,
+      name: 'editProfilePic',
+      builder: (context, state) {
+        final imageUrl = state.extra as String;
+        return ProfilePictureViewScreen(profilePic: imageUrl);
+      },
     ),
     // GoRoute(
     //   path: Screens.analytics,

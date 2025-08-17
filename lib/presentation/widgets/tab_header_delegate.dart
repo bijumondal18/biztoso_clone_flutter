@@ -12,7 +12,6 @@ class TabHeaderDelegate extends SliverPersistentHeaderDelegate {
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container(
-      color: Theme.of(context).scaffoldBackgroundColor, // stays white under AppBar
       child: tabBar,
     );
   }
