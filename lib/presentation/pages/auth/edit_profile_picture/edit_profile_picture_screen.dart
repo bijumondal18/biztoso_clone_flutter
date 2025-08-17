@@ -38,6 +38,7 @@ class _ProfilePictureViewScreenState extends State<ProfilePictureViewScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
+              Spacer(),
               // Profile Avatar Image
               Center(
                 child: ProfileAvatar(
@@ -46,6 +47,9 @@ class _ProfilePictureViewScreenState extends State<ProfilePictureViewScreen> {
                   onPressed: () {},
                 ),
               ),
+              Spacer(),
+              Spacer(),
+
               // Bottom Buttons for Update profile image, edit profile image and remove profile image
               Padding(
                 padding: const EdgeInsets.symmetric(
