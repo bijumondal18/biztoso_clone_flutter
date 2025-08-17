@@ -357,15 +357,18 @@ class BuildProfileBody extends StatelessWidget {
                 ),
 
                 /// Build User Bio
-                Padding(
-                  padding: const EdgeInsets.only(
-                    bottom: AppSizes.kDefaultPadding,
-                  ),
-                  child: Text(
-                    bio ?? '',
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.bodyMedium,
+                Visibility(
+                  visible: bio != null && bio.isNotEmpty,
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      bottom: AppSizes.kDefaultPadding,
+                    ),
+                    child: Text(
+                      bio ?? '',
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
                   ),
                 ),
               ],
