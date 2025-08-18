@@ -42,11 +42,12 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _onScroll() {
+    final bloc = context.read<PostBloc>();
     if (!_scrollCtrl.hasClients) return;
-    final max = _scrollCtrl.position.maxScrollExtent;
-    final offset = _scrollCtrl.offset;
-    if (offset > max - 300) {
-      context.read<PostBloc>().add(const PostNextPageRequested());
+
+    final pos = _scrollCtrl.position;
+    if (pos.pixels > pos.maxScrollExtent - 300) {
+      bloc.add(const PostNextPageRequested());
     }
   }
 
@@ -64,8 +65,12 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final height = MediaQuery.sizeOf(context).height;
     final width = MediaQuery.sizeOf(context).width;
-    return BlocProvider(
-      create: (context) => UserBloc()..add(FetchProfileDetailsEvent()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => UserBloc()..add(FetchProfileDetailsEvent()),
+        ),
+      ],
       child: Scaffold(
         appBar: HomeAppbar(),
         body: RefreshIndicator.adaptive(
@@ -79,12 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
               SliverPadding(
                 padding: EdgeInsets.symmetric(vertical: 8),
-                sliver: BlocProvider(
-                  create: (context) =>
-                      PostBloc(repo: PostRepository())
-                        ..add(PostFirstLoadRequested()),
-                  child: BuildPostList(),
-                ), // <- your posts
+                sliver: BuildPostList(), // <- your posts
               ),
 
               // bottom loader when more pages exist

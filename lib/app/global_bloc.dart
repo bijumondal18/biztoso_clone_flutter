@@ -19,7 +19,7 @@ class GlobalBloc extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => AuthBloc()),
         BlocProvider(create: (context) => UserBloc()),
-        BlocProvider(create: (context) => PostBloc(repo: PostRepository())),
+        BlocProvider(create: (context) => PostBloc(repo: PostRepository())..add(PostFirstLoadRequested())),
       ],
       child: child,
     );
