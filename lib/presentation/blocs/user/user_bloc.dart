@@ -263,6 +263,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         if (res != null && res.statusCode == 200) {
           // ✅ refresh the received list so the accepted item disappears
           add(ReceivedRequestConnectionsListEvent());
+          // ✅ refresh the my connections list so the accepted item appears
+          add(GetConnectionsEvent());
           return;
         }
       } catch (_) {}
