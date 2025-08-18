@@ -45,10 +45,13 @@ class _IdentityVerificationDocumentTypeScreenState
         ],
       ),
       body: ListView(
-        padding: EdgeInsets.all(AppSizes.kDefaultPadding),
+        padding: EdgeInsets.symmetric(vertical: AppSizes.kDefaultPadding),
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: AppSizes.kDefaultPadding / 2),
+            padding: const EdgeInsets.only(
+              top: AppSizes.kDefaultPadding / 2,
+              left: AppSizes.kDefaultPadding,
+            ),
             child: Text(
               'Choose Your Document Type',
               style: Theme.of(context).textTheme.displaySmall,
@@ -59,29 +62,34 @@ class _IdentityVerificationDocumentTypeScreenState
               vertical: AppSizes.kDefaultPadding,
             ),
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Row(
-                  children: [
-                    Radio<int>(
-                      activeColor: Theme.of(context).primaryColor,
-                      value: 1,
-                      groupValue: _selectedValue,
-                      onChanged: (value) {
-                        setState(() {
-                          _selectedValue = value!;
-                        });
-                      },
-                    ),
-                    Text(
-                      'Business',
-                      style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                        fontWeight: FontWeight.w600,
+                Flexible(
+                  flex: 1,
+                  child: Row(
+                    children: [
+                      Radio<int>(
+                        activeColor: Theme.of(context).primaryColor,
+                        value: 1,
+                        groupValue: _selectedValue,
+                        onChanged: (value) {
+                          setState(() {
+                            _selectedValue = value!;
+                          });
+                        },
                       ),
-                    ),
-                  ],
+                      Text(
+                        'Business',
+                        style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-
-                Expanded(
+                Flexible(
+                  flex: 1,
                   child: Row(
                     children: [
                       Radio<int>(
@@ -103,6 +111,7 @@ class _IdentityVerificationDocumentTypeScreenState
                     ],
                   ),
                 ),
+                Flexible(flex: 1, child: const SizedBox()),
               ],
             ),
           ),
