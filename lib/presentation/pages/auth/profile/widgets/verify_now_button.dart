@@ -11,13 +11,19 @@ class VerifyNowButton extends StatelessWidget {
   final bool isVerified;
   final VoidCallback onPressed;
 
-  const VerifyNowButton({super.key, required this.isVerified, required this.onPressed});
+  const VerifyNowButton({
+    super.key,
+    required this.isVerified,
+    required this.onPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.sizeOf(context).width;
     return isVerified
         ? Container(
             alignment: Alignment.center,
+            width: width * 0.3,
             padding: EdgeInsets.symmetric(
               horizontal: AppSizes.kDefaultPadding / 2,
             ),
@@ -61,12 +67,15 @@ class VerifyNowButton extends StatelessWidget {
               ],
             ),
           )
-        : CustomPrimaryButton(
-            label: 'Verify Now',
-            height: AppSizes.smallButtonHeight,
-            hasIcon: true,
-            iconPath: Iconsax.verify5,
-            onPressed: onPressed ,
+        : SizedBox(
+            width: width * 0.3,
+            child: CustomPrimaryButton(
+              label: 'Verify Now',
+              height: AppSizes.smallButtonHeight,
+              hasIcon: true,
+              iconPath: Iconsax.verify5,
+              onPressed: onPressed,
+            ),
           );
   }
 }
