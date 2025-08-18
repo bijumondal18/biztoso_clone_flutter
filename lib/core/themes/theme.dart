@@ -47,10 +47,10 @@ class AppTheme {
         backgroundColor: AppColors.white,
         elevation: 0.0,
         scrolledUnderElevation: AppSizes.elevationSmall,
-        centerTitle: false,
+        centerTitle: true,
         titleTextStyle: TextStyle(
           color: AppColors.primaryLight,
-          fontSize: AppSizes.titleLarge,
+          fontSize: AppSizes.titleMedium,
           fontWeight: FontWeight.w600,
         ),
         foregroundColor: AppColors.primaryLight,
@@ -214,7 +214,7 @@ class AppTheme {
         backgroundColor: AppColors.black,
         elevation: 0.0,
         scrolledUnderElevation: AppSizes.elevationSmall,
-        centerTitle: false,
+        centerTitle: true,
         titleTextStyle: TextStyle(
           color: AppColors.white,
           fontSize: AppSizes.titleMedium,

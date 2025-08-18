@@ -1,3 +1,5 @@
+import 'package:biztoso/core/navigation/app_router.dart';
+import 'package:biztoso/core/navigation/screens.dart';
 import 'package:biztoso/core/themes/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
@@ -6,13 +8,14 @@ import '../../../../../core/themes/app_sizes.dart';
 import '../../../../widgets/custom_primary_button.dart';
 
 class VerifyNowButton extends StatelessWidget {
-  final bool isVerifiedAll;
+  final bool isVerified;
+  final VoidCallback onPressed;
 
-  const VerifyNowButton({super.key, required this.isVerifiedAll});
+  const VerifyNowButton({super.key, required this.isVerified, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
-    return isVerifiedAll
+    return isVerified
         ? Container(
             alignment: Alignment.center,
             padding: EdgeInsets.symmetric(
@@ -63,7 +66,7 @@ class VerifyNowButton extends StatelessWidget {
             height: AppSizes.smallButtonHeight,
             hasIcon: true,
             iconPath: Iconsax.verify5,
-            onPressed: () {},
+            onPressed: onPressed ,
           );
   }
 }

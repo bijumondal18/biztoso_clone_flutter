@@ -2,6 +2,7 @@ import 'package:biztoso/core/navigation/screens.dart';
 import 'package:biztoso/data/models/chat_list_response.dart';
 import 'package:biztoso/data/models/language.dart';
 import 'package:biztoso/presentation/pages/auth/edit_profile_picture/edit_profile_picture_screen.dart';
+import 'package:biztoso/presentation/pages/auth/verification/verification_screen.dart';
 import 'package:biztoso/presentation/pages/chat_connection/chat_connection_screen.dart';
 import 'package:biztoso/presentation/pages/chat_inbox/chat_inbox_screen.dart';
 import 'package:biztoso/presentation/pages/connection_invitations/connection_invitations_screen.dart';
@@ -128,6 +129,25 @@ final GoRouter appRouter = GoRouter(
             isPublicProfile: isPublicProfile,
           ),
         );
+      },
+    ),
+    GoRoute(
+      path: Screens.verification,
+      name: 'verification',
+      builder: (context, state) {
+        // final extra = state.extra;
+        // bool isIdentityVerified = false;
+        // bool isEmailVerified = false;
+        // bool isPhoneVerified = false;
+        // if (extra is List && extra.length >= 3) {
+        //   final first = extra[0];
+        //   final second = extra[1];
+        //   final third = extra[1];
+        //   if (first is bool) isIdentityVerified = first;
+        //   if (second is bool) isEmailVerified = second;
+        //   if (third is bool) isPhoneVerified = third;
+        // }
+        return VerificationScreen();
       },
     ),
     // GoRoute(

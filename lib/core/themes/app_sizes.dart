@@ -23,7 +23,7 @@ class AppSizes {
 
   static const double displayLarge = 36.0;
   static const double displayMedium = 32.0;
-  static const double displaySmall = 28.0;
+  static const double displaySmall = 24.0;
   static const double headlineLarge = 26.0;
   static const double headlineMedium = 22.0;
   static const double headlineSmall = 20.0;

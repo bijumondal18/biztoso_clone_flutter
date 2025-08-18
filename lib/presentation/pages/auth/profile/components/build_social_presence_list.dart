@@ -23,7 +23,8 @@ class BuildSocialPresenceList extends StatelessWidget {
     required this.socialMedia,
     this.iconSize = 20,
     this.padding = AppSizes.kDefaultPadding / 1.2,
-    this.onAdd, required this.isPublicProfile,
+    this.onAdd,
+    required this.isPublicProfile,
   });
 
   @override
@@ -156,7 +157,8 @@ class BuildSocialPresenceList extends StatelessWidget {
                       controller: ctrl,
                       decoration: InputDecoration(
                         labelText: 'Link (e.g. https://instagram.com/username)',
-                        labelStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).hintColor),
+                        labelStyle: Theme.of(context).textTheme.bodyLarge!
+                            .copyWith(color: Theme.of(context).hintColor),
                         contentPadding: const EdgeInsets.symmetric(
                           horizontal: AppSizes.kDefaultPadding,
                         ),
@@ -179,10 +181,14 @@ class BuildSocialPresenceList extends StatelessWidget {
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
-                            borderRadius:
-                            BorderRadius.circular(AppSizes.cardCornerRadius ),
-                            borderSide: BorderSide(
-                                color: AppColors.hintLight.withAlpha(100), width: 1.0)),
+                          borderRadius: BorderRadius.circular(
+                            AppSizes.cardCornerRadius,
+                          ),
+                          borderSide: BorderSide(
+                            color: AppColors.hintLight.withAlpha(100),
+                            width: 1.0,
+                          ),
+                        ),
                       ),
                       keyboardType: TextInputType.url,
                       textInputAction: TextInputAction.done,
@@ -194,7 +200,10 @@ class BuildSocialPresenceList extends StatelessWidget {
                       alignment: Alignment.centerRight,
                       child: FilledButton(
                         onPressed: () => _save(ctx, selected, ctrl.text),
-                        child:  Text('Save', style: Theme.of(context).textTheme.titleSmall,),
+                        child: Text(
+                          'Save',
+                          style: Theme.of(context).textTheme.titleSmall,
+                        ),
                       ),
                     ),
                   ],
@@ -261,12 +270,18 @@ class _SocialIcon extends StatelessWidget {
           }
         },
         child: SizedBox(
-          width: circleSize,
+          width: circleSize*1.5,
           height: circleSize,
           child: DecoratedBox(
             decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(width: 1, color: Theme.of(context).dividerColor),
+              shape: BoxShape.rectangle,
+              borderRadius: BorderRadius.circular(AppSizes.cardCornerRadius*5),
+              border: Border.all(
+                width: 1,
+                color: Theme.of(
+                  context,
+                ).colorScheme.surfaceContainer.withAlpha(150),
+              ),
             ),
             child: Center(
               child: SvgPicture.asset(
@@ -315,21 +330,26 @@ class _AddSocialButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkResponse(
       onTap: onPressed,
-      customBorder: const CircleBorder(),
+      customBorder: const RoundedRectangleBorder(),
       child: DottedBorder(
         // If your package version supports this API:
-        options: CircularDottedBorderOptions(
+        options: RoundedRectDottedBorderOptions(
           dashPattern: const [5, 6],
-          color: Theme.of(context).primaryColor,
+          radius: Radius.circular(AppSizes.cardCornerRadius * 5),
+          strokeCap: StrokeCap.round,
+          color: Theme.of(context).colorScheme.surfaceContainer.withAlpha(150),
           strokeWidth: 1,
         ),
         child: Padding(
           padding: const EdgeInsets.only(left: 2.0),
           child: SizedBox(
-            width: size-8,
-            height: size-8,
+            width: size * 1.7,
+            height: size - 8,
             child: Center(
-              child: Icon(Icons.add, color: Theme.of(context).primaryColor),
+              child: Icon(
+                Icons.add,
+                color: Theme.of(context).colorScheme.surfaceContainer,
+              ),
             ),
           ),
         ),

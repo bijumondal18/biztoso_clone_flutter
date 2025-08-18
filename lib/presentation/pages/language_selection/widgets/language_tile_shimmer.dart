@@ -7,8 +7,8 @@ class LanguageTileShimmer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final base = Theme.of(context).dividerColor.withAlpha(80);
-    final highlight = Theme.of(context).dividerColor.withAlpha(30);
+    final base = Theme.of(context).dividerColor.withAlpha(130);
+    final highlight = Theme.of(context).dividerColor.withAlpha(60);
 
     return Shimmer.fromColors(
       baseColor: base,

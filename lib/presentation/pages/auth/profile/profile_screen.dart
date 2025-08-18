@@ -71,6 +71,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           labelColor: Theme.of(context).primaryColor,
                           unselectedLabelColor: Theme.of(context).hintColor,
                           indicatorColor: Theme.of(context).primaryColor,
+                          dividerColor: Theme.of(context).dividerColor,
+                          dividerHeight: 0.8,
                           tabs: const [
                             Tab(text: 'My Posts',),
                             Tab(text: 'My Store'),

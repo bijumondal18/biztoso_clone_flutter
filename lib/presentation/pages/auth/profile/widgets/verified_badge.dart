@@ -9,11 +9,13 @@ import '../../../../../core/themes/app_sizes.dart';
 class VerifiedBadge extends StatelessWidget {
   final IconData iconData;
   final bool isVerified;
+  final double radius;
 
   const VerifiedBadge({
     super.key,
     required this.iconData,
     required this.isVerified,
+    this.radius = 60,
   });
 
   @override
@@ -22,21 +24,15 @@ class VerifiedBadge extends StatelessWidget {
       clipBehavior: Clip.none,
       children: [
         Container(
-          width: 60,
-          height: 60,
+          width: radius,
+          height: radius,
           decoration: BoxDecoration(
             gradient: isVerified
                 ? AppColors.primaryGradient
                 : AppColors.secondaryGradient,
-            borderRadius: BorderRadius.circular(
-              AppSizes.cardCornerRadius * 2,
-            ),
+            borderRadius: BorderRadius.circular(AppSizes.cardCornerRadius * 2),
           ),
-          child: Icon(
-            iconData,
-            color: Theme.of(context).scaffoldBackgroundColor,
-            size: 36,
-          ),
+          child: Icon(iconData, color: AppColors.white, size: radius * 0.5),
         ),
         Visibility(
           visible: isVerified,

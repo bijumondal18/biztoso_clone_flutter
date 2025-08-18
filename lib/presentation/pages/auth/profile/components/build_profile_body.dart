@@ -4,6 +4,8 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
+import '../../../../../core/navigation/app_router.dart';
+import '../../../../../core/navigation/screens.dart';
 import '../../../../../core/themes/app_sizes.dart';
 import '../../../../../utils/app_utils.dart';
 import '../../../../widgets/appbar_icon.dart';
@@ -35,14 +37,9 @@ class BuildProfileBody extends StatelessWidget {
       bio = profileResponse.result!.userinfo!.first.userBio;
     }
 
-    bool isVerifiedAll = false;
-    if (profileResponse.result?.emailVerify == true &&
-        profileResponse.result?.phoneVerify == true &&
-        profileResponse.result?.documentVerify == true) {
-      isVerifiedAll = true;
-    } else {
-      isVerifiedAll = true;
-    }
+    bool isIdentityVerified = profileResponse.result?.documentVerify == true;
+    bool isEmailVerified = profileResponse.result?.emailVerify == true;
+    bool isPhoneVerified = profileResponse.result?.phoneVerify == true;
 
     return SliverToBoxAdapter(
       child: Column(
@@ -398,7 +395,13 @@ class BuildProfileBody extends StatelessWidget {
                     /// Verify button
                     Visibility(
                       visible: !isPublicProfile,
-                      child: VerifyNowButton(isVerifiedAll: isVerifiedAll),
+                      child: VerifyNowButton(
+                        isVerified:
+                            isIdentityVerified &&
+                            isEmailVerified &&
+                            isPhoneVerified,
+                        onPressed: () => appRouter.push(Screens.verification),
+                      ),
                     ),
                   ],
                 ),

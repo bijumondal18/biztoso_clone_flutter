@@ -15,6 +15,7 @@ class HomeAppbar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      centerTitle: false,
       title: Text(
         'Biztoso',
         style: Theme.of(context).textTheme.headlineLarge!.copyWith(
