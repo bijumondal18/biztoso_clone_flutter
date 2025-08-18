@@ -72,7 +72,7 @@ class VerificationScreen extends StatelessWidget {
                       children: [
                         VerifiedBadge(
                           iconData: Icons.person,
-                          isVerified: false,
+                          isVerified: isIdentityVerified ?? false,
                           radius: 50,
                         ),
                         Expanded(
@@ -98,7 +98,7 @@ class VerificationScreen extends StatelessWidget {
                       children: [
                         VerifiedBadge(
                           iconData: Icons.email_rounded,
-                          isVerified: false,
+                          isVerified: isEmailVerified ?? false,
                           radius: 50,
                         ),
                         Expanded(
@@ -124,7 +124,7 @@ class VerificationScreen extends StatelessWidget {
                       children: [
                         VerifiedBadge(
                           iconData: Icons.call,
-                          isVerified: false,
+                          isVerified: isPhoneVerified ?? false,
                           radius: 50,
                         ),
                         Expanded(

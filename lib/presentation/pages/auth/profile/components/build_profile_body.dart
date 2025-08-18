@@ -410,7 +410,7 @@ class BuildProfileBody extends StatelessWidget {
                   children: [
                     Flexible(
                       child: VerifiedBadge(
-                        iconData: Iconsax.call5,
+                        iconData: Icons.call,
                         isVerified:
                             profileResponse.result?.phoneVerify ?? false,
                       ),
