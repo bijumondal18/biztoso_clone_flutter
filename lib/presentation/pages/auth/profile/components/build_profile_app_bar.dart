@@ -37,7 +37,11 @@ class BuildProfileAppBar extends StatelessWidget {
           child: AppbarIcon(
             onPressed: () => appRouter.push(
               Screens.editProfilePic,
-              extra: [isPublicProfile, profileResponse.result?.coverPhoto],
+              extra: [
+                isPublicProfile,
+                profileResponse.result?.coverPhoto,
+                true, // isCoverPhoto = true
+              ],
             ),
             iconPath: Icons.edit,
           ),
@@ -99,6 +103,7 @@ class BuildProfileAppBar extends StatelessWidget {
                     extra: [
                       isPublicProfile,
                       profileResponse.result?.profilePic,
+                      false, // isCoverPhoto == false
                     ],
                   ),
                   child: Container(
@@ -108,7 +113,9 @@ class BuildProfileAppBar extends StatelessWidget {
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
-                          color: Theme.of(context).shadowColor.withOpacity(0.08),
+                          color: Theme.of(
+                            context,
+                          ).shadowColor.withOpacity(0.08),
                           blurRadius: 8,
                         ),
                       ],

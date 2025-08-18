@@ -1,7 +1,6 @@
 import 'package:biztoso/core/navigation/screens.dart';
 import 'package:biztoso/data/models/chat_list_response.dart';
 import 'package:biztoso/data/models/language.dart';
-import 'package:biztoso/presentation/pages/auth/edit_profile_picture/edit_profile_picture_screen.dart';
 import 'package:biztoso/presentation/pages/auth/identity_verification_document_type/identity_verification_document_type_screen.dart';
 import 'package:biztoso/presentation/pages/auth/verification/verification_screen.dart';
 import 'package:biztoso/presentation/pages/chat_connection/chat_connection_screen.dart';
@@ -16,6 +15,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../presentation/pages/auth/login/login_screen.dart';
 import '../../presentation/pages/auth/profile/profile_screen.dart';
+import '../../presentation/pages/auth/view_or_edit_profile_picture/view_or_edit_profile_picture_screen.dart';
 import '../../presentation/pages/main_bottom_nav/main_bottom_nav_screen.dart';
 import '../../presentation/pages/splash/splash_screen.dart';
 
@@ -112,12 +112,16 @@ final GoRouter appRouter = GoRouter(
         final extra = state.extra;
         bool isPublicProfile = false;
         String imageUrl = '';
+        bool isCoverPicture = false;
 
-        if (extra is List && extra.length >= 2) {
+
+        if (extra is List && extra.length >= 3) {
           final first = extra[0];
           final second = extra[1];
+          final third = extra[2];
           if (first is bool) isPublicProfile = first;
           if (second != null) imageUrl = second.toString();
+          if (third is bool) isCoverPicture = third;
         }
         return CustomTransitionPage(
           barrierColor: Colors.transparent,
@@ -125,9 +129,10 @@ final GoRouter appRouter = GoRouter(
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(opacity: animation, child: child);
           },
-          child: ProfilePictureViewScreen(
+          child: ViewOrEditProfilePictureScreen(
             imageUrl: imageUrl,
             isPublicProfile: isPublicProfile,
+            isCoverPicture: isCoverPicture,
           ),
         );
       },

@@ -36,6 +36,7 @@ class Post extends Equatable {
   final String? userName;
   final String? userId;
   final String? profilePic;
+  final String? timeAgo;
   final List<String> images;
   final OriginalPost? originalPost;
 
@@ -46,6 +47,7 @@ class Post extends Equatable {
     this.createdAt,
     this.userName,
     this.userId,
+    this.timeAgo,
     this.profilePic,
     this.images = const [],
     this.originalPost,
@@ -59,6 +61,7 @@ class Post extends Equatable {
       createdAt: json['createdAt'] as String?,
       userName: (json['user_name'] ?? json['userName'])?.toString(),
       userId: json['userId']?.toString(),
+      timeAgo: json['timeAgo']?.toString(),
       profilePic: json['profilePic']?.toString(),
       images: (json['images'] as List? ?? []).map((e) => e.toString()).toList(),
       originalPost: json['originalPost'] != null
@@ -69,7 +72,7 @@ class Post extends Equatable {
 
   @override
   List<Object?> get props =>
-      [id, description, postType, createdAt, userName, userId, profilePic, images, originalPost];
+      [id, description, postType, createdAt, userName, userId, timeAgo, profilePic, images, originalPost];
 }
 
 class OriginalPost extends Equatable {

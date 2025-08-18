@@ -63,7 +63,7 @@ class PostCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      DateTimeUtils.formatChatTimestamp(post.createdAt ?? ''),
+                      post.timeAgo??'',
                       style: Theme.of(context).textTheme.labelMedium!.copyWith(
                         color: Theme.of(context).hintColor,
                       ),

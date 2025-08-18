@@ -270,7 +270,7 @@ class _SocialIcon extends StatelessWidget {
           }
         },
         child: SizedBox(
-          width: circleSize*1.5,
+          width: circleSize,
           height: circleSize,
           child: DecoratedBox(
             decoration: BoxDecoration(

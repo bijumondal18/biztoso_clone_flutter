@@ -362,7 +362,7 @@ class BuildProfileBody extends StatelessWidget {
                     ),
                     child: Text(
                       bio ?? '',
-                      maxLines: 3,
+                      maxLines: 6,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),

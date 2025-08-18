@@ -13,22 +13,25 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/navigation/screens.dart';
 import '../../../widgets/profile_avatar.dart';
 
-class ProfilePictureViewScreen extends StatefulWidget {
+class ViewOrEditProfilePictureScreen extends StatefulWidget {
   final String imageUrl;
   final bool isPublicProfile;
+  final bool isCoverPicture;
 
-  const ProfilePictureViewScreen({
+  const ViewOrEditProfilePictureScreen({
     super.key,
     required this.imageUrl,
     required this.isPublicProfile,
+    this.isCoverPicture = false,
   });
 
   @override
-  State<ProfilePictureViewScreen> createState() =>
-      _ProfilePictureViewScreenState();
+  State<ViewOrEditProfilePictureScreen> createState() =>
+      _ViewOrEditProfilePictureScreenState();
 }
 
-class _ProfilePictureViewScreenState extends State<ProfilePictureViewScreen> {
+class _ViewOrEditProfilePictureScreenState
+    extends State<ViewOrEditProfilePictureScreen> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
@@ -67,7 +70,7 @@ class _ProfilePictureViewScreenState extends State<ProfilePictureViewScreen> {
               child: SafeArea(
                 child: Center(
                   child: Text(
-                    'Profile Photo',
+                    widget.isCoverPicture ? 'Cover Photo' : 'Profile Photo',
                     style: Theme.of(
                       context,
                     ).textTheme.titleLarge!.copyWith(color: AppColors.white),
@@ -116,9 +119,15 @@ class _ProfilePictureViewScreenState extends State<ProfilePictureViewScreen> {
                             label: 'Edit',
                             hasIcon: true,
                             iconPath: Icons.edit,
-                            borderColor: Theme.of(context).primaryColor,
-                            labelColor: Theme.of(context).primaryColor,
-                            iconColor: Theme.of(context).primaryColor,
+                            borderColor: Theme.of(
+                              context,
+                            ).colorScheme.surfaceContainer,
+                            labelColor: Theme.of(
+                              context,
+                            ).colorScheme.surfaceContainer,
+                            iconColor: Theme.of(
+                              context,
+                            ).colorScheme.surfaceContainer,
                             bgColor: Theme.of(context).scaffoldBackgroundColor,
                             hasBorder: true,
                             onPressed: () {},
