@@ -1,3 +1,4 @@
+import 'package:biztoso/core/navigation/screens.dart';
 import 'package:biztoso/presentation/pages/auth/profile/widgets/verified_badge.dart';
 import 'package:biztoso/presentation/pages/auth/profile/widgets/verify_now_button.dart';
 import 'package:biztoso/presentation/pages/auth/verification/components/verification_scheen_shimmer.dart';
@@ -83,7 +84,9 @@ class VerificationScreen extends StatelessWidget {
                         ),
                         VerifyNowButton(
                           isVerified: isIdentityVerified ?? false,
-                          onPressed: () {},
+                          onPressed: () => appRouter.push(
+                            Screens.identityVerificationDocumentType,
+                          ),
                         ),
                       ],
                     ),

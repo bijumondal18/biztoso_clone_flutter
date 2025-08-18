@@ -16,6 +16,7 @@ class Screens{
   static const String editProfile = '/editProfile';
   static const String editProfilePic = '/editProfilePic';
   static const String verification = '/verification';
+  static const String identityVerificationDocumentType = '/identityVerificationDocumentType';
   static const String editProfileField = '/editProfileField';
   static const String profile = '/profile';
   static const String notification = '/notification';
