@@ -93,34 +93,41 @@ class BuildProfileAppBar extends StatelessWidget {
               Positioned(
                 left: leftOffset,
                 bottom: bottomOffset,
-                child: Container(
-                  padding: const EdgeInsets.all(3),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).scaffoldBackgroundColor,
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Theme.of(context).shadowColor.withOpacity(0.08),
-                        blurRadius: 8,
-                      ),
+                child: InkResponse(
+                  onTap: () => appRouter.push(
+                    Screens.editProfilePic,
+                    extra: [
+                      isPublicProfile,
+                      profileResponse.result?.profilePic,
                     ],
                   ),
-                  child: GestureDetector(
-                    onTap: () => appRouter.push(
-                      Screens.editProfilePic,
-                      extra: [isPublicProfile, profileResponse.result?.profilePic],
+                  child: Container(
+                    padding: const EdgeInsets.all(3),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).scaffoldBackgroundColor,
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Theme.of(context).shadowColor.withOpacity(0.08),
+                          blurRadius: 8,
+                        ),
+                      ],
                     ),
-                    child: CircleAvatar(
-                      radius: avatarSize / 2,
-                      backgroundImage:
-                          (profileResponse.result?.profilePic?.isNotEmpty ??
-                              false)
-                          ? NetworkImage(
-                              profileResponse.result?.profilePic ?? '',
-                            )
-                          : const AssetImage(AppImages.avatarPlaceholder)
-                                as ImageProvider,
-                      backgroundColor: Theme.of(context).dividerColor,
+                    child: Hero(
+                      tag:
+                          'profile_image/${profileResponse.result?.profilePic}',
+                      child: CircleAvatar(
+                        radius: avatarSize / 2,
+                        backgroundImage:
+                            (profileResponse.result?.profilePic?.isNotEmpty ??
+                                false)
+                            ? NetworkImage(
+                                profileResponse.result?.profilePic ?? '',
+                              )
+                            : const AssetImage(AppImages.avatarPlaceholder)
+                                  as ImageProvider,
+                        backgroundColor: Theme.of(context).dividerColor,
+                      ),
                     ),
                   ),
                 ),

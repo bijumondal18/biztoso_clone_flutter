@@ -78,10 +78,13 @@ class _ProfilePictureViewScreenState extends State<ProfilePictureViewScreen> {
 
             // Profile Avatar Image
             Center(
-              child: ProfileAvatar(
-                imageUrl: widget.imageUrl,
-                radius: width * 0.85,
-                onPressed: () {},
+              child: Hero(
+                tag: 'profile_image/${widget.imageUrl}',
+                child: ProfileAvatar(
+                  imageUrl: widget.imageUrl,
+                  radius: width * 0.85,
+                  onPressed: () {},
+                ),
               ),
             ),
 
