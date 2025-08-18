@@ -54,10 +54,6 @@ class EmailTextField extends StatelessWidget {
           validator: validator,
           onChanged: onChanged,
           readOnly: readOnly,
-          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-              color: readOnly == true
-                  ? AppColors.darkGrey.withAlpha(200)
-                  : AppColors.black),
           decoration: InputDecoration(
             hintText: hintText,
             isDense: true,
