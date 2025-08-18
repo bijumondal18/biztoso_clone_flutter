@@ -47,12 +47,13 @@ class HomeAppbar extends StatelessWidget implements PreferredSizeWidget {
                 return ProfileAvatar(
                   onPressed: () =>
                       appRouter.push(Screens.profile, extra: false),
+                  radius: 44,
                   imageUrl: profileImage,
                 );
               }
               return ProfileAvatar(
-                onPressed: () =>
-                    appRouter.push(Screens.profile, extra: false),
+                onPressed: () => appRouter.push(Screens.profile, extra: false),
+                radius: 44,
                 imageUrl: '',
               );
             },

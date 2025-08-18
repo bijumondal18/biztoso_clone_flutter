@@ -27,11 +27,13 @@ class AppbarIcon extends StatelessWidget {
         decoration: hasGradient
             ? BoxDecoration(
                 gradient: AppColors.primaryGradient,
-                borderRadius: BorderRadius.circular(AppSizes.cardCornerRadius),
+                shape: BoxShape.circle,
               )
             : BoxDecoration(
-                color: Theme.of(context).primaryColor.withAlpha(30),
-                borderRadius: BorderRadius.circular(AppSizes.cardCornerRadius),
+                color: Theme.of(
+                  context,
+                ).colorScheme.surfaceContainer.withAlpha(20),
+                shape: BoxShape.circle,
               ),
         child: Icon(
           iconPath ?? EvaIcons.arrowBack,
