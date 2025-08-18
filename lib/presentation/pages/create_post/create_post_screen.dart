@@ -178,7 +178,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                     child: Container(
                       padding: EdgeInsets.all(AppSizes.kDefaultPadding),
                       decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor.withAlpha(50),
+                        color: Theme.of(context).colorScheme.surfaceContainer.withAlpha(20),
                         borderRadius: BorderRadius.circular(
                           AppSizes.cardCornerRadius,
                         ),
@@ -212,7 +212,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                     child: Container(
                       padding: EdgeInsets.all(AppSizes.kDefaultPadding),
                       decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor.withAlpha(50),
+                        color: Theme.of(context).colorScheme.surfaceContainer.withAlpha(20),
                         borderRadius: BorderRadius.circular(
                           AppSizes.cardCornerRadius,
                         ),
@@ -246,7 +246,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                     child: Container(
                       padding: EdgeInsets.all(AppSizes.kDefaultPadding),
                       decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor.withAlpha(50),
+                        color: Theme.of(context).colorScheme.surfaceContainer.withAlpha(20),
                         borderRadius: BorderRadius.circular(
                           AppSizes.cardCornerRadius,
                         ),
