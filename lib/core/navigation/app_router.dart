@@ -7,6 +7,7 @@ import 'package:biztoso/presentation/pages/chat_connection/chat_connection_scree
 import 'package:biztoso/presentation/pages/chat_inbox/chat_inbox_screen.dart';
 import 'package:biztoso/presentation/pages/connection_invitations/connection_invitations_screen.dart';
 import 'package:biztoso/presentation/pages/create_post/create_post_screen.dart';
+import 'package:biztoso/presentation/pages/create_post_preview/create_post_preview_screen.dart';
 import 'package:biztoso/presentation/pages/global_search/global_search_screen.dart';
 import 'package:biztoso/presentation/pages/language_selection/language_selection_screen.dart';
 import 'package:biztoso/presentation/pages/people_you_may_know/people_you_may_know_screen.dart';
@@ -104,6 +105,11 @@ final GoRouter appRouter = GoRouter(
       path: Screens.createPost,
       name: 'createPost',
       builder: (context, state) => CreatePostScreen(),
+    ),
+    GoRoute(
+      path: Screens.createPostPreview,
+      name: 'createPostPreview',
+      builder: (context, state) => CreatePostPreviewScreen(),
     ),
     GoRoute(
       path: Screens.editProfilePic,

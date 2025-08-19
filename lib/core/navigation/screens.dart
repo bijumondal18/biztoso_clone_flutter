@@ -10,6 +10,7 @@ class Screens{
   static const String peopleYoyMayKnow = '/peopleYoyMayKnow';
   static const String analytics = '/analytics';
   static const String createPost = '/createPost';
+  static const String createPostPreview = '/createPostPreview';
   static const String login = '/login';
   static const String languageSelection = '/languageSelection';
   static const String settings = '/settings';
