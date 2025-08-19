@@ -1,13 +1,13 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:biztoso/presentation/widgets/custom_primary_button.dart';
 import 'package:biztoso/utils/snackbar_helper.dart';
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
 import '../../../core/navigation/app_router.dart';
 import '../../../core/themes/app_sizes.dart';
@@ -24,50 +24,74 @@ class CreatePostScreen extends StatefulWidget {
 
 class _CreatePostScreenState extends State<CreatePostScreen> {
   // Hold selections
-  List<PlatformFile> _images = [];
-  List<PlatformFile> _videos = [];
+  List<AssetEntity> _images = [];
+  List<AssetEntity> _videos = [];
 
   Future<void> _pickImages() async {
-    final result = await FilePicker.platform.pickFiles(
-      type: FileType.image,
-      allowMultiple: true,
-      withReadStream: false, // we only need paths
+
+    final PermissionState ps = await PhotoManager.requestPermissionExtend();
+    if (!ps.hasAccess) {
+      SnackBarHelper.show('Gallery access denied. Please allow permissions.');
+      return;
+    }
+
+    final remaining = 5 - (_images.length + _videos.length);
+    if (remaining <= 0) {
+      SnackBarHelper.show('You can only pick up to 5 items (images + videos).');
+      return;
+    }
+
+    final List<AssetEntity>? assets = await AssetPicker.pickAssets(
+      context,
+      pickerConfig: AssetPickerConfig(
+        maxAssets: remaining,              // ✅ only allow remaining slots
+        requestType: RequestType.image,
+        selectedAssets: [..._images, ..._videos],
+      ),
     );
-    if (result == null) return;
 
-    // Cap at 5
-    final picked = result.files.take(5).toList();
-    setState(() => _images = picked);
-
-    if (result.files.length > 5) {
-      SnackBarHelper.show(
-        'Media selection limit reached. Max 5 images can be picked.',
-      );
+    if (assets != null) {
+      final combined = [..._images, ...assets];
+      setState(() => _images = combined.take(5).toList());
     }
   }
 
   Future<void> _pickVideos() async {
-    final result = await FilePicker.platform.pickFiles(
-      type: FileType.video,
-      allowMultiple: true,
-      withReadStream: false,
-    );
-    if (result == null) return;
 
-    final picked = result.files.take(5).toList();
-    setState(() => _videos = picked);
-
-    if (result.files.length > 5) {
-      SnackBarHelper.show(
-        'Media selection limit reached. Max 5 videos can be picked.',
-      );
+    final PermissionState ps = await PhotoManager.requestPermissionExtend();
+    if (!ps.hasAccess) {
+      SnackBarHelper.show('Gallery access denied. Please allow permissions.');
+      return;
     }
+
+    final remaining = 5 - (_images.length + _videos.length);
+    if (remaining <= 0) {
+      SnackBarHelper.show('You can only pick up to 5 items (images + videos).');
+      return;
+    }
+
+    final List<AssetEntity>? assets = await AssetPicker.pickAssets(
+      context,
+      pickerConfig: AssetPickerConfig(
+        maxAssets: remaining,              // ✅ only allow remaining slots
+        requestType: RequestType.video,
+        selectedAssets: [..._images, ..._videos],
+      ),
+    );
+
+    if (assets != null) {
+      final combined = [..._videos, ...assets];
+      setState(() => _videos = combined.take(5).toList());
+    }
+
   }
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
     final height = MediaQuery.sizeOf(context).height;
+    final allMedia = [..._images, ..._videos];
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -99,7 +123,9 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                       UserBloc()..add(FetchProfileDetailsEvent()),
                   child: BlocBuilder<UserBloc, UserState>(
                     builder: (context, state) {
+
                       if (state is FetchUserProfileStateLoaded) {
+
                         return Padding(
                           padding: const EdgeInsets.only(top: 1.0),
                           child: ProfileAvatar(
@@ -178,7 +204,9 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                     child: Container(
                       padding: EdgeInsets.all(AppSizes.kDefaultPadding),
                       decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.surfaceContainer.withAlpha(20),
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.surfaceContainer.withAlpha(20),
                         borderRadius: BorderRadius.circular(
                           AppSizes.cardCornerRadius,
                         ),
@@ -189,13 +217,17 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                         children: [
                           Icon(
                             CupertinoIcons.camera,
-                            color: Theme.of(context).colorScheme.surfaceContainer,
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.surfaceContainer,
                           ),
                           Text(
                             'Camera',
                             style: Theme.of(context).textTheme.bodyLarge!
                                 .copyWith(
-                                  color: Theme.of(context).colorScheme.surfaceContainer,
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.surfaceContainer,
                                 ),
                           ),
                         ],
@@ -205,14 +237,16 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                 ),
                 Expanded(
                   child: InkWell(
-                    onTap: () => _pickImages(),
+                    onTap: () async => await _pickImages(),
                     borderRadius: BorderRadius.circular(
                       AppSizes.cardCornerRadius,
                     ),
                     child: Container(
                       padding: EdgeInsets.all(AppSizes.kDefaultPadding),
                       decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.surfaceContainer.withAlpha(20),
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.surfaceContainer.withAlpha(20),
                         borderRadius: BorderRadius.circular(
                           AppSizes.cardCornerRadius,
                         ),
@@ -223,13 +257,17 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                         children: [
                           Icon(
                             Iconsax.gallery,
-                            color: Theme.of(context).colorScheme.surfaceContainer,
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.surfaceContainer,
                           ),
                           Text(
                             'Photos',
                             style: Theme.of(context).textTheme.bodyLarge!
                                 .copyWith(
-                                  color: Theme.of(context).colorScheme.surfaceContainer,
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.surfaceContainer,
                                 ),
                           ),
                         ],
@@ -239,14 +277,16 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                 ),
                 Expanded(
                   child: InkWell(
-                    onTap: () => _pickVideos(),
+                    onTap: () async => await _pickVideos(),
                     borderRadius: BorderRadius.circular(
                       AppSizes.cardCornerRadius,
                     ),
                     child: Container(
                       padding: EdgeInsets.all(AppSizes.kDefaultPadding),
                       decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.surfaceContainer.withAlpha(20),
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.surfaceContainer.withAlpha(20),
                         borderRadius: BorderRadius.circular(
                           AppSizes.cardCornerRadius,
                         ),
@@ -257,13 +297,17 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                         children: [
                           Icon(
                             Iconsax.video,
-                            color: Theme.of(context).colorScheme.surfaceContainer,
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.surfaceContainer,
                           ),
                           Text(
                             'Videos',
                             style: Theme.of(context).textTheme.bodyLarge!
                                 .copyWith(
-                                  color: Theme.of(context).colorScheme.surfaceContainer,
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.surfaceContainer,
                                 ),
                           ),
                         ],
@@ -281,28 +325,45 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
               context,
             ).textTheme.titleSmall!.copyWith(fontWeight: FontWeight.w600),
           ),
+
           Padding(
             padding: const EdgeInsets.symmetric(
               vertical: AppSizes.kDefaultPadding,
             ),
             child: Wrap(
-              spacing: width * 0.02,
-              runSpacing: width * 0.02,
-              children: _images
-                  .map(
-                    (f) => ClipRRect(
-                      borderRadius: BorderRadius.circular(
-                        AppSizes.cardCornerRadius,
-                      ),
-                      child: Image.file(
-                        File(f.path!),
-                        width: width * 0.29,
-                        height: height * 0.2,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  )
-                  .toList(),
+              spacing: 8,
+              runSpacing: 8,
+              children: allMedia.map((asset) {
+                return FutureBuilder<Uint8List?>(
+                  future: asset.thumbnailDataWithSize(
+                     ThumbnailSize(200, 200),
+                  ),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Container(
+                        width: 100,
+                        height: 100,
+                        color: Colors.grey[300],
+                        child: const Center(child: CircularProgressIndicator()),
+                      );
+                    }
+                    if (snapshot.hasData) {
+                      return ClipRRect(
+                        borderRadius: BorderRadius.circular(
+                          AppSizes.cardCornerRadius,
+                        ),
+                        child: Image.memory(
+                          snapshot.data!,
+                          width: width*0.29,
+                          height: width*0.38,
+                          fit: BoxFit.cover,
+                        ),
+                      );
+                    }
+                    return const SizedBox.shrink();
+                  },
+                );
+              }).toList(),
             ),
           ),
         ],

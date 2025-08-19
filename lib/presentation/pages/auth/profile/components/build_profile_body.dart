@@ -59,7 +59,7 @@ class BuildProfileBody extends StatelessWidget {
                     alignment: Alignment.centerRight,
                     child: AppbarIcon(
                       onPressed: () {},
-                      iconPath: Iconsax.share5,
+                      iconPath: EvaIcons.share,
                     ),
                   ),
                 ),
@@ -434,7 +434,9 @@ class BuildProfileBody extends StatelessWidget {
               ],
             ),
           ),
-          HorizontalDivider(),
+          Visibility(
+              visible: profileResponse.result!.socialmedia!.isNotEmpty,
+              child: HorizontalDivider()),
 
           /// Build Social Presence List
           Visibility(

@@ -74,8 +74,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           dividerColor: Theme.of(context).dividerColor,
                           dividerHeight: 0.8,
                           tabs: const [
-                            Tab(text: 'My Posts',),
-                            Tab(text: 'My Store'),
+                            Tab(text: 'Posts',),
+                            Tab(text: 'Store'),
                           ],
                         ),
                       ),
