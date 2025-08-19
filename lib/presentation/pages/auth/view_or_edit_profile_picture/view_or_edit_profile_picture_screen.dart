@@ -6,7 +6,9 @@ import 'package:biztoso/core/themes/app_sizes.dart';
 import 'package:biztoso/presentation/widgets/appbar_icon.dart';
 import 'package:biztoso/presentation/widgets/custom_primary_button.dart';
 import 'package:biztoso/presentation/widgets/custom_secondary_button.dart';
+import 'package:biztoso/presentation/widgets/picker_bottom_sheet.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -111,7 +113,30 @@ class _ViewOrEditProfilePictureScreenState
                             label: 'Update',
                             hasIcon: true,
                             iconPath: Icons.camera_alt_rounded,
-                            onPressed: () {},
+                            onPressed: () {
+                              PickerBottomSheet.show(
+                                context: context,
+                                title: 'Select Image Source',
+                                actions: [
+                                  BottomSheetAction(
+                                    label: "Capture a Photo",
+                                    icon: Icons.camera_alt_rounded,
+                                    onTap: () {
+                                      // Open camera
+
+                                    },
+                                  ),
+                                  BottomSheetAction(
+                                    label: "Choose from Gallery",
+                                    icon: CupertinoIcons.photo,
+                                    onTap: () {
+                                      // Open gallery
+
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
                           ),
                         ),
                         Expanded(
