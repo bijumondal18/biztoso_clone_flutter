@@ -1,4 +1,5 @@
 import 'package:biztoso/core/themes/app_sizes.dart';
+import 'package:biztoso/presentation/pages/home/widgets/post_media_grid.dart';
 import 'package:biztoso/presentation/widgets/profile_avatar.dart';
 import 'package:biztoso/utils/app_utils.dart';
 import 'package:biztoso/utils/date_time_utils.dart';
@@ -63,7 +64,7 @@ class PostCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      post.timeAgo??'',
+                      post.timeAgo ?? '',
                       style: Theme.of(context).textTheme.labelMedium!.copyWith(
                         color: Theme.of(context).hintColor,
                       ),
@@ -97,19 +98,7 @@ class PostCard extends StatelessWidget {
             ),
           ),
 
-          // images (first only for demo)
-          if (post.images.isNotEmpty) ...[
-            const SizedBox(height: 8),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(AppSizes.cardCornerRadius),
-              child: CachedNetworkImage(
-                imageUrl: post.images.first,
-                fit: BoxFit.fitWidth,
-                height: height * 0.4,
-                width: width,
-              ),
-            ),
-          ],
+          PostMediaGrid(media: post.images, height: height * 0.3),
 
           // reshare block
           // if (isReshare) ...[

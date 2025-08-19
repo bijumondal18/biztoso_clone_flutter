@@ -12,8 +12,11 @@ import 'package:biztoso/presentation/pages/global_search/global_search_screen.da
 import 'package:biztoso/presentation/pages/language_selection/language_selection_screen.dart';
 import 'package:biztoso/presentation/pages/people_you_may_know/people_you_may_know_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
+import '../../presentation/blocs/post/selected_media_for_post_cubit.dart';
 import '../../presentation/pages/auth/login/login_screen.dart';
 import '../../presentation/pages/auth/profile/profile_screen.dart';
 import '../../presentation/pages/auth/view_or_edit_profile_picture/view_or_edit_profile_picture_screen.dart';
@@ -109,7 +112,13 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: Screens.createPostPreview,
       name: 'createPostPreview',
-      builder: (context, state) => CreatePostPreviewScreen(),
+      builder: (context, state) {
+        final mediaCubit = state.extra as SelectedMediaForPostCubit;
+        return BlocProvider.value(
+          value: mediaCubit,
+          child: CreatePostPreviewScreen(),
+        );
+      },
     ),
     GoRoute(
       path: Screens.editProfilePic,
@@ -119,7 +128,6 @@ final GoRouter appRouter = GoRouter(
         bool isPublicProfile = false;
         String imageUrl = '';
         bool isCoverPicture = false;
-
 
         if (extra is List && extra.length >= 3) {
           final first = extra[0];

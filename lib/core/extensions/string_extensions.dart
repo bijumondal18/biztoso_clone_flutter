@@ -1,3 +1,6 @@
+import 'package:biztoso/utils/app_utils.dart';
+import 'package:wechat_assets_picker/wechat_assets_picker.dart';
+
 extension ExtString on String {
   bool get isValidEmail {
     final emailRegExp = RegExp(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]");
@@ -40,4 +43,10 @@ extension ExtString on String {
     return this[0].toUpperCase() + substring(1);
   }
 
+}
+
+
+extension AssetEntityListX on List<AssetEntity> {
+  Future<List<String>> toLocalPaths({bool asUri = false}) =>
+      AppUtils.assetsToPaths(this, asUri: asUri);
 }

@@ -274,6 +274,7 @@ class _CreatePostView extends StatelessWidget {
           >(
             selector: (s) => s.all.isNotEmpty, // true if at least 1 asset
             builder: (context, hasMedia) {
+              final cubit = context.read<SelectedMediaForPostCubit>();
               return Container(
                 padding: const EdgeInsets.all(AppSizes.kDefaultPadding),
                 decoration: BoxDecoration(
@@ -290,7 +291,7 @@ class _CreatePostView extends StatelessWidget {
                   child: CustomPrimaryButton(
                     label: 'Next',
                     isEnabled: hasMedia,
-                    onPressed: () => appRouter.push(Screens.createPostPreview),
+                    onPressed: () => appRouter.push(Screens.createPostPreview, extra: cubit),
                   ),
                 ),
               );
