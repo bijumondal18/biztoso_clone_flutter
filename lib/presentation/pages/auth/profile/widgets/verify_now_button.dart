@@ -23,7 +23,7 @@ class VerifyNowButton extends StatelessWidget {
     return isVerified
         ? Container(
             alignment: Alignment.center,
-            width: width * 0.3,
+            width: width * 0.35,
             padding: EdgeInsets.symmetric(
               horizontal: AppSizes.kDefaultPadding / 2,
             ),
@@ -68,7 +68,7 @@ class VerifyNowButton extends StatelessWidget {
             ),
           )
         : SizedBox(
-            width: width * 0.3,
+            width: width * 0.35,
             child: CustomPrimaryButton(
               label: 'Verify Now',
               height: AppSizes.smallButtonHeight,

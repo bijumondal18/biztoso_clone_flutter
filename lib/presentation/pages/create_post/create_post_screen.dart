@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:biztoso/core/themes/app_colors.dart';
 import 'package:biztoso/presentation/widgets/custom_primary_button.dart';
 import 'package:biztoso/utils/snackbar_helper.dart';
 import 'package:flutter/cupertino.dart';
@@ -28,62 +29,58 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   List<AssetEntity> _videos = [];
 
   Future<void> _pickImages() async {
+    final ps = await PhotoManager.requestPermissionExtend();
+    if (!ps.hasAccess) { SnackBarHelper.show('Gallery access denied. Please allow permissions.'); return; }
 
-    final PermissionState ps = await PhotoManager.requestPermissionExtend();
-    if (!ps.hasAccess) {
-      SnackBarHelper.show('Gallery access denied. Please allow permissions.');
-      return;
-    }
-
-    final remaining = 5 - (_images.length + _videos.length);
-    if (remaining <= 0) {
-      SnackBarHelper.show('You can only pick up to 5 items (images + videos).');
-      return;
-    }
-
-    final List<AssetEntity>? assets = await AssetPicker.pickAssets(
+    final assets = await AssetPicker.pickAssets(
       context,
       pickerConfig: AssetPickerConfig(
-        maxAssets: remaining,              // ✅ only allow remaining slots
+        maxAssets: 5, // total cap; we'll trim below relative to videos
         requestType: RequestType.image,
-        selectedAssets: [..._images, ..._videos],
+        selectedAssets: [..._images, ..._videos], // keep preselection
       ),
     );
 
-    if (assets != null) {
-      final combined = [..._images, ...assets];
-      setState(() => _images = combined.take(5).toList());
-    }
+    if (assets == null) return;
+
+    // Replace images with what picker returns (no merge)
+    final newImages = assets.where((a) => a.type == AssetType.image).toList();
+    setState(() {
+      final allow = (5 - _videos.length).clamp(0, 5);
+      _images = newImages.take(allow).toList();
+    });
   }
 
+
   Future<void> _pickVideos() async {
+    final ps = await PhotoManager.requestPermissionExtend();
+    if (!ps.hasAccess) { SnackBarHelper.show('Gallery access denied. Please allow permissions.'); return; }
 
-    final PermissionState ps = await PhotoManager.requestPermissionExtend();
-    if (!ps.hasAccess) {
-      SnackBarHelper.show('Gallery access denied. Please allow permissions.');
-      return;
-    }
-
-    final remaining = 5 - (_images.length + _videos.length);
-    if (remaining <= 0) {
-      SnackBarHelper.show('You can only pick up to 5 items (images + videos).');
-      return;
-    }
-
-    final List<AssetEntity>? assets = await AssetPicker.pickAssets(
+    final assets = await AssetPicker.pickAssets(
       context,
       pickerConfig: AssetPickerConfig(
-        maxAssets: remaining,              // ✅ only allow remaining slots
+        maxAssets: 5,
         requestType: RequestType.video,
         selectedAssets: [..._images, ..._videos],
       ),
     );
 
-    if (assets != null) {
-      final combined = [..._videos, ...assets];
-      setState(() => _videos = combined.take(5).toList());
-    }
+    if (assets == null) return;
 
+    // Replace videos with what picker returns (no merge)
+    final newVideos = assets.where((a) => a.type == AssetType.video).toList();
+    setState(() {
+      final allow = (5 - _images.length).clamp(0, 5);
+      _videos = newVideos.take(allow).toList();
+    });
+  }
+
+  void _removeAsset(AssetEntity asset) {
+    setState(() {
+      // Remove from both (safe; only one will match)
+      _images.removeWhere((a) => a.id == asset.id);
+      _videos.removeWhere((a) => a.id == asset.id);
+    });
   }
 
   @override
@@ -123,9 +120,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                       UserBloc()..add(FetchProfileDetailsEvent()),
                   child: BlocBuilder<UserBloc, UserState>(
                     builder: (context, state) {
-
                       if (state is FetchUserProfileStateLoaded) {
-
                         return Padding(
                           padding: const EdgeInsets.only(top: 1.0),
                           child: ProfileAvatar(
@@ -335,16 +330,20 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
               runSpacing: 8,
               children: allMedia.map((asset) {
                 return FutureBuilder<Uint8List?>(
-                  future: asset.thumbnailDataWithSize(
-                     ThumbnailSize(200, 200),
-                  ),
+                  future: asset.thumbnailDataWithSize(ThumbnailSize(200, 200)),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Container(
-                        width: 100,
-                        height: 100,
-                        color: Colors.grey[300],
-                        child: const Center(child: CircularProgressIndicator()),
+                        width: width * 0.29,
+                        height: width * 0.38,
+                        color: Theme.of(context).dividerColor,
+                        child: Center(
+                          child: CupertinoActivityIndicator(
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.surfaceContainer,
+                          ),
+                        ),
                       );
                     }
                     if (snapshot.hasData) {
@@ -352,11 +351,45 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                         borderRadius: BorderRadius.circular(
                           AppSizes.cardCornerRadius,
                         ),
-                        child: Image.memory(
-                          snapshot.data!,
-                          width: width*0.29,
-                          height: width*0.38,
-                          fit: BoxFit.cover,
+                        child: Stack(
+                          children: [
+                            Image.memory(
+                              snapshot.data!,
+                              key: ValueKey(asset.id),
+                              width: width * 0.29,
+                              height: width * 0.38,
+                              fit: BoxFit.cover,
+                            ),
+                            Positioned(
+                              top: -5,
+                              right: -5,
+                              child: IconButton(
+                                onPressed: () => _removeAsset(asset),
+                                icon: Container(
+                                  padding: EdgeInsets.all(4),
+                                  decoration: BoxDecoration(
+                                    color: AppColors.errorDark.withAlpha(150),
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Icon(
+                                    Icons.close,
+                                    color: AppColors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                            if (asset.type == AssetType.video)
+                              const Positioned(
+                                left: 6,
+                                bottom: 6,
+                                child: Icon(
+                                  Icons.play_circle_fill,
+                                  size: 20,
+                                  color: Colors.white,
+                                ),
+                              ),
+                          ],
                         ),
                       );
                     }
