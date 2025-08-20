@@ -145,6 +145,8 @@ class _CreatePostView extends StatelessWidget {
                 Expanded(
                   child: TextFormField(
                     maxLines: 5,
+                    keyboardType: TextInputType.multiline,
+                    textInputAction: TextInputAction.done,
                     decoration: InputDecoration(
                       hintText: 'What\'s on your mind?',
                       hintStyle: Theme.of(context).textTheme.bodyLarge!
@@ -291,7 +293,8 @@ class _CreatePostView extends StatelessWidget {
                   child: CustomPrimaryButton(
                     label: 'Next',
                     isEnabled: hasMedia,
-                    onPressed: () => appRouter.push(Screens.createPostPreview, extra: cubit),
+                    onPressed: () =>
+                        appRouter.push(Screens.createPostPreview, extra: cubit),
                   ),
                 ),
               );
