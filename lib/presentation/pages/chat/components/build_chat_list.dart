@@ -52,7 +52,7 @@ class _BuildChatListState extends State<BuildChatList> {
             },
             separatorBuilder: (BuildContext context, int index) {
               return Padding(
-                padding: const EdgeInsets.only(left: 76),
+                padding: const EdgeInsets.only(left: 70),
                 child: HorizontalDivider(),
               );
             },

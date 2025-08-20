@@ -66,6 +66,25 @@ class BuildProfileBody extends StatelessWidget {
                 Visibility(
                   visible: isPublicProfile == true,
                   child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        right: AppSizes.kDefaultPadding,
+                      ),
+                      child: CustomOutlineButton(
+                        label: 'Offline',
+                        onPressed: () {},
+                        height: AppSizes.smallButtonHeight,
+                        labelColor: Theme.of(context).hintColor,
+                        iconColor: Theme.of(context).hintColor,
+                        borderColor: Theme.of(context).hintColor,
+                      ),
+                    ),
+                  ),
+                ),
+                Visibility(
+                  visible: isPublicProfile == true,
+                  child: Align(
                     alignment: Alignment.centerRight,
                     child: CustomOutlineButton(
                       label: 'Send Message',
@@ -73,9 +92,9 @@ class BuildProfileBody extends StatelessWidget {
                       hasIcon: true,
                       height: AppSizes.smallButtonHeight,
                       iconPath: Iconsax.message5,
-                      labelColor: Theme.of(context).primaryColor,
-                      iconColor: Theme.of(context).primaryColor,
-                      borderColor: Theme.of(context).primaryColor,
+                      labelColor: Theme.of(context).colorScheme.surfaceContainer,
+                      iconColor: Theme.of(context).colorScheme.surfaceContainer,
+                      borderColor: Theme.of(context).colorScheme.surfaceContainer,
                     ),
                   ),
                 ),
@@ -249,7 +268,7 @@ class BuildProfileBody extends StatelessWidget {
                       child: IconButton(
                         onPressed: null,
                         icon: Container(
-                          padding: EdgeInsets.all(AppSizes.kDefaultPadding / 3),
+                          padding: EdgeInsets.all(AppSizes.kDefaultPadding / 2.2),
                           margin: EdgeInsets.only(
                             right: AppSizes.kDefaultPadding / 2,
                           ),
@@ -436,8 +455,9 @@ class BuildProfileBody extends StatelessWidget {
             ),
           ),
           Visibility(
-              visible: profileResponse.result!.socialmedia!.isNotEmpty,
-              child: HorizontalDivider()),
+            visible: profileResponse.result!.socialmedia!.isNotEmpty,
+            child: HorizontalDivider(),
+          ),
 
           /// Build Social Presence List
           Visibility(

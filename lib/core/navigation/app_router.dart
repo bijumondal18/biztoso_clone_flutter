@@ -23,6 +23,7 @@ import '../../presentation/pages/auth/login/login_screen.dart';
 import '../../presentation/pages/auth/profile/profile_screen.dart';
 import '../../presentation/pages/auth/view_or_edit_profile_picture/view_or_edit_profile_picture_screen.dart';
 import '../../presentation/pages/main_bottom_nav/main_bottom_nav_screen.dart';
+import '../../presentation/pages/settings/settings_screen.dart';
 import '../../presentation/pages/splash/splash_screen.dart';
 
 final GoRouter appRouter = GoRouter(
@@ -249,11 +250,11 @@ final GoRouter appRouter = GoRouter(
     //     );
     //   },
     // ),
-    // GoRoute(
-    //   path: Screens.settings,
-    //   name: 'settings',
-    //   builder: (context, state) => SettingsScreen(),
-    // ),
+    GoRoute(
+      path: Screens.settings,
+      name: 'settings',
+      builder: (context, state) => SettingsScreen(),
+    ),
     // GoRoute(
     //   path: Screens.followingAndFollowers,
     //   name: 'following_and_followers',

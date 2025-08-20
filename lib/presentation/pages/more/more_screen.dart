@@ -43,7 +43,11 @@ class _MoreScreenState extends State<MoreScreen> {
               children: moreOptionsList
                   .map(
                     (moreOptions) =>
-                    MoreTile(onPressed: () {}, moreOptions: moreOptions),
+                    MoreTile(onPressed: () {
+                      if (moreOptions.label == 'Settings') {
+                        appRouter.push(Screens.settings);
+                      }
+                    }, moreOptions: moreOptions),
               )
                   .toList(),
             ),
