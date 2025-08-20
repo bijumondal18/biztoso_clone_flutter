@@ -57,7 +57,7 @@ class PostCard extends StatelessWidget {
                   children: [
                     Text(
                       AppUtils.firstNonEmptyTitle([
-                        post.originalPost?.ownerDetails?.ownerName,
+                        post.userName,
                       ]),
                       style: Theme.of(context).textTheme.titleSmall!.copyWith(
                         fontWeight: FontWeight.w600,
@@ -93,7 +93,9 @@ class PostCard extends StatelessWidget {
               ),
               child: Text(
                 post.description ?? '',
-                style: Theme.of(context).textTheme.bodyMedium,
+                style: Theme.of(
+                  context,
+                ).textTheme.labelLarge!.copyWith(fontWeight: FontWeight.w600),
               ),
             ),
           ),
