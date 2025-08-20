@@ -28,6 +28,7 @@ class ApiEndPoints {
       '${baseCore}network/inbox/chat/get-user-chats';
 
   static const String fetchProfileDetails = '${baseAuth}user/details';
+  static const String fetchBlogList = '${baseAuth}user/menu/list-blog';
 
   static const String feedListUrl =
       '${basePost}marketPlace/post/home-post-list-with-pagination';

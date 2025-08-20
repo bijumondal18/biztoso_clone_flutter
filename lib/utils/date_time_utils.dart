@@ -33,4 +33,38 @@ class DateTimeUtils {
       return isoUtc;
     }
   }
+
+  /// Converts a date string into "29th July, 2025" format
+  static String formatToDayMonthYear(String dateStr) {
+    if (dateStr.isEmpty) return '';
+
+    try {
+      final dt = DateTime.parse(dateStr).toLocal();
+      final day = dt.day;
+      final suffix = _daySuffix(day);
+      final month = DateFormat('MMMM').format(dt);
+      final year = dt.year;
+
+      return "$day$suffix $month, $year";
+    } catch (e) {
+      return dateStr; // fallback in case parsing fails
+    }
+  }
+
+  static String _daySuffix(int day) {
+    if (day >= 11 && day <= 13) {
+      return 'th';
+    }
+    switch (day % 10) {
+      case 1:
+        return 'st';
+      case 2:
+        return 'nd';
+      case 3:
+        return 'rd';
+      default:
+        return 'th';
+    }
+  }
+
 }

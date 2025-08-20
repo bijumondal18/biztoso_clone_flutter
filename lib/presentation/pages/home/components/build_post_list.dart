@@ -21,7 +21,7 @@ class BuildPostList extends StatelessWidget {
           return SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 32),
-              child: Center(child: Text(state.error ?? 'Failed to load')),
+              child: Center(child: Text('Failed to load posts')),
             ),
           );
         }

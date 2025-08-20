@@ -3,12 +3,14 @@ import 'package:biztoso/data/models/chat_list_response.dart';
 import 'package:biztoso/data/models/language.dart';
 import 'package:biztoso/presentation/pages/auth/identity_verification_document_type/identity_verification_document_type_screen.dart';
 import 'package:biztoso/presentation/pages/auth/verification/verification_screen.dart';
+import 'package:biztoso/presentation/pages/blog/blog_screen.dart';
 import 'package:biztoso/presentation/pages/chat_connection/chat_connection_screen.dart';
 import 'package:biztoso/presentation/pages/chat_inbox/chat_inbox_screen.dart';
 import 'package:biztoso/presentation/pages/connection_invitations/connection_invitations_screen.dart';
 import 'package:biztoso/presentation/pages/create_post/create_post_screen.dart';
 import 'package:biztoso/presentation/pages/create_post_preview/create_post_preview_screen.dart';
 import 'package:biztoso/presentation/pages/global_search/global_search_screen.dart';
+import 'package:biztoso/presentation/pages/knowledge_base/knowledge_base_screen.dart';
 import 'package:biztoso/presentation/pages/language_selection/language_selection_screen.dart';
 import 'package:biztoso/presentation/pages/people_you_may_know/people_you_may_know_screen.dart';
 import 'package:flutter/material.dart';
@@ -164,6 +166,16 @@ final GoRouter appRouter = GoRouter(
       builder: (context, state) {
         return IdentityVerificationDocumentTypeScreen();
       },
+    ),
+    GoRoute(
+      path: Screens.knowledgeBase,
+      name: 'knowledgeBase',
+      builder: (context, state) => KnowledgeBaseScreen(),
+    ),
+    GoRoute(
+      path: Screens.blogs,
+      name: 'blogs',
+      builder: (context, state) => BlogScreen(),
     ),
     // GoRoute(
     //   path: Screens.editProfilePic,

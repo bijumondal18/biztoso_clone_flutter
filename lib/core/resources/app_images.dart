@@ -18,4 +18,5 @@ class AppImages {
   static const String avatarPlaceholder =
       '${basePath}avatar_placeholder$extensionPng';
   static const String icGreenCheck = '${basePath}ic_green_check$extensionSvg';
+  static const String blogPlaceholder = '${basePath}blog_placeholder.jpg';
 }

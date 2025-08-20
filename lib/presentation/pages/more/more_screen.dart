@@ -26,9 +26,13 @@ class _MoreScreenState extends State<MoreScreen> {
         centerTitle: true,
         title: Text(
           'More',
-          style: Theme.of(
+          style: Theme
+              .of(
             context,
-          ).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.w900),
+          )
+              .textTheme
+              .titleLarge!
+              .copyWith(fontWeight: FontWeight.w900),
         ),
       ),
       body: SingleChildScrollView(
@@ -39,8 +43,8 @@ class _MoreScreenState extends State<MoreScreen> {
               children: moreOptionsList
                   .map(
                     (moreOptions) =>
-                        MoreTile(onPressed: () {}, moreOptions: moreOptions),
-                  )
+                    MoreTile(onPressed: () {}, moreOptions: moreOptions),
+              )
                   .toList(),
             ),
             HorizontalDivider(),
@@ -51,20 +55,26 @@ class _MoreScreenState extends State<MoreScreen> {
               ),
               child: Text(
                 'Support',
-                style: Theme.of(context).textTheme.titleMedium,
+                style: Theme
+                    .of(context)
+                    .textTheme
+                    .titleMedium,
               ),
             ),
             Column(
               children: supportOptionsList
                   .map(
-                    (moreOptions) => MoreTile(
+                    (moreOptions) =>
+                    MoreTile(
                       onPressed: () {
                         if (moreOptions.label == "Logout") {
                           showDialog(
                             context: context,
                             builder: (context) {
                               return AlertDialog(
-                                backgroundColor: Theme.of(context).cardColor,
+                                backgroundColor: Theme
+                                    .of(context)
+                                    .cardColor,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(
                                     AppSizes.cardCornerRadius,
@@ -81,16 +91,22 @@ class _MoreScreenState extends State<MoreScreen> {
                                     ),
                                     Text(
                                       'Are you sure?',
-                                      style: Theme.of(
+                                      style: Theme
+                                          .of(
                                         context,
-                                      ).textTheme.titleLarge,
+                                      )
+                                          .textTheme
+                                          .titleLarge,
                                     ),
                                     Text(
                                       'This will log you out from this device. You will need to sign in again.',
                                       textAlign: TextAlign.center,
-                                      style: Theme.of(
+                                      style: Theme
+                                          .of(
                                         context,
-                                      ).textTheme.bodyLarge,
+                                      )
+                                          .textTheme
+                                          .bodyLarge,
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(
@@ -124,10 +140,16 @@ class _MoreScreenState extends State<MoreScreen> {
                             },
                           );
                         }
+                        if (moreOptions.label == 'Knowledge Base') {
+                          appRouter.push(Screens.knowledgeBase);
+                        }
+                        if (moreOptions.label == 'Blog') {
+                          appRouter.push(Screens.blogs);
+                        }
                       },
                       moreOptions: moreOptions,
                     ),
-                  )
+              )
                   .toList(),
             ),
             Padding(
@@ -139,7 +161,10 @@ class _MoreScreenState extends State<MoreScreen> {
                 alignment: Alignment.center,
                 child: Text(
                   'App Version : v1.0.5 (234)',
-                  style: Theme.of(context).textTheme.labelMedium,
+                  style: Theme
+                      .of(context)
+                      .textTheme
+                      .labelMedium,
                 ),
               ),
             ),

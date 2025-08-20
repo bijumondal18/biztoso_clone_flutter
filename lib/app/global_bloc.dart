@@ -8,6 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+import '../data/repositories/blog_repository.dart';
+import '../presentation/blocs/blog/blog_bloc.dart';
+
 class GlobalBloc extends StatelessWidget {
   final Widget child;
 
@@ -19,7 +22,14 @@ class GlobalBloc extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => AuthBloc()),
         BlocProvider(create: (context) => UserBloc()),
-        BlocProvider(create: (context) => PostBloc(repo: PostRepository())..add(PostFirstLoadRequested())),
+        BlocProvider(
+          create: (context) =>
+              PostBloc(repo: PostRepository())..add(PostFirstLoadRequested()),
+        ),
+        BlocProvider(
+          create: (context) =>
+              BlogBloc(repo: BlogRepository())..add(FetchBlogsEvent()),
+        ),
       ],
       child: child,
     );

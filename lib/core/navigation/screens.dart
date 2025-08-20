@@ -14,6 +14,8 @@ class Screens{
   static const String login = '/login';
   static const String languageSelection = '/languageSelection';
   static const String settings = '/settings';
+  static const String knowledgeBase = '/knowledgeBase';
+  static const String blogs = '/blogs';
   static const String editProfile = '/editProfile';
   static const String editProfilePic = '/editProfilePic';
   static const String verification = '/verification';
