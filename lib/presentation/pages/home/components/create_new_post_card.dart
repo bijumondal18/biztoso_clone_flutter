@@ -16,23 +16,9 @@ class CreateNewPostCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
-    return Container(
+    return CustomCard(
       margin: EdgeInsets.all(AppSizes.kDefaultPadding),
       padding: EdgeInsets.all(AppSizes.kDefaultPadding),
-      decoration: BoxDecoration(
-        color: Theme.of(context).scaffoldBackgroundColor,
-        borderRadius: BorderRadius.circular(AppSizes.cardCornerRadius),
-        border: Border.all(
-          width: 1.0,
-          color: Theme.of(context).dividerColor.withAlpha(100),
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Theme.of(context).shadowColor,
-            blurRadius: AppSizes.blurRadius,
-          ),
-        ],
-      ),
       child: BlocBuilder<UserBloc, UserState>(
         builder: (context, state) {
           if (state is FetchUserProfileStateLoading) {
@@ -80,9 +66,9 @@ class CreateNewPostCard extends StatelessWidget {
                   ),
                   child: Container(
                     width: width,
-                    padding: EdgeInsets.all(AppSizes.kDefaultPadding / 2),
+                    padding: EdgeInsets.symmetric(vertical: AppSizes.kDefaultPadding / 1.5, horizontal: AppSizes.kDefaultPadding),
                     decoration: BoxDecoration(
-                      color: Theme.of(context).dividerColor.withAlpha(100),
+                      color: Theme.of(context).dividerColor.withAlpha(200),
                       borderRadius: BorderRadius.circular(
                         AppSizes.cardCornerRadius,
                       ),

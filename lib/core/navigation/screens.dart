@@ -22,6 +22,9 @@ class Screens{
   static const String identityVerificationDocumentType = '/identityVerificationDocumentType';
   static const String editProfileField = '/editProfileField';
   static const String profile = '/profile';
+  static const String profileAnalytics = '/profileAnalytics';
+  static const String feedAnalytics = '/feedAnalytics';
+  static const String storeAnalytics = '/storeAnalytics';
   static const String notification = '/notification';
   static const String shareProfile = '/shareProfile';
   static const String followingAndFollowers = '/followingAndFollowers';

@@ -1,6 +1,7 @@
 import 'package:biztoso/core/navigation/screens.dart';
 import 'package:biztoso/data/models/chat_list_response.dart';
 import 'package:biztoso/data/models/language.dart';
+import 'package:biztoso/presentation/pages/analytics/profile_analytics/profile_analytics_screen.dart';
 import 'package:biztoso/presentation/pages/auth/identity_verification_document_type/identity_verification_document_type_screen.dart';
 import 'package:biztoso/presentation/pages/auth/verification/verification_screen.dart';
 import 'package:biztoso/presentation/pages/blog/blog_screen.dart';
@@ -254,6 +255,11 @@ final GoRouter appRouter = GoRouter(
       path: Screens.settings,
       name: 'settings',
       builder: (context, state) => SettingsScreen(),
+    ),
+    GoRoute(
+      path: Screens.profileAnalytics,
+      name: 'profileAnalytics',
+      builder: (context, state) => ProfileAnalyticsScreen(),
     ),
     // GoRoute(
     //   path: Screens.followingAndFollowers,

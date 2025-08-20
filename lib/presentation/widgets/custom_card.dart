@@ -15,9 +15,18 @@ class CustomCard extends StatelessWidget {
       padding: padding ?? EdgeInsets.all(AppSizes.kDefaultPadding),
       margin: margin ?? EdgeInsets.all(AppSizes.kDefaultPadding),
       decoration: BoxDecoration(
-        color: Theme.of(context).dividerColor.withAlpha(100),
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(AppSizes.cardCornerRadius),
-        border: Border.all(width: 1.0, color: Theme.of(context).dividerColor),
+        border: Border.all(
+          width: 1.0,
+          color: Theme.of(context).dividerColor.withAlpha(100),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Theme.of(context).shadowColor,
+            blurRadius: AppSizes.blurRadius,
+          ),
+        ],
       ),
       child: child,
     );

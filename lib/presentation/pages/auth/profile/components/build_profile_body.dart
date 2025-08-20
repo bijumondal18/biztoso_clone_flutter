@@ -92,9 +92,13 @@ class BuildProfileBody extends StatelessWidget {
                       hasIcon: true,
                       height: AppSizes.smallButtonHeight,
                       iconPath: Iconsax.message5,
-                      labelColor: Theme.of(context).colorScheme.surfaceContainer,
+                      labelColor: Theme.of(
+                        context,
+                      ).colorScheme.surfaceContainer,
                       iconColor: Theme.of(context).colorScheme.surfaceContainer,
-                      borderColor: Theme.of(context).colorScheme.surfaceContainer,
+                      borderColor: Theme.of(
+                        context,
+                      ).colorScheme.surfaceContainer,
                     ),
                   ),
                 ),
@@ -127,7 +131,7 @@ class BuildProfileBody extends StatelessWidget {
                       itemBuilder: (BuildContext context) =>
                           <PopupMenuEntry<String>>[
                             PopupMenuItem<String>(
-                              value: 'Edit',
+                              value: 'EditProfile',
                               height: 30,
                               child: Row(
                                 spacing: AppSizes.kDefaultPadding / 2,
@@ -196,8 +200,9 @@ class BuildProfileBody extends StatelessWidget {
                               ),
                             ),
                             PopupMenuItem<String>(
-                              value: 'Archived',
+                              value: 'ProfileAnalytics',
                               height: 30,
+                              onTap: () => appRouter.push(Screens.profileAnalytics),
                               child: Row(
                                 spacing: AppSizes.kDefaultPadding / 2,
                                 mainAxisSize: MainAxisSize.min,
@@ -219,7 +224,7 @@ class BuildProfileBody extends StatelessWidget {
                               ),
                             ),
                             PopupMenuItem<String>(
-                              value: 'Archived',
+                              value: 'FeedAnalytics',
                               height: 30,
                               child: Row(
                                 spacing: AppSizes.kDefaultPadding / 2,
@@ -242,7 +247,7 @@ class BuildProfileBody extends StatelessWidget {
                               ),
                             ),
                             PopupMenuItem<String>(
-                              value: 'Archived',
+                              value: 'StoreAnalytics',
                               height: 30,
                               child: Row(
                                 spacing: AppSizes.kDefaultPadding / 2,
@@ -268,7 +273,9 @@ class BuildProfileBody extends StatelessWidget {
                       child: IconButton(
                         onPressed: null,
                         icon: Container(
-                          padding: EdgeInsets.all(AppSizes.kDefaultPadding / 2.2),
+                          padding: EdgeInsets.all(
+                            AppSizes.kDefaultPadding / 2.2,
+                          ),
                           margin: EdgeInsets.only(
                             right: AppSizes.kDefaultPadding / 2,
                           ),
