@@ -62,6 +62,7 @@ dependencies:
   photo_manager: ^3.7.1
   video_thumbnail: ^0.5.6
   flutter_svg_provider: ^1.0.7
+  dropdown_button2: ^2.3.9
 
 
 

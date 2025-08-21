@@ -251,7 +251,7 @@ class _ProfileAnalyticsScreenState extends State<ProfileAnalyticsScreen> {
                                         mainAxisSize: MainAxisSize.min,
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
-                                        spacing: AppSizes.kDefaultPadding,
+                                        spacing: AppSizes.kDefaultPadding/2,
                                         children: [
                                           Text(
                                             'Total Views',
@@ -301,7 +301,7 @@ class _ProfileAnalyticsScreenState extends State<ProfileAnalyticsScreen> {
                                         mainAxisSize: MainAxisSize.min,
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
-                                        spacing: AppSizes.kDefaultPadding,
+                                        spacing: AppSizes.kDefaultPadding/2,
                                         children: [
                                           Text(
                                             'Views this week',

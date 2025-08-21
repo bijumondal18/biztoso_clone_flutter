@@ -17,9 +17,9 @@ class AppSizes {
   static const double bottomNavigationBarIconSize = 24.0;
   static const double appBarIconSize = 24.0;
 
-  static const double elevationSmall = 10.0;
-  static const double elevationMedium = 20.0;
-  static const double elevationLarge = 30.0;
+  static const double elevationSmall = 10;
+  static const double elevationMedium = 20;
+  static const double elevationLarge = 30;
 
   static const double displayLarge = 36.0;
   static const double displayMedium = 32.0;

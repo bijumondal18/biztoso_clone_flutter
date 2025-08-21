@@ -1,4 +1,5 @@
 import 'package:biztoso/core/themes/app_sizes.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/themes/app_colors.dart';
@@ -18,59 +19,52 @@ class LanguageDropdown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButtonFormField<Language>(
-      value: selectedLanguage,
-      dropdownColor: Theme.of(context).cardColor,
-      elevation: 3,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-      style: Theme.of(context).textTheme.titleSmall,
-      decoration: InputDecoration(
-        suffixIcon: Icon(
-          Icons.keyboard_arrow_down_rounded,
-          color: Theme.of(context).hintColor,
-        ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppSizes.cardCornerRadius),
-          borderSide: BorderSide(
-            color: Theme.of(context).dividerColor,
-            width: 1.0,
+    return DropdownButtonHideUnderline(
+      child: DropdownButton2<Language>(
+        value: selectedLanguage,
+        style: Theme.of(context).textTheme.titleSmall,
+        buttonStyleData: ButtonStyleData(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(AppSizes.cardCornerRadius),
+            border: Border.all(
+              color: Theme.of(context).dividerColor,
+              width: 1.0,
+            ),
           ),
         ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppSizes.cardCornerRadius),
-          borderSide: BorderSide(
-            color: Theme.of(context).dividerColor,
-            width: 1.0,
+        dropdownStyleData: DropdownStyleData(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(AppSizes.cardCornerRadius),
+            color: Theme.of(context).cardColor,
+          ),
+          elevation: 2,
+        ),
+        iconStyleData: IconStyleData(
+          icon: Padding(
+            padding: const EdgeInsets.only(right: AppSizes.kDefaultPadding/2),
+            child: Icon(
+              Icons.keyboard_arrow_down_rounded,
+              color: Theme.of(context).colorScheme.surfaceContainer,
+            ),
           ),
         ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppSizes.cardCornerRadius),
-          borderSide: BorderSide(
-            color: Theme.of(context).dividerColor,
-            width: 1.0,
-          ),
-        ),
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: AppSizes.kDefaultPadding,
-          vertical: AppSizes.kDefaultPadding / 2,
-        ),
+        isExpanded: true,
+        hint: const Text("Select Language"),
+        items: languages.map((lang) {
+          return DropdownMenuItem<Language>(
+            value: lang,
+            child: Row(
+              children: [
+                Text(
+                  lang.languageNameEnglish ?? '',
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
+              ],
+            ),
+          );
+        }).toList(),
+        onChanged: onChanged,
       ),
-      isExpanded: true,
-      hint: const Text("Select Language"),
-      items: languages.map((lang) {
-        return DropdownMenuItem<Language>(
-          value: lang,
-          child: Row(
-            children: [
-              Text(
-                lang.languageNameEnglish ?? '',
-                style: Theme.of(context).textTheme.titleSmall,
-              ),
-            ],
-          ),
-        );
-      }).toList(),
-      onChanged: onChanged,
     );
   }
 }
