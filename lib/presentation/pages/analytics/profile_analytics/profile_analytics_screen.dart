@@ -3,6 +3,7 @@ import 'package:biztoso/core/themes/app_colors.dart';
 import 'package:biztoso/presentation/pages/analytics/profile_analytics/components/profile_analytics_shimmer.dart';
 import 'package:biztoso/presentation/widgets/custom_card.dart';
 import 'package:biztoso/presentation/widgets/profile_avatar.dart';
+import 'package:biztoso/presentation/widgets/string_dropdown.dart';
 import 'package:biztoso/utils/app_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,6 +22,13 @@ class ProfileAnalyticsScreen extends StatefulWidget {
 }
 
 class _ProfileAnalyticsScreenState extends State<ProfileAnalyticsScreen> {
+  final List<String> _dropdownValues = [
+    'Last 7 Days',
+    'Current Month',
+    'Current Year',
+  ];
+  String? selectedValue = 'Last 7 Days';
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -49,6 +57,18 @@ class _ProfileAnalyticsScreenState extends State<ProfileAnalyticsScreen> {
                   horizontal: AppSizes.kDefaultPadding,
                 ),
                 children: [
+                  /// Dropdown button for 7 days, 1 month etc...
+                  StringDropdown(
+                    items: _dropdownValues,
+                    selectedValue: selectedValue,
+                    onChanged: (value) {
+                      setState(() {
+                        selectedValue = value;
+                      });
+                    },
+                  ),
+                  const SizedBox(height: AppSizes.kDefaultPadding),
+
                   /// Profile Overview Card
                   CustomCard(
                     padding: EdgeInsets.all(AppSizes.kDefaultPadding),
@@ -78,7 +98,9 @@ class _ProfileAnalyticsScreenState extends State<ProfileAnalyticsScreen> {
                                   style: Theme.of(context).textTheme.titleSmall,
                                 ),
                                 Text(
-                                  AppUtils.firstNonEmptyTitle(['${state.profileAnalyticsResponse.result?.businessType}']) ,
+                                  AppUtils.firstNonEmptyTitle([
+                                    '${state.profileAnalyticsResponse.result?.businessType}',
+                                  ]),
                                   style: Theme.of(context).textTheme.labelLarge!
                                       .copyWith(
                                         color: Theme.of(context).hintColor,
@@ -251,7 +273,7 @@ class _ProfileAnalyticsScreenState extends State<ProfileAnalyticsScreen> {
                                         mainAxisSize: MainAxisSize.min,
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
-                                        spacing: AppSizes.kDefaultPadding/2,
+                                        spacing: AppSizes.kDefaultPadding / 2,
                                         children: [
                                           Text(
                                             'Total Views',
@@ -301,7 +323,7 @@ class _ProfileAnalyticsScreenState extends State<ProfileAnalyticsScreen> {
                                         mainAxisSize: MainAxisSize.min,
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
-                                        spacing: AppSizes.kDefaultPadding/2,
+                                        spacing: AppSizes.kDefaultPadding / 2,
                                         children: [
                                           Text(
                                             'Views this week',
