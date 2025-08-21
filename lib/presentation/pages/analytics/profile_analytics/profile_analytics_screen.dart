@@ -78,7 +78,7 @@ class _ProfileAnalyticsScreenState extends State<ProfileAnalyticsScreen> {
                                   style: Theme.of(context).textTheme.titleSmall,
                                 ),
                                 Text(
-                                  '${state.profileAnalyticsResponse.result?.businessType}',
+                                  AppUtils.firstNonEmptyTitle(['${state.profileAnalyticsResponse.result?.businessType}']) ,
                                   style: Theme.of(context).textTheme.labelLarge!
                                       .copyWith(
                                         color: Theme.of(context).hintColor,
