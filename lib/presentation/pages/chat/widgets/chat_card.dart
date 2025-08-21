@@ -23,7 +23,7 @@ class ChatCard extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: AppSizes.kDefaultPadding,
-          vertical: AppSizes.kDefaultPadding / 2,
+          vertical: AppSizes.kDefaultPadding / 1.5,
         ),
         child: Row(
           spacing: AppSizes.kDefaultPadding,
