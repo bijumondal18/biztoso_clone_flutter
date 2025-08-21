@@ -237,3 +237,26 @@ final class FetchUserProfileStateFailed extends UserState {
   @override
   List<Object> get props => [error];
 }
+
+// ------------------------ Fetch Current User Profile Analytics ---------------------------//
+final class FetchUserProfileAnalyticsStateLoading extends UserState {}
+
+class FetchUserProfileAnalyticsStateLoaded extends UserState {
+  final ProfileAnalyticsResponse profileAnalyticsResponse;
+
+  const FetchUserProfileAnalyticsStateLoaded({
+    required this.profileAnalyticsResponse,
+  });
+
+  @override
+  List<Object> get props => [profileAnalyticsResponse];
+}
+
+final class FetchUserProfileAnalyticsStateFailed extends UserState {
+  final String error;
+
+  const FetchUserProfileAnalyticsStateFailed({required this.error});
+
+  @override
+  List<Object> get props => [error];
+}

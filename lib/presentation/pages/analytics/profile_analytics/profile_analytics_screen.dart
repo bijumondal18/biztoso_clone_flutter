@@ -1,12 +1,16 @@
 import 'package:biztoso/core/resources/app_images.dart';
 import 'package:biztoso/core/themes/app_colors.dart';
+import 'package:biztoso/presentation/pages/analytics/profile_analytics/components/profile_analytics_shimmer.dart';
 import 'package:biztoso/presentation/widgets/custom_card.dart';
 import 'package:biztoso/presentation/widgets/profile_avatar.dart';
+import 'package:biztoso/utils/app_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../core/navigation/app_router.dart';
 import '../../../../core/themes/app_sizes.dart';
+import '../../../blocs/user/user_bloc.dart';
 import '../../../widgets/appbar_icon.dart';
 
 class ProfileAnalyticsScreen extends StatefulWidget {
@@ -19,342 +23,483 @@ class ProfileAnalyticsScreen extends StatefulWidget {
 class _ProfileAnalyticsScreenState extends State<ProfileAnalyticsScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        scrolledUnderElevation: AppSizes.elevationSmall,
-        leading: AppbarIcon(onPressed: () => appRouter.pop()),
-        title: Text(
-          'Profile Analytics',
-          style: Theme.of(
-            context,
-          ).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.w900),
+    return BlocProvider(
+      create: (context) => UserBloc()..add(FetchProfileAnalyticsEvent()),
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          scrolledUnderElevation: AppSizes.elevationSmall,
+          leading: AppbarIcon(onPressed: () => appRouter.pop()),
+          title: Text(
+            'Profile Analytics',
+            style: Theme.of(
+              context,
+            ).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.w900),
+          ),
         ),
-      ),
-      body: ListView(
-        padding: EdgeInsets.symmetric(
-          vertical: AppSizes.kDefaultPadding,
-          horizontal: AppSizes.kDefaultPadding,
-        ),
-        children: [
-          /// Profile Overview Card
-          CustomCard(
-            padding: EdgeInsets.all(AppSizes.kDefaultPadding),
-            margin: EdgeInsets.only(bottom: AppSizes.kDefaultPadding),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              spacing: AppSizes.kDefaultPadding,
-              children: [
-                Text(
-                  'Profile Overview',
-                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
+        body: BlocBuilder<UserBloc, UserState>(
+          builder: (context, state) {
+            if (state is FetchUserProfileAnalyticsStateLoading) {
+              return const ProfileAnalyticsShimmerList();
+            }
+            if (state is FetchUserProfileAnalyticsStateLoaded) {
+              return ListView(
+                padding: EdgeInsets.symmetric(
+                  vertical: AppSizes.kDefaultPadding,
+                  horizontal: AppSizes.kDefaultPadding,
                 ),
-                Row(
-                  spacing: AppSizes.kDefaultPadding,
-                  children: [
-                    ProfileAvatar(imageUrl: 'imageUrl', onPressed: () {}),
-                    Column(
+                children: [
+                  /// Profile Overview Card
+                  CustomCard(
+                    padding: EdgeInsets.all(AppSizes.kDefaultPadding),
+                    margin: EdgeInsets.only(bottom: AppSizes.kDefaultPadding),
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
+                      spacing: AppSizes.kDefaultPadding,
                       children: [
                         Text(
-                          'Princep',
-                          style: Theme.of(context).textTheme.titleSmall,
+                          'Profile Overview',
+                          style: Theme.of(context).textTheme.titleMedium!
+                              .copyWith(fontWeight: FontWeight.w600),
                         ),
-                        Text(
-                          'business name',
-                          style: Theme.of(context).textTheme.labelLarge!
-                              .copyWith(color: Theme.of(context).hintColor),
+                        Row(
+                          spacing: AppSizes.kDefaultPadding,
+                          children: [
+                            ProfileAvatar(
+                              imageUrl:
+                                  '${state.profileAnalyticsResponse.result?.profilePic}',
+                              onPressed: () {},
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '${state.profileAnalyticsResponse.result?.fullName}',
+                                  style: Theme.of(context).textTheme.titleSmall,
+                                ),
+                                Text(
+                                  '${state.profileAnalyticsResponse.result?.businessType}',
+                                  style: Theme.of(context).textTheme.labelLarge!
+                                      .copyWith(
+                                        color: Theme.of(context).hintColor,
+                                      ),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Profile Strength',
-                      style: Theme.of(context).textTheme.titleSmall,
-                    ),
-                    Text('50%', style: Theme.of(context).textTheme.titleSmall),
-                  ],
-                ),
-                LinearProgressIndicator(
-                  value: 0.5,
-                  minHeight: AppSizes.kDefaultPadding / 2,
-                  valueColor: AlwaysStoppedAnimation(
-                    AppColors.greenDark, // no color animation
-                  ),
-                  backgroundColor: Theme.of(context).dividerColor,
-                ),
-              ],
-            ),
-          ),
-
-          /// Profile Completion Score Card
-          CustomCard(
-            padding: EdgeInsets.all(AppSizes.kDefaultPadding),
-            margin: EdgeInsets.only(bottom: AppSizes.kDefaultPadding),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Profile Completion Score',
-                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                Container(
-                  width: double.infinity,
-                  margin: EdgeInsets.only(top: AppSizes.kDefaultPadding),
-                  child: Stack(
-                    children: [
-                      Image.asset(
-                        AppImages.imgAnalytics,
-                        width: double.infinity,
-                      ),
-                      Container(
-                        width: double.infinity,
-                        padding: EdgeInsets.all(AppSizes.kDefaultPadding),
-                        child: Column(
-                          spacing: AppSizes.kDefaultPadding / 2,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
                               'Profile Strength',
-                              style: Theme.of(context).textTheme.titleSmall!
-                                  .copyWith(color: AppColors.black),
+                              style: Theme.of(context).textTheme.titleSmall,
                             ),
                             Text(
-                              '60%',
-                              style: Theme.of(context).textTheme.headlineLarge!
-                                  .copyWith(color: AppColors.greenDark),
+                              '${state.profileAnalyticsResponse.result?.strength}%',
+                              style: Theme.of(context).textTheme.titleSmall,
                             ),
                           ],
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: AppSizes.kDefaultPadding),
-                  child: Row(
-                    spacing: AppSizes.kDefaultPadding,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SvgPicture.asset(
-                        AppImages.icSuggestedImprovement,
-                        width: 40,
-                        height: 40,
-                      ),
-                      Column(
-                        spacing: 2.0,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Suggested Improvements',
-                            style: Theme.of(context).textTheme.titleMedium,
+                        LinearProgressIndicator(
+                          value:
+                              state.profileAnalyticsResponse.result!.strength! *
+                              0.1,
+                          minHeight: AppSizes.kDefaultPadding / 2,
+                          valueColor: AlwaysStoppedAnimation(
+                            AppColors.greenDark, // no color animation
                           ),
-                          Text(
-                            'Add Profile Picture & Add Bio',
-                            style: Theme.of(context).textTheme.labelLarge!
-                                .copyWith(fontWeight: FontWeight.w600),
-                          ),
-                        ],
-                      ),
-                    ],
+                          backgroundColor: Theme.of(context).dividerColor,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ),
 
-          /// Profile Views  Card
-          CustomCard(
-            padding: EdgeInsets.all(AppSizes.kDefaultPadding),
-            margin: EdgeInsets.only(bottom: AppSizes.kDefaultPadding),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Profile Views',
-                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                Row(
-                  spacing: AppSizes.kDefaultPadding,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: Container(
-                        width: double.infinity,
-                        margin: EdgeInsets.only(top: AppSizes.kDefaultPadding),
-                        child: Stack(
-                          children: [
-                            Image.asset(
-                              AppImages.imgAnalyticsSmall,
-                              width: double.infinity,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(
-                                AppSizes.kDefaultPadding,
+                  /// Profile Completion Score Card
+                  CustomCard(
+                    padding: EdgeInsets.all(AppSizes.kDefaultPadding),
+                    margin: EdgeInsets.only(bottom: AppSizes.kDefaultPadding),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Profile Completion Score',
+                          style: Theme.of(context).textTheme.titleMedium!
+                              .copyWith(fontWeight: FontWeight.w600),
+                        ),
+                        Container(
+                          width: double.infinity,
+                          margin: EdgeInsets.only(
+                            top: AppSizes.kDefaultPadding,
+                          ),
+                          child: Stack(
+                            children: [
+                              Image.asset(
+                                AppImages.imgAnalytics,
+                                width: double.infinity,
                               ),
-                              child: Column(
+                              Container(
+                                width: double.infinity,
+                                padding: EdgeInsets.all(
+                                  AppSizes.kDefaultPadding,
+                                ),
+                                child: Column(
+                                  spacing: AppSizes.kDefaultPadding / 2,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Profile Strength',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleSmall!
+                                          .copyWith(color: AppColors.black),
+                                    ),
+                                    Text(
+                                      '${state.profileAnalyticsResponse.result?.strength}%',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headlineLarge!
+                                          .copyWith(color: AppColors.greenDark),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            top: AppSizes.kDefaultPadding,
+                          ),
+                          child: Row(
+                            spacing: AppSizes.kDefaultPadding,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                AppImages.icSuggestedImprovement,
+                                width: 40,
+                                height: 40,
+                              ),
+                              Column(
+                                spacing: 2.0,
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    'Total Views',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleMedium!
-                                        .copyWith(color: AppColors.black),
+                                    'Suggested Improvements',
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.titleMedium,
                                   ),
                                   Text(
-                                    '25',
+                                    AppUtils.firstNonEmptyTitle([
+                                      (state
+                                          .profileAnalyticsResponse
+                                          .result
+                                          ?.improvement
+                                          ?.join(' & ')),
+                                    ]),
                                     style: Theme.of(context)
                                         .textTheme
-                                        .headlineLarge!
-                                        .copyWith(color: AppColors.greenDark),
+                                        .labelLarge!
+                                        .copyWith(fontWeight: FontWeight.w600),
                                   ),
                                 ],
                               ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  /// Profile Views  Card
+                  CustomCard(
+                    padding: EdgeInsets.all(AppSizes.kDefaultPadding),
+                    margin: EdgeInsets.only(bottom: AppSizes.kDefaultPadding),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Profile Views',
+                          style: Theme.of(context).textTheme.titleMedium!
+                              .copyWith(fontWeight: FontWeight.w600),
+                        ),
+                        Row(
+                          spacing: AppSizes.kDefaultPadding,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: Container(
+                                width: double.infinity,
+                                margin: EdgeInsets.only(
+                                  top: AppSizes.kDefaultPadding,
+                                ),
+                                child: Stack(
+                                  children: [
+                                    Image.asset(
+                                      AppImages.imgAnalyticsSmall,
+                                      width: double.infinity,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(
+                                        AppSizes.kDefaultPadding,
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisSize: MainAxisSize.min,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        spacing: AppSizes.kDefaultPadding,
+                                        children: [
+                                          Text(
+                                            'Total Views',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleSmall!
+                                                .copyWith(
+                                                  color: AppColors.black,
+                                                ),
+                                          ),
+                                          Text(
+                                            '${state.profileAnalyticsResponse.result?.totalViewByDateRange}',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headlineLarge!
+                                                .copyWith(
+                                                  color: AppColors.greenDark,
+                                                ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: Container(
+                                width: double.infinity,
+                                margin: EdgeInsets.only(
+                                  top: AppSizes.kDefaultPadding,
+                                ),
+                                child: Stack(
+                                  children: [
+                                    Image.asset(
+                                      AppImages.imgAnalyticsSmall,
+                                      width: double.infinity,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(
+                                        AppSizes.kDefaultPadding,
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisSize: MainAxisSize.min,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        spacing: AppSizes.kDefaultPadding,
+                                        children: [
+                                          Text(
+                                            'Views this week',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleSmall!
+                                                .copyWith(
+                                                  color: AppColors.black,
+                                                ),
+                                          ),
+                                          Text(
+                                            '${state.profileAnalyticsResponse.result?.totalViewOfCurrentWeek}',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headlineLarge!
+                                                .copyWith(
+                                                  color: AppColors.greenDark,
+                                                ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
                           ],
                         ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: Container(
-                        width: double.infinity,
-                        margin: EdgeInsets.only(top: AppSizes.kDefaultPadding),
-                        child: Stack(
-                          children: [
-                            Image.asset(
-                              AppImages.imgAnalyticsSmall,
-                              width: double.infinity,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(
-                                AppSizes.kDefaultPadding,
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            top: AppSizes.kDefaultPadding,
+                          ),
+                          child: Row(
+                            spacing: AppSizes.kDefaultPadding,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                AppImages.icCompareLastMonth,
+                                width: 40,
+                                height: 40,
                               ),
-                              child: Column(
+                              Column(
+                                spacing: 2.0,
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    'Views this week',
+                                    '${state.profileAnalyticsResponse.result?.comparedToLastMonth}%',
                                     style: Theme.of(context)
                                         .textTheme
                                         .titleMedium!
-                                        .copyWith(color: AppColors.black),
+                                        .copyWith(fontWeight: FontWeight.w600),
                                   ),
                                   Text(
-                                    '50',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headlineLarge!
-                                        .copyWith(color: AppColors.greenDark),
+                                    'Compare to the last month',
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.labelLarge,
                                   ),
                                 ],
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
+                      ],
                     ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: AppSizes.kDefaultPadding),
-                  child: Row(
-                    spacing: AppSizes.kDefaultPadding,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SvgPicture.asset(
-                        AppImages.icCompareLastMonth,
-                        width: 40,
-                        height: 40,
-                      ),
-                      Column(
-                        spacing: 2.0,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            '+368%',
-                            style: Theme.of(context).textTheme.titleMedium!
-                                .copyWith(fontWeight: FontWeight.w600),
-                          ),
-                          Text(
-                            'Compare to the last month',
-                            style: Theme.of(context).textTheme.labelLarge,
-                          ),
-                        ],
-                      ),
-                    ],
                   ),
-                ),
-              ],
-            ),
-          ),
 
-          /// Search to profile view rate card
-          CustomCard(
-            padding: EdgeInsets.all(AppSizes.kDefaultPadding),
-            margin: EdgeInsets.only(bottom: AppSizes.kDefaultPadding),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Search To Profile View Rate',
-                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                    fontWeight: FontWeight.w600,
+                  /// Search to profile view rate card
+                  CustomCard(
+                    padding: EdgeInsets.all(AppSizes.kDefaultPadding),
+                    margin: EdgeInsets.only(bottom: AppSizes.kDefaultPadding),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Search To Profile View Rate',
+                          style: Theme.of(context).textTheme.titleMedium!
+                              .copyWith(fontWeight: FontWeight.w600),
+                        ),
+                        Container(
+                          width: double.infinity,
+                          margin: EdgeInsets.only(
+                            top: AppSizes.kDefaultPadding,
+                          ),
+                          child: Stack(
+                            children: [
+                              Image.asset(
+                                AppImages.imgAnalytics,
+                                width: double.infinity,
+                              ),
+                              Container(
+                                width: double.infinity,
+                                padding: EdgeInsets.all(
+                                  AppSizes.kDefaultPadding,
+                                ),
+                                child: Column(
+                                  spacing: AppSizes.kDefaultPadding / 2,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Search Appearances',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleSmall!
+                                          .copyWith(color: AppColors.black),
+                                    ),
+                                    Text(
+                                      '${state.profileAnalyticsResponse.result?.searchAppearanceCount}',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headlineLarge!
+                                          .copyWith(color: AppColors.greenDark),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                Container(
-                  width: double.infinity,
-                  margin: EdgeInsets.only(top: AppSizes.kDefaultPadding),
-                  child: Stack(
+
+                  /// Audience Geo Distribution Card
+                  CustomCard(
+                    padding: EdgeInsets.all(AppSizes.kDefaultPadding),
+                    margin: EdgeInsets.only(bottom: AppSizes.kDefaultPadding),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Audience Geo Distribution',
+                          style: Theme.of(context).textTheme.titleMedium!
+                              .copyWith(fontWeight: FontWeight.w600),
+                        ),
+                        const SizedBox(height: AppSizes.kDefaultPadding / 2),
+                        Text(
+                          'Audience Geo Distribution',
+                          style: Theme.of(context).textTheme.labelLarge!
+                              .copyWith(color: Theme.of(context).hintColor),
+                        ),
+                        const SizedBox(height: AppSizes.kDefaultPadding),
+                        Wrap(
+                          spacing: AppSizes.kDefaultPadding * 2,
+                          runSpacing: AppSizes.kDefaultPadding * 2,
+                          children: state
+                              .profileAnalyticsResponse
+                              .result!
+                              .geoDistribution!
+                              .map((item) {
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  spacing: AppSizes.kDefaultPadding / 4,
+                                  children: [
+                                    Text(
+                                      item.state ?? '',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge!
+                                          .copyWith(
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                    ),
+                                    Text(
+                                      item.percentage ?? '',
+                                      style: Theme.of(
+                                        context,
+                                      ).textTheme.bodyLarge,
+                                    ),
+                                  ],
+                                );
+                              })
+                              .toList(),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: AppSizes.kDefaultPadding),
+                  Row(
                     children: [
-                      Image.asset(
-                        AppImages.imgAnalytics,
-                        width: double.infinity,
-                      ),
-                      Container(
-                        width: double.infinity,
-                        padding: EdgeInsets.all(AppSizes.kDefaultPadding),
-                        child: Column(
-                          spacing: AppSizes.kDefaultPadding / 2,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Search Appearances',
-                              style: Theme.of(context).textTheme.titleSmall!
-                                  .copyWith(color: AppColors.black),
-                            ),
-                            Text(
-                              '68',
-                              style: Theme.of(context).textTheme.headlineLarge!
-                                  .copyWith(color: AppColors.greenDark),
-                            ),
-                          ],
+                      SvgPicture.asset(AppImages.icBulb, width: 30, height: 30),
+                      Expanded(
+                        child: Text(
+                          'Why These Matters: These 7 Matrics Can Directly Guide User Decisions - What To Sell, How To Price, What To Remove, And How To Improve',
+                          style: Theme.of(context).textTheme.labelLarge,
                         ),
                       ),
                     ],
                   ),
-                ),
-              ],
-            ),
-          ),
-          const SafeArea(child: SizedBox()),
-        ],
+                  const SafeArea(
+                    child: SizedBox(height: AppSizes.kDefaultPadding),
+                  ),
+                ],
+              );
+            }
+            return const ProfileAnalyticsShimmerList();
+          },
+        ),
       ),
     );
   }

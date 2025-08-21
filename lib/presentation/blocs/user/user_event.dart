@@ -91,3 +91,6 @@ class FetchProfileDetailsEvent extends UserEvent {
   @override
   List<Object> get props => [userId ?? ''];
 }
+
+
+class FetchProfileAnalyticsEvent extends UserEvent {}

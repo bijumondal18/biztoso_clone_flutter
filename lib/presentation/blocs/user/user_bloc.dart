@@ -7,6 +7,7 @@ import 'package:biztoso/data/models/connection_received_response.dart';
 import 'package:biztoso/data/models/connection_response.dart';
 import 'package:biztoso/data/models/connection_sent_response.dart';
 import 'package:biztoso/data/models/language.dart';
+import 'package:biztoso/data/models/profile_analytics_response.dart';
 import 'package:biztoso/data/models/profile_response.dart';
 import 'package:biztoso/data/models/response_message.dart';
 import 'package:bloc/bloc.dart';
@@ -359,6 +360,35 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         }
       } catch (e) {
         emit(FetchUserProfileStateFailed(error: e.toString()));
+      }
+    });
+
+    // Fetch Profile Analytics
+    on<FetchProfileAnalyticsEvent>((event, emit) async {
+      try {
+        emit(FetchUserProfileStateLoading());
+
+        final queryParams = <String, dynamic>{
+          'profileStartDate': '',
+          'profileEndDate': '',
+          'searchStartDate': '',
+          'searchEndDate': '',
+        };
+
+        final response = await DioClient(
+          baseUrl: ApiEndPoints.baseAuth,
+        ).get(ApiEndPoints.fetchProfileAnalytics, queryParams: queryParams);
+        if (response != null && response.statusCode == 200) {
+          emit(
+            FetchUserProfileAnalyticsStateLoaded(
+              profileAnalyticsResponse: ProfileAnalyticsResponse.fromJson(
+                response.data,
+              ),
+            ),
+          );
+        }
+      } catch (e) {
+        emit(FetchUserProfileAnalyticsStateFailed(error: e.toString()));
       }
     });
   }
