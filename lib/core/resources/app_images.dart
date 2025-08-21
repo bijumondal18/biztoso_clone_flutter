@@ -20,7 +20,7 @@ class AppImages {
   static const String icGreenCheck = '${basePath}ic_green_check$extensionSvg';
   static const String icSuggestedImprovement = '${basePath}ic_suggested_improvment$extensionSvg';
   static const String icCompareLastMonth = '${basePath}ic_compare_last_month$extensionSvg';
-  static const String icBulb = '${basePath}ic_bulb$extensionSvg';
+  static const String icBulb = '${basePath}ic_bulb$extensionPng';
   static const String imgAnalytics = '${basePath}img_analytics$extensionPng';
   static const String imgAnalyticsSmall = '${basePath}img_analytics_small$extensionPng';
   static const String blogPlaceholder = '${basePath}blog_placeholder.jpg';

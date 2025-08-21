@@ -481,8 +481,17 @@ class _ProfileAnalyticsScreenState extends State<ProfileAnalyticsScreen> {
                   ),
                   const SizedBox(height: AppSizes.kDefaultPadding),
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    spacing: AppSizes.kDefaultPadding,
                     children: [
-                      SvgPicture.asset(AppImages.icBulb, width: 30, height: 30),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 2.0),
+                        child: Image.asset(
+                          AppImages.icBulb,
+                          width: 30,
+                          height: 30,
+                        ),
+                      ),
                       Expanded(
                         child: Text(
                           'Why These Matters: These 7 Matrics Can Directly Guide User Decisions - What To Sell, How To Price, What To Remove, And How To Improve',
