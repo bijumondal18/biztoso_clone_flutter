@@ -1,9 +1,10 @@
+
 import 'package:flutter/material.dart';
 
 import '../../core/themes/app_colors.dart';
 import '../../core/themes/app_sizes.dart';
 
-class EmailTextField extends StatelessWidget {
+class NameTextField extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
   final String errorText;
@@ -16,10 +17,10 @@ class EmailTextField extends StatelessWidget {
   bool isMandatory;
   bool readOnly;
 
-  EmailTextField({
+  NameTextField({
     super.key,
     required this.controller,
-    this.hintText = 'Enter your email',
+    this.hintText = 'Enter your full name',
     required this.errorText,
     this.validator,
     this.labelText = '',
@@ -50,7 +51,7 @@ class EmailTextField extends StatelessWidget {
         TextFormField(
           controller: controller,
           autovalidateMode: AutovalidateMode.onUserInteraction,
-          keyboardType: TextInputType.emailAddress,
+          keyboardType: TextInputType.name,
           validator: validator,
           onChanged: onChanged,
           readOnly: readOnly,
@@ -61,12 +62,12 @@ class EmailTextField extends StatelessWidget {
             fillColor: Theme.of(context).scaffoldBackgroundColor,
             prefixIcon: hasPrefixIcon
                 ? Icon(
-                    Icons.email_rounded,
-                    size: AppSizes.appBarIconSize,
-                    color: readOnly
-                        ? AppColors.darkGrey.withAlpha(100)
-                        : AppColors.darkGrey.withAlpha(200),
-                  )
+              Icons.email_rounded,
+              size: AppSizes.appBarIconSize,
+              color: readOnly
+                  ? AppColors.darkGrey.withAlpha(100)
+                  : AppColors.darkGrey.withAlpha(200),
+            )
                 : null,
             suffixIcon: InkWell(
               onTap: suffixIconPressed,
@@ -82,8 +83,8 @@ class EmailTextField extends StatelessWidget {
             labelStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
               color: readOnly == true
                   ? Theme.of(
-                      context,
-                    ).colorScheme.surfaceContainer.withAlpha(200)
+                context,
+              ).colorScheme.surfaceContainer.withAlpha(200)
                   : Theme.of(context).colorScheme.surfaceContainer,
             ),
             hintStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(

@@ -133,6 +133,7 @@ class BuildProfileBody extends StatelessWidget {
                             PopupMenuItem<String>(
                               value: 'EditProfile',
                               height: 30,
+                              onTap: () => appRouter.push(Screens.editProfile),
                               child: Row(
                                 spacing: AppSizes.kDefaultPadding / 2,
                                 mainAxisSize: MainAxisSize.min,
