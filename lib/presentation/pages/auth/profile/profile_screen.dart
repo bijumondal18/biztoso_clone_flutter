@@ -46,6 +46,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
             if (state is FetchUserProfileStateLoading) {
               return const ProfileScreenShimmer();
             }
+            if (state is FetchUserProfileStateFailed) {
+              return Center(
+                child: Text(
+                  state.error,
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+              );
+            }
             if (state is FetchUserProfileStateLoaded) {
               return DefaultTabController(
                 length: 2,
@@ -74,7 +82,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           dividerColor: Theme.of(context).dividerColor,
                           dividerHeight: 0.8,
                           tabs: const [
-                            Tab(text: 'Posts',),
+                            Tab(text: 'Posts'),
                             Tab(text: 'Store'),
                           ],
                         ),

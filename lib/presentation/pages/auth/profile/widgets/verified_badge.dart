@@ -41,8 +41,8 @@ class VerifiedBadge extends StatelessWidget {
             top: -8,
             child: SvgPicture.asset(
               AppImages.icGreenCheck,
-              width: 24,
-              height: 24,
+              width: 28,
+              height: 28,
             ),
           ),
         ),

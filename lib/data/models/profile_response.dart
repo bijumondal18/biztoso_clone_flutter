@@ -11,7 +11,7 @@ class ProfileResponse {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data =  <String, dynamic>{};
     data['message'] = this.message;
     if (this.result != null) {
       data['result'] = this.result!.toJson();
@@ -48,7 +48,7 @@ class Result {
   List<RequestId>? requestId;
   String? businessName;
   bool? isOnline;
-  int? connectionCount;
+  String? connectionCount;
   String? userPrivacy;
   bool? documentVerify;
   bool? isStore;
@@ -142,7 +142,7 @@ class Result {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data =  <String, dynamic>{};
     data['_id'] = this.sId;
     data['FullName'] = this.fullName;
     data['Email'] = this.email;
@@ -234,7 +234,6 @@ class SocialMedia {
   String? userId;
   String? createdAt;
   String? updatedAt;
-  int? iV;
 
   SocialMedia(
       {this.sId,
@@ -243,7 +242,7 @@ class SocialMedia {
         this.userId,
         this.createdAt,
         this.updatedAt,
-        this.iV});
+       });
 
   SocialMedia.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
@@ -252,7 +251,6 @@ class SocialMedia {
     userId = json['UserId'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
-    iV = json['__v'];
   }
 
   Map<String, dynamic> toJson() {
@@ -263,7 +261,6 @@ class SocialMedia {
     data['UserId'] = this.userId;
     data['createdAt'] = this.createdAt;
     data['updatedAt'] = this.updatedAt;
-    data['__v'] = this.iV;
     return data;
   }
 }
