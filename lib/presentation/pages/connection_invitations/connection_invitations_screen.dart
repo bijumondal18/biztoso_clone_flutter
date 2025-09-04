@@ -25,7 +25,6 @@ class _ConnectionInvitationsScreenState
         /// Appbar
         appBar: AppBar(
           centerTitle: true,
-          scrolledUnderElevation: AppSizes.elevationSmall,
           leading: AppbarIcon(onPressed: () => appRouter.pop()),
           title: Text(
             'Connection Invitations',

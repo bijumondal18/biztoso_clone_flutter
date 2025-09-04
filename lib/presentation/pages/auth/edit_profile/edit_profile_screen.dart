@@ -29,7 +29,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          scrolledUnderElevation: AppSizes.elevationSmall,
           leading: AppbarIcon(onPressed: () => appRouter.pop()),
           title: Text(
             'Edit Profile',

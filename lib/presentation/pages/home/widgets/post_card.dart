@@ -1,10 +1,14 @@
 import 'package:biztoso/core/themes/app_sizes.dart';
 import 'package:biztoso/presentation/pages/home/widgets/post_media_grid.dart';
+import 'package:biztoso/presentation/widgets/custom_card.dart';
+import 'package:biztoso/presentation/widgets/horizontal_divider.dart';
 import 'package:biztoso/presentation/widgets/profile_avatar.dart';
 import 'package:biztoso/utils/app_utils.dart';
 import 'package:biztoso/utils/date_time_utils.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 
 import '../../../../data/models/post_model.dart';
 
@@ -19,25 +23,11 @@ class PostCard extends StatelessWidget {
     final height = MediaQuery.sizeOf(context).height;
     final isReshare = post.originalPost != null;
 
-    return Container(
+    return CustomCard(
       padding: const EdgeInsets.all(AppSizes.kDefaultPadding / 2),
       margin: const EdgeInsets.symmetric(
         horizontal: AppSizes.kDefaultPadding,
         vertical: 6.0,
-      ),
-      decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
-        borderRadius: BorderRadius.circular(AppSizes.cardCornerRadius),
-        border: Border.all(
-          width: 1.0,
-          color: Theme.of(context).dividerColor.withAlpha(100),
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Theme.of(context).shadowColor.withAlpha(200),
-            blurRadius: AppSizes.blurRadius,
-          ),
-        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -56,9 +46,7 @@ class PostCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      AppUtils.firstNonEmptyTitle([
-                        post.userName,
-                      ]),
+                      AppUtils.firstNonEmptyTitle([post.userName]),
                       style: Theme.of(context).textTheme.titleSmall!.copyWith(
                         fontWeight: FontWeight.w600,
                       ),
@@ -101,6 +89,96 @@ class PostCard extends StatelessWidget {
           ),
 
           PostMediaGrid(media: post.images, height: height * 0.3),
+
+          HorizontalDivider(height: AppSizes.kDefaultPadding),
+
+          Row(
+            spacing: AppSizes.kDefaultPadding,
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              IconButton(
+                onPressed: () {},
+                icon: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  spacing: AppSizes.kDefaultPadding / 2,
+                  children: [
+                    Icon(
+                      Iconsax.heart,
+                      color: Theme.of(context).colorScheme.surfaceContainer,
+                    ),
+                    Text(
+                      "2",
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              IconButton(
+                onPressed: () {},
+                icon: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  spacing: AppSizes.kDefaultPadding / 2,
+                  children: [
+                    Icon(
+                      Iconsax.message,
+                      color: Theme.of(context).colorScheme.surfaceContainer,
+                    ),
+                    Text(
+                      "2",
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              IconButton(
+                onPressed: () {},
+                icon: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  spacing: AppSizes.kDefaultPadding / 2,
+                  children: [
+                    Icon(
+                      Icons.share_outlined,
+                      color: Theme.of(context).colorScheme.surfaceContainer,
+                    ),
+                    Text(
+                      "2",
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              IconButton(
+                onPressed: () {},
+                icon: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  spacing: AppSizes.kDefaultPadding / 2,
+                  children: [
+                    Icon(
+                      EvaIcons.shareOutline,
+                      color: Theme.of(context).colorScheme.surfaceContainer,
+                    ),
+                    Text(
+                      "2",
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
 
           // reshare block
           // if (isReshare) ...[

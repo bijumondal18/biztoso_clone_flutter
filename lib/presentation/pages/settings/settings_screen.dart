@@ -31,7 +31,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          scrolledUnderElevation: AppSizes.elevationSmall,
           leading: AppbarIcon(onPressed: () => appRouter.pop()),
           title: Text(
             'Settings',
@@ -126,7 +125,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         child: Text(
                           'Get push notifications in-app to find out what\'s going on when you\'re online.',
                           style: Theme.of(context).textTheme.titleSmall!
-                              .copyWith(color: Theme.of(context).hintColor),
+                              .copyWith(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.surfaceContainer.withAlpha(200),
+                              ),
                         ),
                       ),
                       const SizedBox(width: AppSizes.kDefaultPadding),
@@ -153,7 +156,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         child: Text(
                           'Get emails to find out what\'s going on when you\'re not online. Yo can turn these off.',
                           style: Theme.of(context).textTheme.titleSmall!
-                              .copyWith(color: Theme.of(context).hintColor),
+                              .copyWith(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.surfaceContainer.withAlpha(200),
+                              ),
                         ),
                       ),
                       const SizedBox(width: AppSizes.kDefaultPadding),
@@ -180,7 +187,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         child: Text(
                           'Get sms to find out what\'s going on when you\'re not online. Yo can turn these off.',
                           style: Theme.of(context).textTheme.titleSmall!
-                              .copyWith(color: Theme.of(context).hintColor),
+                              .copyWith(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.surfaceContainer.withAlpha(200),
+                              ),
                         ),
                       ),
                       const SizedBox(width: AppSizes.kDefaultPadding),

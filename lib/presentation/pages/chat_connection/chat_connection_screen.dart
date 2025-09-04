@@ -57,7 +57,6 @@ class _ChatConnectionScreenState extends State<ChatConnectionScreen> {
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          scrolledUnderElevation: AppSizes.elevationSmall,
           leading: AppbarIcon(onPressed: () => appRouter.pop()),
           title: Text(
             widget.isPublicProfile
