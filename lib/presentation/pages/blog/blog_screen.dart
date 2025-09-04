@@ -24,7 +24,6 @@ class _BlogScreenState extends State<BlogScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        scrolledUnderElevation: AppSizes.elevationSmall,
         leading: AppbarIcon(onPressed: () => appRouter.pop()),
         title: Text(
           'Blogs',

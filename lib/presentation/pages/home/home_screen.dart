@@ -88,26 +88,26 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
 
               // bottom loader when more pages exist
-              BlocBuilder<PostBloc, PostState>(
-                buildWhen: (p, c) =>
-                    p.hasNextPage != c.hasNextPage || p.status != c.status,
-                builder: (context, state) {
-                  final show =
-                      state.hasNextPage && (state.status == PostStatus.success);
-                  if (!show) {
-                    return const SliverToBoxAdapter(child: SizedBox.shrink());
-                  }
-                  return SliverToBoxAdapter(
-                    child: Padding(
+              SliverToBoxAdapter(
+                child: BlocBuilder<PostBloc, PostState>(
+                  buildWhen: (p, c) =>
+                      p.hasNextPage != c.hasNextPage || p.status != c.status,
+                  builder: (context, state) {
+                    final show =
+                        state.hasNextPage && (state.status == PostStatus.success);
+                    if (!show) {
+                      return SizedBox.shrink();
+                    }
+                    return Padding(
                       padding: EdgeInsets.symmetric(vertical: 16),
                       child: Center(
                         child: CupertinoActivityIndicator(
                           color: Theme.of(context).colorScheme.surfaceContainer,
                         ),
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
 
               const SliverToBoxAdapter(child: SizedBox(height: 24)),

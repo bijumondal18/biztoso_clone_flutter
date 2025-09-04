@@ -11,16 +11,19 @@ class BuildPostList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<PostBloc, PostState>(
+      buildWhen: (p, c) =>
+      p.items != c.items || p.status != c.status, // ✅ prevent rebuild spam
       builder: (context, state) {
-        if (state.status == PostStatus.initial || state.status == PostStatus.loadingInitial) {
+        if (state.status == PostStatus.initial ||
+            state.status == PostStatus.loadingInitial) {
           // shimmer as sliver
-          return PostListShimmer();
+          return const PostListShimmer();
         }
 
-        if (state.status == PostStatus.failure) {
-          return SliverToBoxAdapter(
+        if (state.status == PostStatus.failure && state.items.isEmpty) {
+          return const SliverToBoxAdapter(
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 32),
+              padding: EdgeInsets.symmetric(vertical: 32),
               child: Center(child: Text('Failed to load posts')),
             ),
           );
@@ -36,9 +39,16 @@ class BuildPostList extends StatelessWidget {
           );
         }
 
-        return SliverList.builder(
-          itemCount: items.length,
-          itemBuilder: (context, index) => PostCard(post: items[index]),
+        return SliverList(
+          delegate: SliverChildBuilderDelegate(
+                (context, index) {
+              final post = items[index];
+              return PostCard(post: post);
+            },
+            childCount: items.length,
+            addAutomaticKeepAlives: false, // ✅ avoids holding too many widgets
+            addRepaintBoundaries: true,    // ✅ isolates repaints
+          ),
         );
       },
     );
