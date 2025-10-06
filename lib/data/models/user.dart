@@ -211,4 +211,5 @@ class User {
     data['user_privacy'] = this.userPrivacy;
     return data;
   }
+
 }

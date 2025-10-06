@@ -2,6 +2,7 @@ import 'package:biztoso/core/api_service/app_preference.dart';
 import 'package:biztoso/core/api_service/dio_client.dart';
 import 'package:biztoso/core/api_service/end_points.dart';
 import 'package:biztoso/data/models/login_response.dart';
+import 'package:biztoso/data/repositories/AuthRepository.dart';
 import 'package:biztoso/utils/app_utils.dart';
 import 'package:biztoso/utils/device_utils.dart';
 import 'package:bloc/bloc.dart';
@@ -15,7 +16,9 @@ part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
-  AuthBloc() : super(AuthInitial()) {
+  final AuthRepository repository;
+
+  AuthBloc(this.repository) : super(AuthInitial()) {
     // Check user is logged in or not
     on<CheckAuthStatusEvent>((event, emit) async {
       try {

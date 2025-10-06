@@ -23,11 +23,12 @@ class GetLanguageEvent extends UserEvent {}
 
 class GetConnectionsEvent extends UserEvent {
   final String? userId;
+  final int page;
 
-  const GetConnectionsEvent({this.userId});
+  const GetConnectionsEvent({required this.page, this.userId});
 
   @override
-  List<Object> get props => [userId ?? ''];
+  List<Object> get props => [page, userId ?? ''];
 }
 
 class AllConnectionsListEvent extends UserEvent {}

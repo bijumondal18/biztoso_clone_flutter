@@ -21,28 +21,38 @@ class ConnectionScreen extends StatefulWidget {
 
 class _ConnectionScreenState extends State<ConnectionScreen> {
   final _searchCtrl = TextEditingController();
+  final scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
-    // Kick off the first load and restore any previous query text
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final bloc = context.read<UserBloc>();
-      // if your bloc stores the last query, you can restore it:
-      // _searchCtrl.text = bloc.connectionsQuery;  // optional
-      bloc.add(GetConnectionsEvent());
+      context.read<UserBloc>().add(const GetConnectionsEvent(page: 1));
     });
+
+    scrollController.addListener(_onScroll);
   }
 
   @override
   void dispose() {
+    scrollController.dispose();
     _searchCtrl.dispose();
     super.dispose();
   }
 
+
+  void _onScroll() {
+    final bloc = context.read<UserBloc>();
+    if (scrollController.position.pixels >=
+        scrollController.position.maxScrollExtent - 200) {
+      // near the bottom → fetch more
+      bloc.add(GetConnectionsEvent(page: bloc.currentPage + 1));
+    }
+  }
+
   Future<void> _refreshConnections() async {
     final bloc = context.read<UserBloc>();
-    bloc.add(GetConnectionsEvent());
+    bloc.add(GetConnectionsEvent(page: 1));
     // wait until done so the spinner stops at the right time
     await bloc.stream.firstWhere(
       (s) => s is GetConnectionsStateLoaded || s is GetConnectionsStateFailed,
@@ -52,18 +62,12 @@ class _ConnectionScreenState extends State<ConnectionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Connections',
-          style: Theme.of(
-            context,
-          ).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.w900),
-        ),
-      ),
+      appBar: AppBar(title: Text('Connections')),
       body: RefreshIndicator.adaptive(
         onRefresh: _refreshConnections,
         color: Theme.of(context).colorScheme.surfaceContainer,
         child: ListView(
+          controller: scrollController,
           physics: const AlwaysScrollableScrollPhysics(), // important
           children: [
             InvitationsButton(

@@ -13,7 +13,9 @@ import 'package:biztoso/data/models/response_message.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:bloc_concurrency/bloc_concurrency.dart'; // optional
+import 'package:bloc_concurrency/bloc_concurrency.dart';
+
+import '../../../data/models/user.dart'; // optional
 
 part 'user_event.dart';
 
@@ -28,16 +30,25 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   String _pymkQuery = '';
   String _chatQuery = '';
 
+  int _currentPage = 1;
+  bool _hasMore = true;
+  bool _isFetchingMore = false;
+
   String get connectionsQuery => _connectionsQuery;
 
   String get pymkQuery => _pymkQuery;
 
   String get chatQuery => _chatQuery;
 
+  int get currentPage => _currentPage;
+
   UserBloc() : super(UserInitial()) {
+
+
+
     on<SearchConnectionsChanged>((e, emit) {
       _connectionsQuery = e.query.trim();
-      add(GetConnectionsEvent());
+      add(GetConnectionsEvent(page: currentPage));
     }, transformer: debounce(const Duration(milliseconds: 300)));
 
     on<SearchPymkChanged>((e, emit) {
@@ -73,14 +84,22 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     // Get Connections
     on<GetConnectionsEvent>((event, emit) async {
       final userId = await AppPreference.getString(AppPreference.userId);
+
+      if (_isFetchingMore) return;
+      if (!_hasMore && event.page != 1) return; // no more pages
+
+      _isFetchingMore = true;
+
       try {
-        emit(GetConnectionsStateLoading());
+        if (event.page == 1) emit(GetConnectionsStateLoading());
 
         final uid = event.userId != null && event.userId!.isNotEmpty
             ? event.userId
             : userId;
 
         final queryParams = <String, dynamic>{
+          'page': event.page,
+          'limit': 10,
           if (_connectionsQuery.isNotEmpty) 'search': _connectionsQuery,
         };
 
@@ -88,15 +107,37 @@ class UserBloc extends Bloc<UserEvent, UserState> {
           '${ApiEndPoints.getCurrentUsersConnectionList}/$uid',
           queryParams: queryParams,
         );
+
         if (response?.statusCode == 200) {
-          emit(
-            GetConnectionsStateLoaded(
-              connectionResponse: ConnectionResponse.fromJson(response?.data),
+          final connectionResponse = ConnectionResponse.fromJson(response?.data);
+
+          // Check if more data exists
+          final newUsers = connectionResponse.users?.docs ?? [];
+          if (newUsers.isEmpty) _hasMore = false;
+
+          List<User> combinedUsers = [];
+          if (event.page > 1 && state is GetConnectionsStateLoaded) {
+            final prevUsers = (state as GetConnectionsStateLoaded)
+                .connectionResponse
+                .users
+                ?.docs ?? [];
+            combinedUsers = [...prevUsers, ...newUsers];
+          } else {
+            combinedUsers = newUsers;
+          }
+
+          emit(GetConnectionsStateLoaded(
+            connectionResponse: connectionResponse.copyWith(
+              users: connectionResponse.users?.copyWith(docs: combinedUsers),
             ),
-          );
+          ));
+
+          _currentPage = event.page;
         }
       } catch (e) {
         emit(GetConnectionsStateFailed(error: e.toString()));
+      } finally {
+        _isFetchingMore = false;
       }
     });
 
@@ -265,7 +306,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
           // ✅ refresh the received list so the accepted item disappears
           add(ReceivedRequestConnectionsListEvent());
           // ✅ refresh the my connections list so the accepted item appears
-          add(GetConnectionsEvent());
+          add(GetConnectionsEvent(page: currentPage));
           return;
         }
       } catch (_) {}

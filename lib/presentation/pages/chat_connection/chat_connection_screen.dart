@@ -36,7 +36,7 @@ class _ChatConnectionScreenState extends State<ChatConnectionScreen> {
   void initState() {
     super.initState();
     _bloc = UserBloc()
-      ..add(GetConnectionsEvent(userId: widget.userId)); // create once
+      ..add(GetConnectionsEvent(page: 1, userId: widget.userId)); // create once
 
     // WidgetsBinding.instance.addPostFrameCallback((_) {
     //   _searchCtrl.text = context.read<UserBloc>().connectionsQuery;

@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+import '../data/repositories/AuthRepository.dart';
 import '../data/repositories/blog_repository.dart';
 import '../presentation/blocs/blog/blog_bloc.dart';
 
@@ -20,7 +21,7 @@ class GlobalBloc extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => AuthBloc()),
+        BlocProvider(create: (context) => AuthBloc(AuthRepository())),
         BlocProvider(create: (context) => UserBloc()),
         BlocProvider(
           create: (context) =>
