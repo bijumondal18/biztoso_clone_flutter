@@ -27,10 +27,7 @@ class _ConnectionInvitationsScreenState
           centerTitle: true,
           leading: AppbarIcon(onPressed: () => appRouter.pop()),
           title: Text(
-            'Connection Invitations',
-            style: Theme.of(
-              context,
-            ).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.w900),
+            'Connection Invitations'
           ),
           bottom: PreferredSize(
             preferredSize: Size.fromHeight(kTextTabBarHeight),

@@ -97,10 +97,7 @@ class _CreatePostView extends StatelessWidget {
         scrolledUnderElevation: AppSizes.elevationSmall,
         leading: AppbarIcon(onPressed: () => appRouter.pop()),
         title: Text(
-          'Create Post',
-          style: Theme.of(
-            context,
-          ).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.w900),
+          'Create Post'
         ),
       ),
       body: ListView(

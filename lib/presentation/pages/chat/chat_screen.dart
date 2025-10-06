@@ -46,10 +46,7 @@ class _ChatScreenState extends State<ChatScreen> {
         appBar: AppBar(
           centerTitle: true,
           title: Text(
-            'Inbox',
-            style: Theme.of(
-              context,
-            ).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.w900),
+            'Inbox'
           ),
           bottom: PreferredSize(
             preferredSize: Size.fromHeight(kTextTabBarHeight),

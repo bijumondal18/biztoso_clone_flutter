@@ -33,10 +33,7 @@ class _CreatePostPreviewScreenState extends State<CreatePostPreviewScreen> {
         scrolledUnderElevation: AppSizes.elevationSmall,
         leading: AppbarIcon(onPressed: () => appRouter.pop()),
         title: Text(
-          'Preview Post',
-          style: Theme.of(
-            context,
-          ).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.w900),
+          'Preview Post'
         ),
       ),
       body: ListView(

@@ -63,10 +63,7 @@ class _ChatConnectionScreenState extends State<ChatConnectionScreen> {
                 ? '${widget.profileName}\'s Connection'
                 : widget.isComingFromChat
                 ? 'Start New Conversation'
-                : '',
-            style: Theme.of(
-              context,
-            ).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.w900),
+                : ''
           ),
           bottom: PreferredSize(
             preferredSize: Size.fromHeight(kTextTabBarHeight),

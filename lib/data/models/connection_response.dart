@@ -2,7 +2,7 @@
 import 'package:biztoso/data/models/user.dart';
 
 class ConnectionResponse {
-  String? message;
+  dynamic message;
   Connections? users;
 
   ConnectionResponse({this.message, this.users});
@@ -22,7 +22,7 @@ class ConnectionResponse {
   }
 
   ConnectionResponse copyWith({
-    String? message,
+    dynamic message,
     Connections? users,
   }) {
     return ConnectionResponse(
@@ -34,11 +34,11 @@ class ConnectionResponse {
 
 class Connections {
   List<User>? docs;
-  int? totalDocs;
-  int? limit;
-  int? page;
-  int? totalPages;
-  int? pagingCounter;
+  dynamic totalDocs;
+  dynamic limit;
+  dynamic page;
+  dynamic totalPages;
+  dynamic pagingCounter;
   bool? hasPrevPage;
   bool? hasNextPage;
   dynamic prevPage;
@@ -93,11 +93,11 @@ class Connections {
 
   Connections copyWith({
     List<User>? docs,
-    int? totalDocs,
-    int? limit,
-    int? page,
-    int? totalPages,
-    int? pagingCounter,
+    dynamic totalDocs,
+    dynamic limit,
+    dynamic page,
+    dynamic totalPages,
+    dynamic pagingCounter,
     bool? hasPrevPage,
     bool? hasNextPage,
     dynamic prevPage,
