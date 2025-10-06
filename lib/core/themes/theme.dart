@@ -39,7 +39,7 @@ class AppTheme {
       drawerTheme: const DrawerThemeData(
         backgroundColor: AppColors.primaryLight,
       ),
-      appBarTheme: const AppBarTheme(
+      appBarTheme: AppBarTheme(
         iconTheme: IconThemeData(
           size: AppSizes.appBarIconSize,
           color: AppColors.black,
@@ -48,10 +48,10 @@ class AppTheme {
         elevation: 0.0,
         scrolledUnderElevation: 0.0,
         centerTitle: true,
-        titleTextStyle: TextStyle(
-          color: AppColors.primaryLight,
-          fontSize: AppSizes.titleMedium,
+        titleTextStyle: GoogleFonts.lato(
           fontWeight: FontWeight.w600,
+          fontSize: AppSizes.titleLarge,
+          color: AppColors.black
         ),
         foregroundColor: AppColors.primaryLight,
       ),
@@ -78,7 +78,7 @@ class AppTheme {
       ),
       scaffoldBackgroundColor: AppColors.scaffoldBackgroundLight,
       visualDensity: VisualDensity.adaptivePlatformDensity,
-      tabBarTheme:  TabBarThemeData(
+      tabBarTheme: TabBarThemeData(
         indicatorSize: TabBarIndicatorSize.tab,
         indicator: FilledUnderlineIndicator(
           fillColor: AppColors.primaryLight.withAlpha(10), // background
@@ -215,10 +215,10 @@ class AppTheme {
         elevation: 0.0,
         scrolledUnderElevation: 0.0,
         centerTitle: true,
-        titleTextStyle: TextStyle(
-          color: AppColors.white,
-          fontSize: AppSizes.titleMedium,
-          fontWeight: FontWeight.w600,
+        titleTextStyle: GoogleFonts.lato(
+            fontWeight: FontWeight.w600,
+            fontSize: AppSizes.titleLarge,
+            color: AppColors.white
         ),
         foregroundColor: AppColors.white,
       ),
@@ -233,7 +233,7 @@ class AppTheme {
       ),
       scaffoldBackgroundColor: AppColors.scaffoldBackgroundDark,
       visualDensity: VisualDensity.adaptivePlatformDensity,
-      tabBarTheme:  TabBarThemeData(
+      tabBarTheme: TabBarThemeData(
         indicatorSize: TabBarIndicatorSize.tab,
         indicator: FilledUnderlineIndicator(
           fillColor: AppColors.primaryDark.withAlpha(20), // background
@@ -278,17 +278,17 @@ class AppTheme {
         displayLarge: GoogleFonts.lato(
           color: AppColors.white,
           fontWeight: FontWeight.w700,
-            fontSize: AppSizes.displayLarge
+          fontSize: AppSizes.displayLarge,
         ),
         displayMedium: GoogleFonts.lato(
           color: AppColors.white,
           fontWeight: FontWeight.w700,
-          fontSize: AppSizes.displayMedium
+          fontSize: AppSizes.displayMedium,
         ),
         displaySmall: GoogleFonts.lato(
           color: AppColors.white,
           fontWeight: FontWeight.w700,
-          fontSize: AppSizes.displaySmall
+          fontSize: AppSizes.displaySmall,
         ),
         headlineLarge: GoogleFonts.lato(
           color: AppColors.white,

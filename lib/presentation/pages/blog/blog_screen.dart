@@ -25,12 +25,7 @@ class _BlogScreenState extends State<BlogScreen> {
       appBar: AppBar(
         centerTitle: true,
         leading: AppbarIcon(onPressed: () => appRouter.pop()),
-        title: Text(
-          'Blogs',
-          style: Theme.of(
-            context,
-          ).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.w900),
-        ),
+        title: Text('Blogs'),
       ),
       body: BlocBuilder<BlogBloc, BlogState>(
         builder: (context, state) {
@@ -56,7 +51,7 @@ class _BlogScreenState extends State<BlogScreen> {
             return ListView.builder(
               padding: const EdgeInsets.only(
                 top: AppSizes.kDefaultPadding,
-                bottom: AppSizes.kDefaultPadding*2,
+                bottom: AppSizes.kDefaultPadding * 2,
                 left: AppSizes.kDefaultPadding,
                 right: AppSizes.kDefaultPadding,
               ),
@@ -164,7 +159,9 @@ class _BlogTile extends StatelessWidget {
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                    color: Theme.of(context).hintColor,
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.surfaceContainer.withAlpha(200),
                   ),
                 ),
                 Text(

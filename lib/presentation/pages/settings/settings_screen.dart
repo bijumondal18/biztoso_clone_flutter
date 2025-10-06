@@ -32,12 +32,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         appBar: AppBar(
           centerTitle: true,
           leading: AppbarIcon(onPressed: () => appRouter.pop()),
-          title: Text(
-            'Settings',
-            style: Theme.of(
-              context,
-            ).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.w900),
-          ),
+          title: Text('Settings'),
         ),
         body: ListView(
           padding: EdgeInsets.all(AppSizes.kDefaultPadding),

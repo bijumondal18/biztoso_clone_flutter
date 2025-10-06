@@ -27,7 +27,7 @@ class AppbarIcon extends StatelessWidget {
         decoration: hasGradient
             ? BoxDecoration(
                 gradient: AppColors.primaryGradient,
-                shape: BoxShape.circle,
+                borderRadius: BorderRadius.circular(AppSizes.cardCornerRadius)
               )
             : BoxDecoration(
                 color: Theme.of(

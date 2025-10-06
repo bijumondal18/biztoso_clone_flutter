@@ -26,6 +26,7 @@ class _ProfileAnalyticsScreenState extends State<ProfileAnalyticsScreen> {
     'Last 7 Days',
     'Current Month',
     'Current Year',
+    'All Times',
   ];
   String? selectedValue = 'Last 7 Days';
 
@@ -37,12 +38,7 @@ class _ProfileAnalyticsScreenState extends State<ProfileAnalyticsScreen> {
         appBar: AppBar(
           centerTitle: true,
           leading: AppbarIcon(onPressed: () => appRouter.pop()),
-          title: Text(
-            'Profile Analytics',
-            style: Theme.of(
-              context,
-            ).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.w900),
-          ),
+          title: Text('Profile Analytics'),
         ),
         body: BlocBuilder<UserBloc, UserState>(
           builder: (context, state) {
@@ -126,7 +122,8 @@ class _ProfileAnalyticsScreenState extends State<ProfileAnalyticsScreen> {
                           value:
                               state.profileAnalyticsResponse.result!.strength! *
                               0.1,
-                          minHeight: AppSizes.kDefaultPadding / 2,
+                          minHeight: AppSizes.kDefaultPadding / 3,
+                          borderRadius: BorderRadius.circular(AppSizes.cardCornerRadius),
                           valueColor: AlwaysStoppedAnimation(
                             AppColors.greenDark, // no color animation
                           ),
@@ -458,7 +455,6 @@ class _ProfileAnalyticsScreenState extends State<ProfileAnalyticsScreen> {
                           style: Theme.of(context).textTheme.titleMedium!
                               .copyWith(fontWeight: FontWeight.w600),
                         ),
-                        const SizedBox(height: AppSizes.kDefaultPadding / 2),
                         Text(
                           'Audience Geo Distribution',
                           style: Theme.of(context).textTheme.labelLarge!
@@ -466,8 +462,8 @@ class _ProfileAnalyticsScreenState extends State<ProfileAnalyticsScreen> {
                         ),
                         const SizedBox(height: AppSizes.kDefaultPadding),
                         Wrap(
-                          spacing: AppSizes.kDefaultPadding * 2,
-                          runSpacing: AppSizes.kDefaultPadding * 2,
+                          spacing: AppSizes.kDefaultPadding ,
+                          runSpacing: AppSizes.kDefaultPadding ,
                           children: state
                               .profileAnalyticsResponse
                               .result!
@@ -475,7 +471,7 @@ class _ProfileAnalyticsScreenState extends State<ProfileAnalyticsScreen> {
                               .map((item) {
                                 return Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                  spacing: AppSizes.kDefaultPadding / 4,
+                                  spacing: 2.0,
                                   children: [
                                     Text(
                                       item.state ?? '',
@@ -490,7 +486,7 @@ class _ProfileAnalyticsScreenState extends State<ProfileAnalyticsScreen> {
                                       item.percentage ?? '',
                                       style: Theme.of(
                                         context,
-                                      ).textTheme.bodyLarge,
+                                      ).textTheme.labelLarge,
                                     ),
                                   ],
                                 );
@@ -503,7 +499,7 @@ class _ProfileAnalyticsScreenState extends State<ProfileAnalyticsScreen> {
                   const SizedBox(height: AppSizes.kDefaultPadding),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    spacing: AppSizes.kDefaultPadding,
+                    spacing: AppSizes.kDefaultPadding/2,
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(top: 2.0),
@@ -514,10 +510,24 @@ class _ProfileAnalyticsScreenState extends State<ProfileAnalyticsScreen> {
                         ),
                       ),
                       Expanded(
-                        child: Text(
-                          'Why These Matters: These 7 Matrics Can Directly Guide User Decisions - What To Sell, How To Price, What To Remove, And How To Improve',
-                          style: Theme.of(context).textTheme.labelLarge,
-                        ),
+                        child: Text.rich(
+                          TextSpan(
+                            children: [
+                              TextSpan(
+                                text: 'Why These Matters: ',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .labelMedium
+                                    ?.copyWith(fontWeight: FontWeight.bold),
+                              ),
+                              TextSpan(
+                                text:
+                                'These 7 Metrics Can Directly Guide User Decisions - What To Sell, How To Price, What To Remove, And How To Improve',
+                                style: Theme.of(context).textTheme.labelMedium,
+                              ),
+                            ],
+                          ),
+                        )
                       ),
                     ],
                   ),
