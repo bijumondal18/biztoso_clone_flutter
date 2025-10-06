@@ -19,7 +19,7 @@ class CustomCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(AppSizes.cardCornerRadius),
         border: Border.all(
           width: 1.0,
-          color: Theme.of(context).dividerColor.withAlpha(100),
+          color: Theme.of(context).dividerColor.withAlpha(150),
         ),
         boxShadow: [
           BoxShadow(

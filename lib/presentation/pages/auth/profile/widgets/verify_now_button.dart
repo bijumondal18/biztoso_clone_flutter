@@ -23,7 +23,7 @@ class VerifyNowButton extends StatelessWidget {
     return isVerified
         ? Container(
             alignment: Alignment.center,
-            width: width * 0.35,
+            // width: width * 0.35,
             padding: EdgeInsets.symmetric(
               horizontal: AppSizes.kDefaultPadding / 2,
             ),

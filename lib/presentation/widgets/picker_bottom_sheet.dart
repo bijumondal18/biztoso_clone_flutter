@@ -47,6 +47,7 @@ class PickerBottomSheet {
                 // Action buttons
                 ...actions.map(
                   (action) => ListTile(
+                    dense: true,
                     leading: action.icon != null
                         ? Icon(
                             action.icon,
