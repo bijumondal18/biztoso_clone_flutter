@@ -26,8 +26,9 @@ class AppbarIcon extends StatelessWidget {
         // padding: EdgeInsets.all(AppSizes.kDefaultPadding / 2),
         decoration: hasGradient
             ? BoxDecoration(
-                gradient: AppColors.primaryGradient,
-                borderRadius: BorderRadius.circular(AppSizes.cardCornerRadius)
+                color: Theme.of(context).primaryColor,
+                // gradient: AppColors.primaryGradient,
+                borderRadius: BorderRadius.circular(AppSizes.cardCornerRadius),
               )
             : BoxDecoration(
                 color: Theme.of(
@@ -36,7 +37,7 @@ class AppbarIcon extends StatelessWidget {
                 shape: BoxShape.circle,
               ),
         child: Icon(
-          iconPath ?? EvaIcons.arrowBack,
+          iconPath ?? EvaIcons.arrowIosBack,
           color: hasGradient ? AppColors.white : Theme.of(context).primaryColor,
         ),
       ),
