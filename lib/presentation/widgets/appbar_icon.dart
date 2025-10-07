@@ -34,7 +34,7 @@ class AppbarIcon extends StatelessWidget {
                 color: Theme.of(
                   context,
                 ).colorScheme.surfaceContainer.withAlpha(20),
-                shape: BoxShape.circle,
+                borderRadius: BorderRadius.circular(AppSizes.cardCornerRadius),
               ),
         child: Icon(
           iconPath ?? EvaIcons.arrowIosBack,

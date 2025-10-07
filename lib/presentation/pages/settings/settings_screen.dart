@@ -81,6 +81,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 return Padding(
                   padding: const EdgeInsets.symmetric(
                     vertical: AppSizes.kDefaultPadding,
+                    horizontal: AppSizes.kDefaultPadding,
                   ),
                   child: LanguageDropdown(
                     languages: [],
@@ -128,6 +129,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                   ),
                   Row(
+                    spacing: 4.0,
                     children: [
                       Expanded(
                         child: Text(
@@ -140,7 +142,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               ),
                         ),
                       ),
-                      const SizedBox(width: AppSizes.kDefaultPadding),
                       Switch(
                         activeThumbColor: Theme.of(context).primaryColor,
                         inactiveTrackColor: Theme.of(context).dividerColor,
@@ -167,6 +168,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                   ),
                   Row(
+                    spacing: 4.0,
                     children: [
                       Expanded(
                         child: Text(
@@ -179,7 +181,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               ),
                         ),
                       ),
-                      const SizedBox(width: AppSizes.kDefaultPadding),
                       Switch(
                         activeThumbColor: Theme.of(context).primaryColor,
                         inactiveTrackColor: Theme.of(context).dividerColor,
@@ -206,6 +207,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                   ),
                   Row(
+                    spacing: 4.0,
                     children: [
                       Expanded(
                         child: Text(
@@ -218,7 +220,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               ),
                         ),
                       ),
-                      const SizedBox(width: AppSizes.kDefaultPadding),
                       Switch(
                         activeThumbColor: Theme.of(context).primaryColor,
                         inactiveTrackColor: Theme.of(context).dividerColor,
