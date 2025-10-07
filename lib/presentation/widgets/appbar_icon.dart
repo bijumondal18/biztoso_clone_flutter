@@ -20,10 +20,10 @@ class AppbarIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       onPressed: onPressed,
+      splashRadius: AppSizes.cardCornerRadius,
       icon: Container(
         width: AppSizes.smallButtonHeight,
         height: AppSizes.smallButtonHeight,
-        // padding: EdgeInsets.all(AppSizes.kDefaultPadding / 2),
         decoration: hasGradient
             ? BoxDecoration(
                 color: Theme.of(context).primaryColor,
@@ -38,6 +38,7 @@ class AppbarIcon extends StatelessWidget {
               ),
         child: Icon(
           iconPath ?? EvaIcons.arrowIosBack,
+          size: 24,
           color: hasGradient ? AppColors.white : Theme.of(context).primaryColor,
         ),
       ),

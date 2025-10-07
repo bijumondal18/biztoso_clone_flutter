@@ -1,6 +1,9 @@
 import 'package:biztoso/presentation/widgets/custom_card.dart';
+import 'package:biztoso/presentation/widgets/custom_primary_button.dart';
+import 'package:biztoso/presentation/widgets/still_need_help_container.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/navigation/app_router.dart';
@@ -38,6 +41,7 @@ class _KnowledgeBaseScreenState extends State<KnowledgeBaseScreen> {
           ],
         ),
         body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
               padding: const EdgeInsets.only(
@@ -84,23 +88,26 @@ class _KnowledgeBaseScreenState extends State<KnowledgeBaseScreen> {
                 );
               },
             ),
-            Expanded(
+            Flexible(
               child: ListView.builder(
                 itemCount: 5,
                 padding: EdgeInsets.zero,
+                shrinkWrap: true,
                 itemBuilder: (context, index) {
                   return CustomCard(
                     margin: EdgeInsets.symmetric(
                       horizontal: AppSizes.kDefaultPadding,
                       vertical: 4.0,
                     ),
-                    child: Row(mainAxisSize: MainAxisSize.min, children: [
-
-                    ]),
+                    child: Row(mainAxisSize: MainAxisSize.min, children: []),
                   );
                 },
               ),
             ),
+            /**
+             * Help Container
+             * */
+            StillNeedHelpContainer(),
           ],
         ),
       ),
