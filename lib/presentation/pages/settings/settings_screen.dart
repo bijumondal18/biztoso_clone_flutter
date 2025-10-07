@@ -1,3 +1,4 @@
+import 'package:biztoso/core/themes/app_colors.dart';
 import 'package:biztoso/data/models/user.dart';
 import 'package:biztoso/presentation/widgets/horizontal_divider.dart';
 import 'package:biztoso/presentation/widgets/language_dropdown.dart';
@@ -35,23 +36,28 @@ class _SettingsScreenState extends State<SettingsScreen> {
           title: Text('Settings'),
         ),
         body: ListView(
-          padding: EdgeInsets.all(AppSizes.kDefaultPadding),
+          padding: EdgeInsets.symmetric(vertical: AppSizes.kDefaultPadding),
           children: [
-            Row(
-              spacing: AppSizes.kDefaultPadding / 2,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.translate_rounded,
-                  color: Theme.of(context).colorScheme.surfaceContainer,
-                ),
-                Text(
-                  'Language',
-                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                    fontWeight: FontWeight.w600,
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSizes.kDefaultPadding,
+              ),
+              child: Row(
+                spacing: AppSizes.kDefaultPadding / 2,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.translate_rounded,
+                    color: Theme.of(context).colorScheme.surfaceContainer,
                   ),
-                ),
-              ],
+                  Text(
+                    'Language',
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ),
             ),
             BlocBuilder<UserBloc, UserState>(
               builder: (context, state) {
@@ -59,6 +65,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   return Padding(
                     padding: const EdgeInsets.symmetric(
                       vertical: AppSizes.kDefaultPadding,
+                      horizontal: AppSizes.kDefaultPadding,
                     ),
                     child: LanguageDropdown(
                       languages: state.getLanguage.result ?? [],
@@ -84,25 +91,31 @@ class _SettingsScreenState extends State<SettingsScreen> {
               },
             ),
             const SizedBox(height: AppSizes.kDefaultPadding),
-            Row(
-              spacing: AppSizes.kDefaultPadding / 2,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.notifications_none_rounded,
-                  color: Theme.of(context).colorScheme.surfaceContainer,
-                ),
-                Text(
-                  'Notification Settings',
-                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                    fontWeight: FontWeight.w600,
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSizes.kDefaultPadding,
+              ),
+              child: Row(
+                spacing: AppSizes.kDefaultPadding / 2,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.notifications_none_rounded,
+                    color: Theme.of(context).colorScheme.surfaceContainer,
                   ),
-                ),
-              ],
+                  Text(
+                    'Notification Settings',
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ),
             ),
             Padding(
               padding: const EdgeInsets.only(
-                left: 30,
+                left: AppSizes.kDefaultPadding * 3,
+                right: AppSizes.kDefaultPadding,
                 top: AppSizes.kDefaultPadding,
               ),
               child: Column(
@@ -119,7 +132,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       Expanded(
                         child: Text(
                           'Get push notifications in-app to find out what\'s going on when you\'re online.',
-                          style: Theme.of(context).textTheme.titleSmall!
+                          style: Theme.of(context).textTheme.bodyMedium!
                               .copyWith(
                                 color: Theme.of(
                                   context,
@@ -129,6 +142,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                       const SizedBox(width: AppSizes.kDefaultPadding),
                       Switch(
+                        activeThumbColor: Theme.of(context).primaryColor,
+                        inactiveTrackColor: Theme.of(context).dividerColor,
+                        trackOutlineColor: WidgetStatePropertyAll(
+                          Theme.of(context).dividerColor,
+                        ),
+                        thumbColor: WidgetStatePropertyAll(
+                          Theme.of(context).scaffoldBackgroundColor,
+                        ),
                         value: _switchPushNotification,
                         onChanged: (value) {
                           setState(() {
@@ -150,7 +171,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       Expanded(
                         child: Text(
                           'Get emails to find out what\'s going on when you\'re not online. Yo can turn these off.',
-                          style: Theme.of(context).textTheme.titleSmall!
+                          style: Theme.of(context).textTheme.bodyMedium!
                               .copyWith(
                                 color: Theme.of(
                                   context,
@@ -160,6 +181,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                       const SizedBox(width: AppSizes.kDefaultPadding),
                       Switch(
+                        activeThumbColor: Theme.of(context).primaryColor,
+                        inactiveTrackColor: Theme.of(context).dividerColor,
+                        trackOutlineColor: WidgetStatePropertyAll(
+                          Theme.of(context).dividerColor,
+                        ),
+                        thumbColor: WidgetStatePropertyAll(
+                          Theme.of(context).scaffoldBackgroundColor,
+                        ),
                         value: _switchEmailNotification,
                         onChanged: (value) {
                           setState(() {
@@ -181,7 +210,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       Expanded(
                         child: Text(
                           'Get sms to find out what\'s going on when you\'re not online. Yo can turn these off.',
-                          style: Theme.of(context).textTheme.titleSmall!
+                          style: Theme.of(context).textTheme.bodyMedium!
                               .copyWith(
                                 color: Theme.of(
                                   context,
@@ -191,6 +220,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                       const SizedBox(width: AppSizes.kDefaultPadding),
                       Switch(
+                        activeThumbColor: Theme.of(context).primaryColor,
+                        inactiveTrackColor: Theme.of(context).dividerColor,
+                        trackOutlineColor: WidgetStatePropertyAll(
+                          Theme.of(context).dividerColor,
+                        ),
+                        thumbColor: WidgetStatePropertyAll(
+                          Theme.of(context).scaffoldBackgroundColor,
+                        ),
                         value: _switchSmsNotification,
                         onChanged: (value) {
                           setState(() {
@@ -204,32 +241,39 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: AppSizes.kDefaultPadding * 2,
+              padding: const EdgeInsets.only(
+                top: AppSizes.kDefaultPadding,
+                bottom: AppSizes.kDefaultPadding / 2,
               ),
               child: const HorizontalDivider(),
             ),
             _SettingsTile(
+              onPressed: () {},
               label: 'Privacy Settings',
               iconData: Icons.remove_red_eye_outlined,
             ),
             _SettingsTile(
+              onPressed: () {},
               label: 'Security Settings',
               iconData: Icons.security_rounded,
             ),
             _SettingsTile(
+              onPressed: () {},
               label: 'Terms & Conditions',
               iconData: Icons.ten_k_rounded,
             ),
             _SettingsTile(
+              onPressed: () {},
               label: 'Privacy Policy',
               iconData: Icons.privacy_tip_outlined,
             ),
             _SettingsTile(
+              onPressed: () {},
               label: 'Cookie Policy',
               iconData: Icons.policy_outlined,
             ),
             _SettingsTile(
+              onPressed: () {},
               label: 'About Us',
               iconData: Icons.info_outline_rounded,
             ),
@@ -244,32 +288,41 @@ class _SettingsScreenState extends State<SettingsScreen> {
 class _SettingsTile extends StatelessWidget {
   final IconData? iconData;
   final String label;
+  final VoidCallback onPressed;
 
-  const _SettingsTile({super.key, this.iconData, required this.label});
+  const _SettingsTile({
+    super.key,
+    this.iconData,
+    required this.label,
+    required this.onPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppSizes.kDefaultPadding / 2,
-        vertical: AppSizes.kDefaultPadding,
-      ),
-      child: Row(
-        spacing: AppSizes.kDefaultPadding,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Icon(
-            iconData,
-            size: 20,
-            color: Theme.of(context).colorScheme.surfaceContainer,
-          ),
-          Text(
-            label,
-            style: Theme.of(
-              context,
-            ).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.w600),
-          ),
-        ],
+    return InkWell(
+      onTap: onPressed,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSizes.kDefaultPadding,
+          vertical: AppSizes.kDefaultPadding / 2,
+        ),
+        child: Row(
+          spacing: AppSizes.kDefaultPadding,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Icon(
+              iconData,
+              size: 20,
+              color: Theme.of(context).colorScheme.surfaceContainer,
+            ),
+            Text(
+              label,
+              style: Theme.of(
+                context,
+              ).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.w600),
+            ),
+          ],
+        ),
       ),
     );
   }

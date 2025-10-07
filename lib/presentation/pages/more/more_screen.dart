@@ -60,6 +60,7 @@ class _MoreScreenState extends State<MoreScreen> {
                         if (moreOptions.label == "Logout") {
                           showDialog(
                             context: context,
+                            barrierDismissible: false,
                             builder: (context) {
                               return AlertDialog(
                                 backgroundColor: Theme.of(context).cardColor,

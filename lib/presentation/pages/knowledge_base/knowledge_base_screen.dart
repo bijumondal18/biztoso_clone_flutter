@@ -20,10 +20,7 @@ class _KnowledgeBaseScreenState extends State<KnowledgeBaseScreen> {
         scrolledUnderElevation: AppSizes.elevationSmall,
         leading: AppbarIcon(onPressed: () => appRouter.pop()),
         title: Text(
-          'Knowledge Base',
-          style: Theme.of(
-            context,
-          ).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.w900),
+          'Knowledge Base'
         ),
       ),
     );
