@@ -54,7 +54,9 @@ class PostCard extends StatelessWidget {
                     Text(
                       post.timeAgo ?? '',
                       style: Theme.of(context).textTheme.labelMedium!.copyWith(
-                        color: Theme.of(context).hintColor,
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.surfaceContainer.withAlpha(200),
                       ),
                     ),
                   ],
@@ -87,6 +89,8 @@ class PostCard extends StatelessWidget {
               ),
             ),
           ),
+
+          const SizedBox(height: 6.0,),
 
           PostMediaGrid(media: post.images, height: height * 0.3),
 
