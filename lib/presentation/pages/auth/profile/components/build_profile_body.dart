@@ -69,7 +69,7 @@ class BuildProfileBody extends StatelessWidget {
                     alignment: Alignment.centerLeft,
                     child: Padding(
                       padding: const EdgeInsets.only(
-                        right: AppSizes.kDefaultPadding,
+                        right: AppSizes.kDefaultPadding/2,
                       ),
                       child: CustomOutlineButton(
                         label: 'Offline',
@@ -275,7 +275,7 @@ class BuildProfileBody extends StatelessWidget {
                         onPressed: null,
                         icon: Container(
                           padding: EdgeInsets.all(
-                            AppSizes.kDefaultPadding / 2.2,
+                            AppSizes.kDefaultPadding / 3,
                           ),
                           margin: EdgeInsets.only(
                             right: AppSizes.kDefaultPadding / 2,
@@ -325,7 +325,7 @@ class BuildProfileBody extends StatelessWidget {
                               AppUtils.firstNonEmptyTitle([
                                 profileResponse.result?.fullName,
                               ]),
-                              maxLines: 1,
+                              maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               style: Theme.of(context).textTheme.headlineMedium,
                             ),
@@ -340,12 +340,14 @@ class BuildProfileBody extends StatelessWidget {
                                 ).colorScheme.surfaceContainer,
                                 size: 16,
                               ),
-                              Text(
-                                '${profileResponse.result?.email}',
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: Theme.of(context).textTheme.labelLarge!
-                                    .copyWith(fontWeight: FontWeight.w600),
+                              Expanded(
+                                child: Text(
+                                  '${profileResponse.result?.email}',
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: Theme.of(context).textTheme.labelLarge!
+                                      .copyWith(fontWeight: FontWeight.w600),
+                                ),
                               ),
                             ],
                           ),

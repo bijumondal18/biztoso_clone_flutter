@@ -22,9 +22,9 @@ class BuildProfileAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const double kExpandedHeight = 200; // cover height
+    const double kExpandedHeight = 210; // cover height
     const double kAvatarMax = 122; // expanded diameter
-    const double kAvatarMin = 46; // collapsed diameter (smaller than before)
+    const double kAvatarMin = 48; // collapsed diameter (smaller than before)
     const double kLeadingWidth = 42; // default AppBar leading space
 
     return SliverAppBar(
