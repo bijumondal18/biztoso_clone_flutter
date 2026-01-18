@@ -8,7 +8,7 @@ import 'package:biztoso/utils/device_utils.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../app/main.dart';
+import '../../../main.dart';
 
 part 'auth_event.dart';
 
